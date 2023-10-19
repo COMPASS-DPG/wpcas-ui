@@ -16,7 +16,7 @@ import WpcasIcon from '~/svg/wpcasIcon.svg';
 const SideNavbar = () => {
   const pathname = usePathname();
   return (
-    <div className='sticky top-0 h-screen w-[200px] bg-[#26292D] text-white'>
+    <div className='sticky top-0 h-screen w-[250px] bg-[#26292D] text-white'>
       <div
         className={`text-white ${oxanium.className} mx-[22px] mt-[30px] text-3xl font-semibold`}
       >
@@ -45,16 +45,17 @@ const SideNavbar = () => {
           </li>
           <li className={`text-base font-medium ${outfit.className}`}>
             <ul>
-              <Link href='/setup-new-survey'>
+              <Link href='/setup-new-configuration'>
                 <li
                   className={`my-2 flex py-2 pl-7 text-sm font-normal
                                   ${
-                                    pathname?.includes('/setup-new-survey') &&
-                                    'bg-[#67696c]'
+                                    pathname?.includes(
+                                      '/setup-new-configuration'
+                                    ) && 'bg-[#67696c]'
                                   }`}
                 >
                   <ListIcon className='mr-2 w-3' />
-                  Setup New Survey
+                  Setup New Configuration
                 </li>
               </Link>
               <Link href='/question-bank'>

@@ -2,16 +2,17 @@
 import React from 'react';
 
 export type ButtonType = {
-  width: string;
+  width?: string;
   onClick: () => void;
   children: React.ReactNode;
+  color?: string;
+  classes?: string;
 };
 
-const ButtonFill = ({ width, onClick, children }: ButtonType) => {
+const ButtonFill = ({ onClick, children, classes }: ButtonType) => {
   return (
     <button
-      className={`rounded-md border bg-[#385B8B] px-8 py-[10px] 
-    text-base font-semibold text-white hover:opacity-80 w-[${width}] block`}
+      className={`rounded-md border ${classes} box-border block px-4 py-2 text-base font-semibold text-white hover:opacity-80`}
       onClick={() => onClick()}
     >
       {children}

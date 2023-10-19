@@ -1,6 +1,9 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import ButtonFill from '@/components/uiComponents/ButtonFill';
+import ButtonOutline from '@/components/uiComponents/ButtonOutline';
+
 const Feedback = () => {
   const router = useRouter();
 
@@ -32,20 +35,19 @@ const Feedback = () => {
       </div>
 
       <div className='h-[100px] w-[190px]'>
-        <button
-          className='block w-[210px] rounded-md border bg-[#385B8B] 
-        px-8 py-[10px] text-base font-semibold text-white hover:opacity-80'
-          onClick={() => handleRoute('/setup-new-survey')}
+        <ButtonFill
+          onClick={() => handleRoute('/setup-new-configuration')}
+          classes='bg-[#385B8B] w-[210px]'
         >
           Setup New Survey
-        </button>
-        <button
-          className='mt-2 block w-[210px] rounded-md border border-solid 
-        border-[#385B8B] px-8 py-[10px] text-base font-semibold text-[#385B8B] hover:opacity-80'
+        </ButtonFill>
+
+        <ButtonOutline
           onClick={() => handleRoute('/question-bank')}
+          classes='border-[#385B8B] text-[#385B8B] w-[210px] mt-2'
         >
           Question Bank
-        </button>
+        </ButtonOutline>
       </div>
     </div>
   );

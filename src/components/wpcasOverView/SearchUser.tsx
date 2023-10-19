@@ -11,9 +11,12 @@ type PropType = {
   handleSearch: () => void;
 };
 
+import ButtonFill from '@/components/uiComponents/ButtonFill';
+
 import { SearchInputType } from '@/app/wpcas/page';
 
 import SearchIcon from '~/svg/searchIcon.svg';
+
 const SearchUser = ({ value, onChange, handleSearch }: PropType) => {
   return (
     <div className='my-7 flex flex-wrap gap-2.5'>
@@ -28,21 +31,16 @@ const SearchUser = ({ value, onChange, handleSearch }: PropType) => {
         onChange={(updatedValue) =>
           onChange({ ...value, department: updatedValue })
         }
-        width='320px'
+        width='300px'
         placeholder='Department'
+        paddingY='2px'
       />
-      {/* <SelectTag options={DEPARTMENT_OPTIONS}
-        value={value?.competency}
-        onChange={(updatedValue) => onChange({ ...value, competency: updatedValue })}
-        width='320px' placeholder='Competency'
-      /> */}
-      <button
-        className='flex items-center justify-between gap-x-2 rounded-md bg-[#385B8B] px-3 py-2 text-white hover:opacity-80'
-        onClick={handleSearch}
-      >
-        <SearchIcon className='w-[18px]' />
-        Search
-      </button>
+      <ButtonFill onClick={handleSearch} classes='bg-[#385B8B] w-[120px]'>
+        <div className='flex justify-between'>
+          <SearchIcon className='w-[18px]' />
+          <span>Search</span>
+        </div>
+      </ButtonFill>
     </div>
   );
 };

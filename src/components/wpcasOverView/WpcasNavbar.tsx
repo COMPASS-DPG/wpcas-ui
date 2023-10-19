@@ -1,6 +1,8 @@
+'use client';
 import React from 'react';
 
 import { outfit } from '@/components/FontFamily';
+import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import AdminSelect from '@/components/uiComponents/AdminSelect';
 
 import BellLogo from '~/svg/bellLogo.svg';
@@ -11,7 +13,12 @@ const WpcasNavbar = () => {
       <div className={`text-2xl font-semibold ${outfit.className}`}>WPCAS</div>
       <div className='flex gap-x-11'>
         <BellLogo className='w-[24px]' />
-        <AdminSelect />
+        <AdminSelect
+          options={DEPARTMENT_OPTIONS}
+          onChange={() => null}
+          placeholder='user name'
+          value=''
+        />
       </div>
     </nav>
   );

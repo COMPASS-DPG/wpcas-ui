@@ -1,46 +1,65 @@
+'use client';
 import React from 'react';
+import Select, { SingleValue } from 'react-select';
 
-type OptionType = {
+export type OptionType = {
   label: string;
-  value: string | number;
+  value: string;
 };
 
-type PropsType = {
-  width: string;
+export type PropsType = {
   onChange: (value: string) => void;
   value: string;
+  width?: string;
   options: OptionType[];
   placeholder: string;
-  required?: boolean;
+  errorMessage?: string;
+  paddingY?: string;
 };
 
 const SelectTag = ({
   options,
-  width,
   onChange,
+  width = '100%',
   value,
   placeholder,
-  required = false,
+  errorMessage = '',
+  paddingY = '',
 }: PropsType) => {
   return (
-    <select
-      className={`border bg-gray-50 w-[${width}] block rounded-lg border-gray-300 p-2.5 text-sm
-     text-gray-900 focus:border-blue-400 focus:ring-blue-400`}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      required={required}
-    >
-      <option value='' disabled selected>
-        {placeholder}
-      </option>
-      {options.map((option) => {
-        return (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        );
-      })}
-    </select>
+    <div>
+      <Select
+        options={options}
+        value={options.find((item) => item.value === value)}
+        placeholder={placeholder}
+        onChange={(e: SingleValue<OptionType>) => {
+          if (e) {
+            onChange(e?.value);
+          }
+        }}
+        styles={{
+          input: (base) => ({
+            ...base,
+            'input:focus': {
+              boxShadow: 'none',
+            },
+            width,
+          }),
+          control: (baseStyles) => ({
+            ...baseStyles,
+            borderColor: errorMessage ? 'red' : '#E3E7EF',
+            paddingTop: paddingY,
+            paddingBottom: paddingY,
+            borderRadius: '8px',
+          }),
+        }}
+      />
+      {errorMessage && (
+        <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
+          {errorMessage}
+        </p>
+      )}
+    </div>
   );
 };
 

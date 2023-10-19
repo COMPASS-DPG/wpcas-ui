@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   // const pathname = usePathname();
 
   return (
-    <div className='w-screen bg-[#E3E7EF]'>
+    <div className='w-screen bg-[#F7F9FC]'>
       <TopNavbar />
       {children}
     </div>

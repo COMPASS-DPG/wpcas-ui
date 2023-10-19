@@ -3,11 +3,10 @@ import React from 'react';
 
 import { ButtonType } from '@/components/uiComponents/ButtonFill';
 
-const ButtonOutline = ({ width, onClick, children }: ButtonType) => {
+const ButtonOutline = ({ onClick, children, classes }: ButtonType) => {
   return (
     <button
-      className={`rounded-md border border-solid border-[#385B8B] px-8 py-[10px] 
-        text-base font-semibold w-[${width}] mt-2 block text-[#385B8B] hover:opacity-80`}
+      className={`box-border block rounded-md border border-solid ${classes} px-4 py-2 text-base font-semibold hover:opacity-80`}
       onClick={onClick}
     >
       {children}

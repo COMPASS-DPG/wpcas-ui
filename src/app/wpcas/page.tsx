@@ -10,14 +10,12 @@ const getEmptyValue = () => {
   return {
     user: '',
     department: '',
-    competency: '',
   };
 };
 
 export type SearchInputType = {
   user: string;
   department: string;
-  competency: string;
 };
 
 const Wpcas = () => {
