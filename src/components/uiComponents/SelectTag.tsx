@@ -15,6 +15,7 @@ export type PropsType = {
   placeholder: string;
   errorMessage?: string;
   paddingY?: string;
+  isDisabled?: boolean;
 };
 
 const SelectTag = ({
@@ -25,10 +26,12 @@ const SelectTag = ({
   placeholder,
   errorMessage = '',
   paddingY = '',
+  isDisabled = false,
 }: PropsType) => {
   return (
     <div>
       <Select
+        isDisabled={isDisabled}
         options={options}
         value={options.find((item) => item.value === value)}
         placeholder={placeholder}
@@ -51,6 +54,7 @@ const SelectTag = ({
             paddingTop: paddingY,
             paddingBottom: paddingY,
             borderRadius: '8px',
+            backgroundColor: isDisabled ? '#fff' : '#fff',
           }),
         }}
       />

@@ -19,6 +19,7 @@ export type SurveyDataType = {
 type PropType = {
   onClose: () => void;
   data?: SurveyDataType | null;
+  setIsSuccessPopUpOpen: (value: boolean) => void;
 };
 
 export const getEmptySurveyData = () => {
@@ -37,7 +38,11 @@ const initialError = () => {
   };
 };
 
-const SetupConfigurationForm = ({ onClose, data = null }: PropType) => {
+const SetupConfigurationForm = ({
+  onClose,
+  data = null,
+  setIsSuccessPopUpOpen,
+}: PropType) => {
   const [formData, setFormData] = useState(data ?? getEmptySurveyData());
   const [error, setError] = useState(initialError());
 
@@ -108,6 +113,8 @@ const SetupConfigurationForm = ({ onClose, data = null }: PropType) => {
 
   const handleCreate = () => {
     if (isValidData(formData)) {
+      onClose();
+      setIsSuccessPopUpOpen(true);
       toast.success('data saved successful');
     }
   };

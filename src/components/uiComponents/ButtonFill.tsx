@@ -2,11 +2,9 @@
 import React from 'react';
 
 export type ButtonType = {
-  width?: string;
   onClick: () => void;
   children: React.ReactNode;
-  color?: string;
-  classes?: string;
+  classes: string;
 };
 
 const ButtonFill = ({ onClick, children, classes }: ButtonType) => {

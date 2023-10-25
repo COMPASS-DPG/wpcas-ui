@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-const TopNavbar = () => {
+
+const TopNavbar = ({ menu }: { menu: string }) => {
   const router = useRouter();
   const handleBack = () => {
     router.back();
@@ -20,7 +21,7 @@ const TopNavbar = () => {
         >
           <MdOutlineKeyboardArrowLeft size={28} />
         </button>
-        <div className='text-xl font-semibold'>WPCAS</div>
+        <div className='text-xl font-semibold'>{menu}</div>
       </div>
     </div>
   );
