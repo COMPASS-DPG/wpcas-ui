@@ -10,10 +10,13 @@ import DatePickerComponent from '@/components/uiComponents/DatePickerComponent';
 import Label from '@/components/uiComponents/Label';
 import SelectTag from '@/components/uiComponents/SelectTag';
 
+import UploadFileInput from './UploadFileInput';
+
 export type SurveyDataType = {
   department: string;
   startDate: Date;
   endDate: Date;
+  assessesFile: File | string;
 };
 
 type PropType = {
@@ -27,6 +30,7 @@ export const getEmptySurveyData = () => {
     department: '',
     startDate: new Date(),
     endDate: new Date(),
+    assessesFile: '',
   };
 };
 
@@ -35,6 +39,7 @@ const initialError = () => {
     department: '',
     startDate: '',
     endDate: '',
+    assessesFile: '',
   };
 };
 
@@ -46,7 +51,8 @@ const SetupConfigurationForm = ({
   const [formData, setFormData] = useState(data ?? getEmptySurveyData());
   const [error, setError] = useState(initialError());
 
-  const handleChange = (key: string, value: string | Date) => {
+  // will set values and set error to empty string
+  const handleChange = (key: string, value: string | Date | File) => {
     if (key === 'department' && error.department) {
       setError((prev) => {
         return {
@@ -71,6 +77,14 @@ const SetupConfigurationForm = ({
         };
       });
     }
+    if (key === 'assessesFile' && error.assessesFile) {
+      setError((prev) => {
+        return {
+          ...prev,
+          [key]: '',
+        };
+      });
+    }
     setFormData((prev) => {
       return {
         ...prev,
@@ -79,8 +93,10 @@ const SetupConfigurationForm = ({
     });
   };
 
+  // will check for all data and set error
   const isValidData = (data: SurveyDataType): boolean => {
     setError(initialError());
+    let flag = true;
     if (!data.department) {
       setError((pre) => {
         return {
@@ -88,7 +104,7 @@ const SetupConfigurationForm = ({
           department: 'department is required!',
         };
       });
-      return false;
+      flag = false;
     }
     if (!data.startDate) {
       setError((pre) => {
@@ -97,7 +113,7 @@ const SetupConfigurationForm = ({
           startDate: 'start date is required!',
         };
       });
-      return false;
+      flag = false;
     }
     if (!data.endDate) {
       setError((pre) => {
@@ -106,9 +122,18 @@ const SetupConfigurationForm = ({
           startDate: 'start date is required!',
         };
       });
-      return false;
+      flag = false;
     }
-    return true;
+    if (!data?.assessesFile) {
+      setError((pre) => {
+        return {
+          ...pre,
+          assessesFile: 'assesses file is required!',
+        };
+      });
+      flag = false;
+    }
+    return flag;
   };
 
   const handleCreate = () => {
@@ -142,6 +167,21 @@ const SetupConfigurationForm = ({
           </div>
           <div></div>
         </div>
+
+        <div className='-mx-3 mb-6 md:flex'>
+          <div className='flex flex-wrap items-center justify-start gap-3 px-3 md:w-full'>
+            <Label text='Upload Assesses file' />
+            <UploadFileInput
+              onChange={(updatedValue) =>
+                handleChange('assessesFile', updatedValue)
+              }
+              value={formData?.assessesFile}
+              errorMessage={error?.assessesFile}
+            />
+          </div>
+          <div></div>
+        </div>
+
         <div className='-mx-3 mb-6 md:flex'>
           <div className='mb-6 px-3 md:mb-0 md:w-1/2'>
             <Label text='Start Date' />

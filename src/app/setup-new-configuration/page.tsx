@@ -6,6 +6,7 @@ import { outfit } from '@/components/FontFamily';
 import SubNavbar from '@/components/navbar/SubNavbar';
 import Popup from '@/components/PopUp';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
+import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm from '@/components/wpcasOverView/SetupConfigurationForm';
 import SurveyTable from '@/components/wpcasOverView/SurveyTable';
@@ -20,6 +21,7 @@ export type SurveyDataType = {
   department: string;
   startDate: Date;
   endDate: Date;
+  assessesFile: string | File;
 };
 
 const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
@@ -55,7 +57,19 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
       )}
       <div className='h-[80vh] w-[58vw]  rounded-sm bg-white px-5'>
         <SubNavbar />
-        <div className='my-4 flex justify-end'>
+        <div className='my-4 flex justify-end gap-3'>
+          <ButtonOutline
+            onClick={() => setIsOpen(true)}
+            classes='border-[#385B8B] text-[#385B8B]'
+          >
+            Download User List
+          </ButtonOutline>
+          <ButtonOutline
+            onClick={() => setIsOpen(true)}
+            classes='border-[#385B8B] text-[#385B8B]'
+          >
+            Download Assesses File Template
+          </ButtonOutline>
           <ButtonFill onClick={() => setIsOpen(true)} classes='bg-[#385B8B]'>
             Setup New Configuration
           </ButtonFill>

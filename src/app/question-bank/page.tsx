@@ -43,8 +43,8 @@ const QuestionBank = () => {
   }
 
   return (
-    <div className='mx-[30px]  flex p-5'>
-      <div className='  w-[100%] bg-white pb-5'>
+    <div className='mx-[30px]'>
+      <div className='w-[100%] bg-white px-5 pb-5'>
         <SubNavbar />
         <div className='mr-3  flex justify-between '>
           <div className='w-7/10 ml-5 mr-5'>
@@ -99,16 +99,8 @@ const QuestionBank = () => {
           <Questions questions={questions} setEditQuestion={setEditQuestion} />
         )}
       </div>
-      <div className='w-[0%]  bg-white'></div>
-      <div></div>
     </div>
   );
 };
-
-// const SetupNewSurvey = () => {
-
-// };
-
-// export default SetupNewSurvey;
 
 export default QuestionBank;
