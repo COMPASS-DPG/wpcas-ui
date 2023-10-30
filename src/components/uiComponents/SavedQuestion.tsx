@@ -10,20 +10,29 @@ import Delete from '../../../public/svg/delete.svg';
 DEPARTMENT_OPTIONS;
 interface SavedQuestionProps {
   questionData: Question;
+  handleDeleteLevel: () => void;
 }
 
-const SavedQuestion = ({ questionData }: SavedQuestionProps) => {
+const SavedQuestion = ({
+  questionData,
+  handleDeleteLevel,
+}: SavedQuestionProps) => {
   const [option, setOption] = useState<string>('');
   const { question } = questionData;
   const [questionValue, setQuestionValue] = useState(question);
   const [isEditable, setIsEditable] = useState(false);
   const [showPopUp, setShowPopUp] = useState<boolean>(false);
+
+  const handleDeletePopUp = () => {
+    handleDeleteLevel();
+    setShowPopUp(false);
+  };
   return (
     <div>
       <div key={1}>
         <Popup
           popUpIcon={<Delete width='60' />}
-          popUpClosingFunction={setShowPopUp}
+          popUpClosingFunction={handleDeletePopUp}
           visible={showPopUp}
           topHeading='Are you sure ?'
           subHeading='Do you want to delete this competency level?   '

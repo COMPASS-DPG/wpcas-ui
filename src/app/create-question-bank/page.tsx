@@ -21,12 +21,22 @@ const CreateQuestionBank = ({ questions }: { questions?: Question[] }) => {
     setQuestion('');
   };
 
+  const handleDeleteLevel = (index: number) => {
+    const data = QuestionArray.splice(index, 1);
+    setQuestionArray(data);
+  };
   return (
     <div className='mx-[30px] gap-1 bg-white p-5'>
       <QuestionBankOutline />
       <SubHeading heading='Add Level & Questions' />
       {QuestionArray.map((question, index) => {
-        return <SavedQuestion key={index} questionData={question} />;
+        return (
+          <SavedQuestion
+            key={index}
+            questionData={question}
+            handleDeleteLevel={() => handleDeleteLevel(index)}
+          />
+        );
       })}
       <LevelAndQuestion
         level={level}

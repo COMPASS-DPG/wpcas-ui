@@ -62,7 +62,10 @@ const SideNavbar = () => {
                 <li
                   className={`my-2 flex py-2 pl-7 text-sm font-normal
                                  ${
-                                   pathname?.includes('/question-bank') &&
+                                   (pathname?.includes('/question-bank') ||
+                                     pathname?.includes(
+                                       '/create-question-bank'
+                                     )) &&
                                    'bg-[#67696c]'
                                  }`}
                 >
