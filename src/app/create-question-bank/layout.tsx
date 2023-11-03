@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className='w-screen bg-[#F7F9FC]'>
-      <TopNavbar menu='WPCAS' />
+      <TopNavbar menu='Create Question Bank' />
       {children}
     </div>
   );

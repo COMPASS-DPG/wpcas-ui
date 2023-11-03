@@ -10,9 +10,10 @@ import SetupConfigurationForm, {
 
 type PropType = {
   userSurveyDate: SurveyDataType[];
+  setIsSuccessPopUpOpen: (value: boolean) => void;
 };
 
-const SurveyTable = ({ userSurveyDate }: PropType) => {
+const SurveyTable = ({ userSurveyDate, setIsSuccessPopUpOpen }: PropType) => {
   const [isOpen, setIsOpen] = useState(false);
   const [editValue, setEditValue] = useState<SurveyDataType>(
     getEmptySurveyData()
@@ -20,7 +21,16 @@ const SurveyTable = ({ userSurveyDate }: PropType) => {
 
   const handleEdit = (data: SurveyDataType) => {
     setIsOpen(true);
-    setEditValue(data);
+    const formattedStartDate = new Date(data.startDate);
+    const formattedEndDate = new Date(data.endDate);
+    const formattedData = {
+      ...data,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    };
+
+    setEditValue(formattedData);
+    // setEditValue(data);
   };
 
   return (
@@ -29,6 +39,7 @@ const SurveyTable = ({ userSurveyDate }: PropType) => {
         <SetupConfigurationForm
           onClose={() => setIsOpen(false)}
           data={editValue}
+          setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
         />
       </CommonModal>
       <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
@@ -59,19 +70,20 @@ const SurveyTable = ({ userSurveyDate }: PropType) => {
         </thead>
         <tbody>
           {userSurveyDate?.map((user: SurveyDataType) => {
+            const { endDate, startDate, department } = user;
             return (
               <tr
                 key={user?.department}
                 className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
               >
                 <td className='px-6 py-[14px]  text-sm  font-normal text-[#272728]'>
-                  Department Department
+                  {department}
                 </td>
                 <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                  15-02-1995
+                  {startDate.toString()}
                 </td>
                 <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
-                  21-32-5652
+                  {endDate.toString()}
                 </td>
                 <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
                   <MdModeEdit

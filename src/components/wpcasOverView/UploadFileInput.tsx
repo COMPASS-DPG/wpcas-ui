@@ -1,9 +1,9 @@
 import React, { MutableRefObject, useRef } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-
+import * as xlsx from 'xlsx';
 type PropType = {
   value: string | File;
-  onChange: (arg: File) => void;
+  onChange: (arg: unknown[]) => void;
   errorMessage: string;
 };
 
@@ -14,14 +14,30 @@ const UploadFileInput = ({ value, onChange, errorMessage }: PropType) => {
     fileInputRef?.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFile = e.target.files[0];
-      if (selectedFile) {
-        onChange(selectedFile);
-      }
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     const selectedFile = e.target.files[0];
+  //     if (selectedFile) {
+  //       onChange(selectedFile);
+  //     }
+  //   }
+  // };
+
+  function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files) {
+      const reader = new FileReader();
+
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const data = e?.target?.result;
+        const workbook = xlsx.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const json = xlsx.utils.sheet_to_json(worksheet);
+        onChange(json);
+      };
+      reader.readAsArrayBuffer(event.target.files[0]);
     }
-  };
+  }
 
   return (
     <>
@@ -53,7 +69,7 @@ const UploadFileInput = ({ value, onChange, errorMessage }: PropType) => {
         </label>
         <input
           className='hidden'
-          onChange={handleFileChange}
+          onChange={handleFile}
           ref={fileInputRef}
           type='file'
         />

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { isValidData } from '@/lib/helper';
+
 import { outfit } from '@/components/FontFamily';
 import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
@@ -19,9 +21,18 @@ export type SurveyDataType = {
   assessesFile: File | string;
 };
 
+export type SurveyErrorType = {
+  [key: string]: string;
+  department: string;
+  startDate: string;
+  endDate: string;
+  assessesFile: string;
+};
+
 type PropType = {
   onClose: () => void;
   data?: SurveyDataType | null;
+  setIsSuccessPopUpOpen: (value: boolean) => void;
 };
 
 export const getEmptySurveyData = () => {
@@ -42,37 +53,20 @@ const initialError = () => {
   };
 };
 
-const SetupConfigurationForm = ({ onClose, data = null }: PropType) => {
+const SetupConfigurationForm = ({
+  onClose,
+  data = null,
+  setIsSuccessPopUpOpen,
+}: PropType) => {
   const [formData, setFormData] = useState(data ?? getEmptySurveyData());
-  const [error, setError] = useState(initialError());
+  const [error, setError] = useState<SurveyErrorType>(initialError());
 
   // will set values and set error to empty string
-  const handleChange = (key: string, value: string | Date | File) => {
-    if (key === 'department' && error.department) {
-      setError((prev) => {
-        return {
-          ...prev,
-          [key]: '',
-        };
-      });
-    }
-    if (key === 'startDate' && error.startDate) {
-      setError((prev) => {
-        return {
-          ...prev,
-          [key]: '',
-        };
-      });
-    }
-    if (key === 'endDate' && error.endDate) {
-      setError((prev) => {
-        return {
-          ...prev,
-          [key]: '',
-        };
-      });
-    }
-    if (key === 'assessesFile' && error.assessesFile) {
+  const handleChange = (
+    key: string,
+    value: string | Date | File | unknown[]
+  ) => {
+    if (error[key]) {
       setError((prev) => {
         return {
           ...prev,
@@ -88,51 +82,21 @@ const SetupConfigurationForm = ({ onClose, data = null }: PropType) => {
     });
   };
 
-  // will check for all data and set error
-  const isValidData = (data: SurveyDataType): boolean => {
-    setError(initialError());
-    let flag = true;
-    if (!data.department) {
-      setError((pre) => {
-        return {
-          ...pre,
-          department: 'department is required!',
-        };
-      });
-      flag = false;
-    }
-    if (!data.startDate) {
-      setError((pre) => {
-        return {
-          ...pre,
-          startDate: 'start date is required!',
-        };
-      });
-      flag = false;
-    }
-    if (!data.endDate) {
-      setError((pre) => {
-        return {
-          ...pre,
-          startDate: 'start date is required!',
-        };
-      });
-      flag = false;
-    }
-    if (!data?.assessesFile) {
-      setError((pre) => {
-        return {
-          ...pre,
-          assessesFile: 'assesses file is required!',
-        };
-      });
-      flag = false;
-    }
-    return flag;
+  // will set error
+  const handleError = (key: string, value: string) => {
+    setError((pre) => {
+      return {
+        ...pre,
+        [key]: value,
+      };
+    });
   };
 
   const handleCreate = () => {
-    if (isValidData(formData)) {
+    setError(initialError());
+    if (isValidData(formData, handleError)) {
+      onClose();
+      setIsSuccessPopUpOpen(true);
       toast.success('data saved successful');
     }
   };

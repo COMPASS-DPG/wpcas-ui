@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { outfit } from '@/components/FontFamily';
 import Pagination from '@/components/wpcasOverView/Pagination';
 
+import { SearchInputType } from '@/app/wpcas/page';
+
 type UserType = {
   userId: string;
   userName: string;
@@ -17,7 +19,7 @@ type UserType = {
   onBoardingOn: string;
 };
 
-const UserTable = () => {
+const UserTable = ({ user, department }: SearchInputType) => {
   const [userData, setUserData] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -25,12 +27,14 @@ const UserTable = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/table?_page=${page}&_limit=${limit}`)
+      .get(
+        `http://localhost:3000/table?userName_like=${user}&department_like=${department}&_page=${page}&_limit=${limit}`
+      )
       .then((r) => {
         setUserData(r.data);
         setTotal(Number(r.headers['x-total-count']));
       });
-  }, [page, limit]);
+  }, [page, limit, user, department]);
 
   return (
     <>

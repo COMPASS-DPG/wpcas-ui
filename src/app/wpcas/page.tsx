@@ -22,13 +22,16 @@ const Wpcas = () => {
   const [searchInput, setSearchInput] = useState<SearchInputType>(
     getEmptyValue()
   );
+  const [queryInput, setQueryInput] = useState<SearchInputType>(
+    getEmptyValue()
+  );
 
   const handleSearch = () => {
-    setSearchInput(getEmptyValue());
+    setQueryInput(searchInput);
   };
 
   return (
-    <div className='w-screen   bg-[#f7f9fc]'>
+    <div className='w-screen bg-[#f7f9fc]'>
       <WpcasNavbar />
       <div className='mb-[110px] px-[40px] pb-[10px] pt-[30px]'>
         <Feedback />
@@ -37,7 +40,7 @@ const Wpcas = () => {
           onChange={(value) => setSearchInput(value)}
           handleSearch={handleSearch}
         />
-        <UserTable />
+        <UserTable user={queryInput.user} department={queryInput.department} />
       </div>
     </div>
   );
