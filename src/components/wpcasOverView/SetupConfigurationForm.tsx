@@ -52,7 +52,10 @@ const SetupConfigurationForm = ({
   const [error, setError] = useState(initialError());
 
   // will set values and set error to empty string
-  const handleChange = (key: string, value: string | Date | File) => {
+  const handleChange = (
+    key: string,
+    value: string | Date | File | unknown[]
+  ) => {
     if (key === 'department' && error.department) {
       setError((prev) => {
         return {
