@@ -36,7 +36,9 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   }, []);
 
   return (
-    <div className={`mx-[30px] flex flex-wrap gap-5 ${outfit.className}`}>
+    <div
+      className={`mx-[0px] flex flex-wrap gap-5 lg:mx-[30px] ${outfit.className}`}
+    >
       <CommonModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <SetupConfigurationForm
           onClose={() => setIsOpen(false)}
@@ -55,9 +57,9 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           rightButtonDestination='setup-new-configuration'
         />
       )}
-      <div className='h-[80vh] w-[58vw]  rounded-sm bg-white px-5'>
+      <div className='h-[80vh] w-[80vw] rounded-sm  bg-white px-5 lg:w-[58vw]'>
         <SubNavbar />
-        <div className='my-4 flex justify-end gap-3'>
+        <div className='my-4 flex flex-wrap justify-end gap-3'>
           <ButtonOutline
             onClick={() => setIsOpen(true)}
             classes='border-[#385B8B] text-[#385B8B]'
@@ -79,7 +81,7 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
         />
       </div>
-      <div className='h-[80vh] w-[21vw] rounded-sm bg-white'>
+      <div className='h-[80vh] w-[80vw] rounded-sm bg-white lg:w-[21vw]'>
         <div className='p-[15px] text-lg font-semibold text-[#272728]'>
           Assessment Making Guidelines
         </div>
