@@ -4,9 +4,8 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import SubNavbar from '@/components/navbar/SubNavbar';
-import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
-import SelectTag from '@/components/uiComponents/SelectTag';
+import SelectTag, { OptionType } from '@/components/uiComponents/SelectTag';
 
 import CreateQuestionBank from '@/app/create-question-bank/page';
 
@@ -15,6 +14,7 @@ import Questions from '../../components/wpcasOverView/Questions';
 const QuestionBank = () => {
   const router = useRouter();
   const [viewQuestions, setViewQuestions] = useState<boolean>(false);
+  const [competencyArray, setCompetencyArray] = useState<OptionType[]>([]);
   const [questions, setQuestions] = useState([]);
   const [option, setOption] = useState<string>('');
   const [showError, setShowError] = useState<boolean>(false);
@@ -29,16 +29,28 @@ const QuestionBank = () => {
     setViewQuestions(true);
     setOption(option);
   };
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/dependency').then((response) => {
+      // Map the response data to the desired format (OptionType)
+      const mappedData = response.data.map((item: string) => ({
+        label: item,
+        value: item,
+      }));
+      setCompetencyArray(mappedData);
+    });
+  }, []);
   useEffect(() => {
     //one quetion how to access hr in that json server
-    axios.get(`http://localhost:3000/${option}`).then((r) => {
+    // console.log(option);
+    axios.get(`http://localhost:5000/${option}`).then((r) => {
       setQuestions(r.data);
     });
   }, [option]);
 
   {
     if (editQuestion) {
-      return <CreateQuestionBank questions={questions} />;
+      return <CreateQuestionBank competency={option} />;
     }
   }
 
@@ -64,7 +76,7 @@ const QuestionBank = () => {
               </p>
               <div className='flex justify-between gap-2'>
                 <SelectTag
-                  options={DEPARTMENT_OPTIONS}
+                  options={competencyArray}
                   value={option}
                   onChange={(option) => setOption(option)}
                   width='714px'

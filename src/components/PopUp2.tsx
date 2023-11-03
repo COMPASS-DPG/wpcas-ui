@@ -1,39 +1,31 @@
 'use client';
-import Link from 'next/link';
 
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
 import Success from '../../public/svg/success.svg';
 
-const Popup = ({
+const Popup2 = ({
   popUpIcon,
   popUpClosingFunction,
+  handleDeleteButton,
   visible,
   topHeading,
   subHeading,
   LeftButtonText,
   rightButtonText,
-  leftButtonDestination,
-  rightButtonDestination,
 }: {
   popUpIcon?: React.ReactElement;
   popUpClosingFunction: (value: boolean) => void;
+  handleDeleteButton: () => void;
   visible: boolean;
   topHeading: string;
   subHeading: string;
   LeftButtonText: string;
   rightButtonText: string;
-  leftButtonDestination: string;
-  rightButtonDestination: string;
 }) => {
-  // const [isPopupOpen, setIsPopupOpen] = useState(visible);
-  // const openPopup = () => {
-  //   setIsPopupOpen(true);
-  // };
-
   const closePopup = () => {
-    // setIsPopupOpen(false);
+    handleDeleteButton();
     popUpClosingFunction(false);
   };
 
@@ -56,22 +48,24 @@ const Popup = ({
                 </p>
               </div>
               <div className='flex justify-center gap-3 py-8'>
-                <Link href={`${leftButtonDestination}`}>
-                  <ButtonOutline
-                    onClick={closePopup}
-                    classes='bg-[#fff] border-[#26292D]'
-                  >
-                    {LeftButtonText}
-                  </ButtonOutline>
-                </Link>
-                <Link href={`${rightButtonDestination}`}>
-                  <ButtonFill
-                    onClick={closePopup}
-                    classes='bg-[#26292D] w-[170px]'
-                  >
-                    {rightButtonText}
-                  </ButtonFill>
-                </Link>
+                {/* <Link href={`${leftButtonDestination}`}> */}
+                <ButtonOutline
+                  onClick={() => {
+                    popUpClosingFunction(false);
+                  }}
+                  classes='bg-[#fff] border-[#26292D] w-[170px]'
+                >
+                  {LeftButtonText}
+                </ButtonOutline>
+                {/* </Link> */}
+                {/* <Link href={`${rightButtonDestination}`}> */}
+                <ButtonFill
+                  onClick={closePopup}
+                  classes='bg-[#26292D] w-[170px]'
+                >
+                  {rightButtonText}
+                </ButtonFill>
+                {/* </Link> */}
               </div>
             </div>
           </div>
@@ -81,4 +75,4 @@ const Popup = ({
   );
 };
 
-export default Popup;
+export default Popup2;
