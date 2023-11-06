@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { TiTick } from 'react-icons/ti';
 
-import Popup2 from '@/components/PopUp2';
+import Popup2 from '@/components/DeleteLevelPopUp';
 import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import SelectTag from '@/components/uiComponents/SelectTag';
 
@@ -47,9 +48,9 @@ const SavedLevels = ({
         rightButtonText='Yes'
       />
       <div className='w-3/5'>
-        <p className='text-font-sub-text font-Outfit mb-2 mt-3 text-base  font-medium text-[#6F747E] '>
+        <label className='text-font-sub-text font-Outfit mb-2 mt-3 text-base  font-medium text-[#6F747E] '>
           Select Level
-        </p>
+        </label>
         <div className='flex items-center gap-2'>
           <SelectTag
             options={DEPARTMENT_OPTIONS}
@@ -72,13 +73,19 @@ const SavedLevels = ({
       </div>
 
       <div>
-        <p className='text-font-sub-text font-Outfit mb-2 mt-3 text-base  font-medium text-[#6F747E] '>
+        <label className='text-font-sub-text font-Outfit mb-2 mt-3 text-base  font-medium text-[#6F747E] '>
           Question
-        </p>
+        </label>
         <div>
           <div className='relative flex items-center rounded'>
             <input
-              className='focus:#3b82f680 w-full appearance-none rounded border border-gray-200 px-4 py-2.5 text-[16px] leading-tight shadow hover:border-gray-400 focus:outline-none'
+              className={`focus:#3b82f680 w-full appearance-none rounded border px-4 py-2.5 text-[16px] leading-tight shadow focus:outline-none ${
+                question.length == 0
+                  ? 'border-red-600'
+                  : isEditable
+                  ? 'border-gray-400 text-[#00000]'
+                  : 'border-gray-200 text-[#888]'
+              }`}
               id='username'
               type='text'
               value={question}
@@ -86,13 +93,27 @@ const SavedLevels = ({
               placeholder={question}
               disabled={!isEditable}
             />
-            <span
-              className='absolute end-2 cursor-pointer px-2 text-gray-400 '
-              onClick={() => setIsEditable(true)}
-            >
-              ✎
-            </span>
+            {!isEditable ? (
+              <span
+                className='absolute end-2 cursor-pointer px-2 text-gray-400 '
+                onClick={() => setIsEditable(true)}
+              >
+                ✎
+              </span>
+            ) : (
+              <span
+                className='absolute end-2 cursor-pointer px-2 text-gray-400 '
+                onClick={() => setIsEditable(false)}
+              >
+                <TiTick />
+              </span>
+            )}
           </div>
+          {question.length == 0 && (
+            <p className='mt-2 text-sm text-red-600 dark:text-red-500'>
+              question is required!
+            </p>
+          )}
           {/* new */}
         </div>
       </div>

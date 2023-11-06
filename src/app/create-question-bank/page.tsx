@@ -8,6 +8,7 @@ import Popup from '@/components/PopUp';
 import SavedLevels from '@/components/questionBank/SavedLevels';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
+import QuestionUploadAndDownload from '@/components/uiComponents/QuestionUploadAndDownload';
 import SelectTag, { OptionType } from '@/components/uiComponents/SelectTag';
 import SubHeading from '@/components/uiComponents/SubHeading';
 type Question = {
@@ -27,8 +28,6 @@ const CreateQuestionBank = ({ competency = '' }: { competency: string }) => {
   const [showSavePopUp, setShowSavePopUp] = useState<boolean>(false);
   const [showdeletePopUp, setShowdeletePopUp] = useState<boolean>(false);
   const [savedIdtoDelete, setSavedIdtoDelete] = useState('');
-
-  // console.log(level, question);
 
   // fill the competencyArray
   useEffect(() => {
@@ -74,12 +73,11 @@ const CreateQuestionBank = ({ competency = '' }: { competency: string }) => {
 
       return updatedCompleteLevels;
     });
-    setLevel('');
+    setLevel('Select level');
     SetQuestion('');
   };
   // handle save button
   const handleSaveButton = async () => {
-    //  do somethien here
     if (completeLevels.length == 0 && (level == '' || question == '')) {
       setError(true);
       return;
@@ -101,7 +99,7 @@ const CreateQuestionBank = ({ competency = '' }: { competency: string }) => {
     setShowSavePopUp(true);
   };
 
-  // handleDelte button
+  // handleDelete button
   const handleDeleteLevel = () => {
     const updatedCompleteLevels = completeLevels.filter(
       (item) => item.level !== savedIdtoDelete
@@ -130,18 +128,7 @@ const CreateQuestionBank = ({ competency = '' }: { competency: string }) => {
   return (
     <div className='mx-[30px] gap-1 bg-white p-5'>
       {/* Upload and download section */}
-      <div className='mb-5 flex justify-end gap-3'>
-        <ButtonOutline
-          onClick={() => null}
-          classes='bg-[#fff] border-[#26292D] w-[300px]'
-        >
-          Download Question Bank Template
-        </ButtonOutline>
-        <ButtonFill onClick={() => null} classes='bg-[#26292D] w-[203px]'>
-          Upload Bulk Question
-          <input type='file' style={{ display: 'none' }} />
-        </ButtonFill>
-      </div>
+      <QuestionUploadAndDownload />
       {/* Upload and download section end */}
       {/* select Competency */}
       <SubHeading heading='Select' />
