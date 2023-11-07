@@ -1,9 +1,12 @@
+import { isArray } from 'lodash';
 import React, { MutableRefObject, useRef } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { RxCross2 } from 'react-icons/rx';
 import * as xlsx from 'xlsx';
+
 type PropType = {
   value: string | File;
-  onChange: (arg: unknown[]) => void;
+  onChange: (arg: File | string) => void;
   errorMessage: string;
 };
 
@@ -25,6 +28,8 @@ const UploadFileInput = ({ value, onChange, errorMessage }: PropType) => {
 
   function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
+      onChange(event.target.files[0]);
+
       const reader = new FileReader();
 
       reader.onload = (e: ProgressEvent<FileReader>) => {
@@ -33,7 +38,7 @@ const UploadFileInput = ({ value, onChange, errorMessage }: PropType) => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
-        onChange(json);
+        return json;
       };
       reader.readAsArrayBuffer(event.target.files[0]);
     }
@@ -72,9 +77,27 @@ const UploadFileInput = ({ value, onChange, errorMessage }: PropType) => {
           onChange={handleFile}
           ref={fileInputRef}
           type='file'
+          accept='.csv'
+          value={
+            typeof value !== 'number' &&
+            typeof value !== 'undefined' &&
+            isArray(value) &&
+            value instanceof File
+              ? value
+              : ''
+          }
         />
       </div>
-      {value && typeof value !== 'string' && <span>{value?.name}</span>}
+      {value && typeof value !== 'string' && (
+        <>
+          <span>{value?.name}</span>
+          <RxCross2
+            size={24}
+            className='ml-3 cursor-pointer hover:text-red-500'
+            onClick={() => onChange('')}
+          />
+        </>
+      )}
 
       {errorMessage && (
         <p className='mt-2 w-full text-sm text-red-600 dark:text-red-500'>
