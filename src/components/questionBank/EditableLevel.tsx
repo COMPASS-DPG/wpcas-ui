@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import SaveandDeleteButton from '@/components/questionBank/SaveandDeleteButton';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import SelectTag from '@/components/uiComponents/SelectTag';
 
@@ -8,9 +9,15 @@ import { OptionType } from '@/app/propTypes';
 const EditableLevel = ({
   levelsWithoutQuestion,
   handleAddLevel,
+  handleSaveButton,
+  showSavePopUp,
+  setShowSavePopUp,
 }: {
   levelsWithoutQuestion: OptionType[];
   handleAddLevel: (val: null | number, str: string) => void;
+  handleSaveButton: (val: null | number, str: string) => void;
+  showSavePopUp: boolean;
+  setShowSavePopUp: (value: boolean) => void;
 }) => {
   const [input, setInput] = useState<{
     level: null | number;
@@ -83,6 +90,11 @@ const EditableLevel = ({
           No more levels to add questions
         </div>
       )}
+      <SaveandDeleteButton
+        handleSaveButton={() => handleSaveButton(input.level, input.question)}
+        showSavePopUp={showSavePopUp}
+        setShowSavePopUp={setShowSavePopUp}
+      />
     </div>
   );
 };

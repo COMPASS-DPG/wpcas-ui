@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import EditableLevel from '@/components/questionBank/EditableLevel';
 import QuestionUploadAndDownload from '@/components/questionBank/QuestionUploadAndDownload';
-import SaveandDeleteButton from '@/components/questionBank/SaveandDeleteButton';
 import SavedLevels from '@/components/questionBank/SavedLevels';
 import SelectComeptency from '@/components/questionBank/SelectComeptency';
 import SubHeading from '@/components/uiComponents/SubHeading';
@@ -127,7 +126,7 @@ const CreateQuestionBank = () => {
     setLevelsWithQuestion(updateLevelsWithQuestion);
   };
   // handle save button
-  const handleSaveButton = async () => {
+  const handleSaveButton = async (level: number | null, question: string) => {
     for (const level of levelsWithQuestion) {
       if (level.question === '') {
         // At least one question is empty, don't proceed
@@ -150,6 +149,14 @@ const CreateQuestionBank = () => {
         competencyLevelNumber: level.competencyLevelNumber,
         question: level.question,
       }));
+    //add current question present in editable section
+    if (level != null && question !== '') {
+      createQuestions.push({
+        competencyId: currentCompetency || 0,
+        competencyLevelNumber: level,
+        question: question,
+      });
+    }
 
     const updateQuestions = levelsWithQuestion
       .filter((level) => level.questionPresent)
@@ -190,17 +197,20 @@ const CreateQuestionBank = () => {
       })}
       {currentCompetency && (
         <>
-          {/* editable levels */}
+          {/* editable levels, save and delete button section */}
           <EditableLevel
             levelsWithoutQuestion={levelsWithoutQuestion}
             handleAddLevel={handleAddLevel}
-          />
-          {/* save and delete button */}
-          <SaveandDeleteButton
             handleSaveButton={handleSaveButton}
             showSavePopUp={showSavePopUp}
             setShowSavePopUp={setShowSavePopUp}
           />
+          {/* save and delete button */}
+          {/* <SaveandDeleteButton
+            handleSaveButton={handleSaveButton}
+            showSavePopUp={showSavePopUp}
+            setShowSavePopUp={setShowSavePopUp}
+          /> */}
         </>
       )}
     </div>
