@@ -30,6 +30,24 @@ export type SurveyDataType = {
   onboardingTime: string;
 };
 
+type DownloadUserListType = {
+  id: string;
+  email: string;
+  role: string;
+  userName: string;
+  profile: string;
+  designation: string;
+  Level: {
+    levelNumber: string;
+  };
+  Department: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+};
+
 const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const [isOpen, setIsOpen] = useState(visible);
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
@@ -47,10 +65,16 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
 
   const handleUserListDownload = () => {
     (async () => {
-      const data = await downloadUserList();
-      const fileName = 'userList';
+      const response = await downloadUserList();
+      const data = response?.map((item: DownloadUserListType) => {
+        return {
+          ...item,
+          Level: item?.Level?.levelNumber,
+          Department: item?.Department?.name,
+        };
+      });
+      const fileName = 'user-list';
       const exportType = exportFromJSON.types.csv;
-
       exportFromJSON({ data, fileName, exportType });
     })();
   };
