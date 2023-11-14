@@ -20,17 +20,14 @@ export const getCompetency = async () => {
     const response = await axios.get(
       'http://localhost:5000/api/admin-competency/names'
     );
-    if (response.status === 200) {
-      const mappedData = response.data.data.map(
-        ({ name, competencyId }: { name: string; competencyId: number }) => ({
-          label: name,
-          value: competencyId,
-        })
-      );
-      return mappedData;
-    } else {
-      toast.error('something went wrong');
-    }
+
+    const mappedData = response.data.data.map(
+      ({ name, competencyId }: { name: string; competencyId: number }) => ({
+        label: name,
+        value: competencyId,
+      })
+    );
+    return mappedData;
   } catch (error) {
     toast.error('something went wrong');
   }
@@ -49,53 +46,49 @@ export const getAllLevels = async (currentCompetencyId: number) => {
 
     // console.log('types', questions, levels);
 
-    if (questionsResponse.status === 200 && levelsResponse.status === 200) {
-      const combinedData = levels?.map((level: LevelType) => {
-        const matchingQuestion = questions.find(
+    const combinedData = levels?.map((level: LevelType) => {
+      const matchingQuestion = questions.find(
+        (question: QuestionType) =>
+          question.competencyLevelNumber === level.competencyLevelNumber
+      );
+
+      if (matchingQuestion) {
+        return {
+          competencyLevelNumber: level.competencyLevelNumber,
+          competencyLevelName: level.competencyLevelName,
+          question: matchingQuestion.question,
+          questionId: matchingQuestion.id,
+          questionPresent: true,
+        };
+      }
+
+      return null; // Return null if there is no matching question
+    });
+
+    const levelsWithoutQuestion = levels
+      ?.filter((level: LevelType) => {
+        const hasMatchingQuestion = questions.some(
           (question: QuestionType) =>
             question.competencyLevelNumber === level.competencyLevelNumber
         );
-
-        if (matchingQuestion) {
-          return {
-            competencyLevelNumber: level.competencyLevelNumber,
-            competencyLevelName: level.competencyLevelName,
-            question: matchingQuestion.question,
-            questionId: matchingQuestion.id,
-            questionPresent: true,
-          };
-        }
-
-        return null; // Return null if there is no matching question
-      });
-
-      const levelsWithoutQuestion = levels
-        ?.filter((level: LevelType) => {
-          const hasMatchingQuestion = questions.some(
-            (question: QuestionType) =>
-              question.competencyLevelNumber === level.competencyLevelNumber
-          );
-          return !hasMatchingQuestion;
+        return !hasMatchingQuestion;
+      })
+      .map(
+        ({
+          competencyLevelName,
+          competencyLevelNumber,
+        }: {
+          competencyLevelName: string;
+          competencyLevelNumber: number;
+        }) => ({
+          label: competencyLevelName,
+          value: competencyLevelNumber,
         })
-        .map(
-          ({
-            competencyLevelName,
-            competencyLevelNumber,
-          }: {
-            competencyLevelName: string;
-            competencyLevelNumber: number;
-          }) => ({
-            label: competencyLevelName,
-            value: competencyLevelNumber,
-          })
-        );
-      return {
-        levelsWithQuestion: combinedData.filter(Boolean),
-        levelsWithoutQuestion,
-      };
-    } else {
-      toast.error('something went wrong');
-    }
+      );
+    return {
+      levelsWithQuestion: combinedData.filter(Boolean),
+      levelsWithoutQuestion,
+    };
   } catch (error) {
     toast.error('something went wrong');
   }
