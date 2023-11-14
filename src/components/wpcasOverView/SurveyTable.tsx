@@ -50,6 +50,7 @@ const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
         // Handle any errors that occur during the API call
         // eslint-disable-next-line no-console
         console.log('Api call error', error);
+        setLoading(false);
         setError(true);
       }
     })();
