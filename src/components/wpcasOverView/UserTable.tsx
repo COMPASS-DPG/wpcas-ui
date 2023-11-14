@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
 import Pagination from '@/components/wpcasOverView/Pagination';
 import SearchUser from '@/components/wpcasOverView/SearchUser';
 
 import { SearchInputType } from '@/app/wpcas/page';
-import { getUserList } from '@/services/configurationServices';
 
-type UserType = {
+export type UserListType = {
   userId: string;
   userName: string;
   department: string;
@@ -23,6 +22,12 @@ type UserType = {
   isAdmin: boolean;
 };
 
+type PropType = {
+  userData: UserListType[];
+  filterUserData: UserListType[];
+  setFilterUserData: (arg: UserListType[]) => void;
+};
+
 const getEmptyValue = () => {
   return {
     user: '',
@@ -30,12 +35,11 @@ const getEmptyValue = () => {
   };
 };
 
-const UserTable = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  const [originalUserData, setOriginalUserData] = useState<UserType[]>([]);
-  const [filterUserData, setFilterUserData] = useState<UserType[]>([]);
+const UserTable = ({
+  userData,
+  setFilterUserData,
+  filterUserData,
+}: PropType) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
@@ -44,13 +48,12 @@ const UserTable = () => {
   const endIndex = startIndex + pageSize;
   const currentData = filterUserData.slice(startIndex, endIndex);
 
-  // this is new section
   const [searchInput, setSearchInput] = useState<SearchInputType>(
     getEmptyValue()
   );
 
   const handleSearch = () => {
-    const newData = originalUserData.filter((item) => {
+    const newData = userData.filter((item) => {
       const nameMatch = item?.userName
         ?.toLowerCase()
         .includes(searchInput.user.toLowerCase());
@@ -63,24 +66,6 @@ const UserTable = () => {
     setCurrentPage(1);
     setSearchInput(getEmptyValue());
   };
-
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const data = await getUserList();
-        setLoading(false);
-        setOriginalUserData(data);
-        setFilterUserData(data);
-      } catch (error) {
-        // Handle any errors that occur during the API call
-        // eslint-disable-next-line no-console
-        console.error('API call error:', error);
-        setLoading(false);
-        setError(true);
-      }
-    })();
-  }, []);
 
   return (
     <>
@@ -128,71 +113,37 @@ const UserTable = () => {
             </tr>
           </thead>
           <tbody>
-            {loading && (
-              <tr
-                className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
-              >
-                <td
-                  align='center'
-                  colSpan={7}
-                  className={` px-6 py-[14px] text-center 
-             text-sm  font-normal text-[#272728]`}
+            {currentData?.map((user: UserListType) => {
+              return (
+                <tr
+                  key={user?.userId}
+                  className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
                 >
-                  Loading...
-                </td>
-              </tr>
-            )}
+                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                    {user?.userId}
+                  </td>
+                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                    {user?.userName}
+                  </td>
+                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                    {user?.departmentId}
+                  </td>
+                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                    {user?.wpcas}
+                  </td>
 
-            {error && (
-              <tr
-                className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
-              >
-                <td
-                  align='center'
-                  colSpan={7}
-                  className={` px-6 py-[14px] text-center 
-             text-sm  font-normal text-[#272728]`}
-                >
-                  Loading...
-                </td>
-              </tr>
-            )}
-
-            {!loading &&
-              !error &&
-              currentData?.map((user: UserType) => {
-                return (
-                  <tr
-                    key={user?.userId}
-                    className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
-                  >
-                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                      {user?.userId}
-                    </td>
-                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                      {user?.userName}
-                    </td>
-                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                      {user?.departmentId}
-                    </td>
-                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                      {user?.wpcas}
-                    </td>
-
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.surveysFilled}
-                    </td>
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.surveyYetToFilled}
-                    </td>
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {new Date(user?.dateOfJoining).toLocaleDateString(
-                        'en-GB'
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+                  <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                    {user?.surveysFilled}
+                  </td>
+                  <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                    {user?.surveyYetToFilled}
+                  </td>
+                  <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                    {new Date(user?.dateOfJoining).toLocaleDateString('en-GB')}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <Pagination
