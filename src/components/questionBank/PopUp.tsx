@@ -4,7 +4,7 @@ import Link from 'next/link';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
-import Success from '../../public/svg/success.svg';
+import Success from '~/svg/success.svg';
 
 const Popup = ({
   popUpIcon,
@@ -29,13 +29,7 @@ const Popup = ({
   leftButtonDestination: string;
   rightButtonDestination: string;
 }) => {
-  // const [isPopupOpen, setIsPopupOpen] = useState(visible);
-  // const openPopup = () => {
-  //   setIsPopupOpen(true);
-  // };
-
   const closePopup = () => {
-    // setIsPopupOpen(false);
     popUpClosingFunction(false);
   };
 

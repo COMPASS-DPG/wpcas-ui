@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Popup from '@/components/PopUp';
+import Popup from '@/components/questionBank/PopUp';
 import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import SelectTag from '@/components/uiComponents/SelectTag';
 import { Question } from '@/components/wpcasOverView/Questions';

@@ -5,7 +5,7 @@ const SubHeading = ({ heading }: { heading: string }) => {
         {heading}
       </p>
 
-      <hr className='w-855 h-0.5 flex-shrink-0 bg-gray-200' />
+      <hr className='w-855 h-0.5 flex-shrink-0 bg-[#65758CB2] opacity-70' />
     </div>
   );
 };

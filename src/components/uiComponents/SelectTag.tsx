@@ -2,14 +2,11 @@
 import React from 'react';
 import Select, { SingleValue } from 'react-select';
 
-export type OptionType = {
-  label: string;
-  value: string | number;
-};
+import { OptionType } from '@/app/propTypes';
 
 export type PropsType = {
   onChange: (value: string | number) => void;
-  value: string | number;
+  value: string | number | null;
   width?: string;
   options: OptionType[];
   placeholder: string;

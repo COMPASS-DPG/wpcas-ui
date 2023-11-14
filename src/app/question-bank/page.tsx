@@ -1,58 +1,51 @@
 'use client';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import SubNavbar from '@/components/navbar/SubNavbar';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
-import SelectTag, { OptionType } from '@/components/uiComponents/SelectTag';
+import SelectTag from '@/components/uiComponents/SelectTag';
 
-import CreateQuestionBank from '@/app/create-question-bank/page';
+import { useWpcasContext } from '@/app/context/WpcasContext';
+import { getAllLevels } from '@/services/getCompetency';
 
 import Questions from '../../components/wpcasOverView/Questions';
 
 const QuestionBank = () => {
+  const {
+    competencyArray,
+    setLevelsWithQuestion,
+    currentCompetency,
+    setCurrentCompetency,
+    viewQuestions,
+    setViewQuestions,
+    setCurrentLevelsAndQuestions,
+    currentLevelsAnsQuestions,
+  } = useWpcasContext();
   const router = useRouter();
-  const [viewQuestions, setViewQuestions] = useState<boolean>(false);
-  const [competencyArray, setCompetencyArray] = useState<OptionType[]>([]);
-  const [questions, setQuestions] = useState([]);
-  const [option, setOption] = useState<string>('');
-  const [showError, setShowError] = useState<boolean>(false);
-  const [editQuestion, setEditQuestion] = useState<boolean>(false);
+
+  const [showError, setShowError] = useState<string>('');
 
   const handleViewButton = () => {
-    if (option == '') {
-      setShowError(true);
+    if (!currentCompetency) {
+      setShowError('Please select the competency');
       return;
     }
-    setShowError(false);
+    setShowError('');
+    (async () => {
+      const levels = await getAllLevels(currentCompetency);
+      setLevelsWithQuestion(levels?.levelsWithQuestion);
+      setCurrentLevelsAndQuestions(levels?.levelsWithQuestion);
+    })();
     setViewQuestions(true);
-    setOption(option);
   };
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/dependency').then((response) => {
-      // Map the response data to the desired format (OptionType)
-      const mappedData = response.data.map((item: string) => ({
-        label: item,
-        value: item,
-      }));
-      setCompetencyArray(mappedData);
-    });
-  }, []);
-  useEffect(() => {
-    //one quetion how to access hr in that json server
-    // console.log(option);
-    axios.get(`http://localhost:5000/${option}`).then((r) => {
-      setQuestions(r.data);
-    });
-  }, [option]);
+  const handleCreateQuestionButton = () => {
+    setCurrentCompetency(null);
+    setLevelsWithQuestion([]);
 
-  {
-    if (editQuestion) {
-      return <CreateQuestionBank competency={option} />;
-    }
-  }
+    router.push('/question-bank/create-question-bank');
+  };
 
   return (
     <div className='mx-[30px]'>
@@ -77,29 +70,27 @@ const QuestionBank = () => {
               <div className='flex justify-between gap-2'>
                 <SelectTag
                   options={competencyArray}
-                  value={option}
-                  onChange={(option) => setOption(option)}
+                  value={currentCompetency}
+                  onChange={(option) => {
+                    if (typeof option == 'number') setCurrentCompetency(option);
+                  }}
                   width='714px'
                   placeholder='Department'
                   paddingY='2px'
+                  errorMessage={currentCompetency === null ? showError : ''}
                 />
                 <ButtonFill
                   onClick={handleViewButton}
-                  classes='bg-[#385B8B] w-[100px]'
+                  classes='bg-[#385B8B] w-[100px] h-[42px]'
                 >
                   view
                 </ButtonFill>
               </div>
-              {showError && (
-                <p className='ml-2 text-red-600'>
-                  Please select the competency
-                </p>
-              )}
             </div>
           </div>
           <div>
             <ButtonFill
-              onClick={() => router.push('/create-question-bank')}
+              onClick={() => handleCreateQuestionButton()}
               classes='bg-[#7DCC8A] w-[219px]'
             >
               Create Question Bank
@@ -107,9 +98,15 @@ const QuestionBank = () => {
           </div>
         </div>
         {/* question */}
-        {viewQuestions && (
-          <Questions questions={questions} setEditQuestion={setEditQuestion} />
-        )}
+        {currentCompetency &&
+          viewQuestions &&
+          (currentLevelsAnsQuestions.length ? (
+            <Questions levelsWithQuestion={currentLevelsAnsQuestions} />
+          ) : (
+            <div className='mt-10 pl-6 text-[18px] font-semibold leading-6 text-[#385B8B]'>
+              No Question Found in this competency
+            </div>
+          ))}
       </div>
     </div>
   );
