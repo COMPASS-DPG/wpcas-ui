@@ -11,6 +11,8 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm from '@/components/wpcasOverView/SetupConfigurationForm';
 import SurveyTable from '@/components/wpcasOverView/SurveyTable';
 
+import { downloadUserList } from '@/services/configurationServices';
+
 const assessmentGuidelines = [
   'Duis 2 aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
   'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
@@ -43,6 +45,16 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  const handleUserListDownload = () => {
+    (async () => {
+      const data = await downloadUserList();
+      const fileName = 'userList';
+      const exportType = exportFromJSON.types.csv;
+
+      exportFromJSON({ data, fileName, exportType });
+    })();
+  };
+
   return (
     <div
       className={`mx-[0px] flex flex-wrap gap-5 lg:mx-[30px] ${outfit.className}`}
@@ -70,7 +82,7 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
         <SubNavbar />
         <div className='my-4 flex flex-wrap justify-end gap-3'>
           <ButtonOutline
-            onClick={() => null}
+            onClick={handleUserListDownload}
             classes='border-[#385B8B] text-[#385B8B]'
           >
             Download User List
