@@ -11,7 +11,10 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm from '@/components/wpcasOverView/SetupConfigurationForm';
 import SurveyTable from '@/components/wpcasOverView/SurveyTable';
 
-import { downloadUserList } from '@/services/configurationServices';
+import {
+  downloadAssessesList,
+  downloadUserList,
+} from '@/services/configurationServices';
 
 const assessmentGuidelines = [
   'Duis 2 aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
@@ -53,14 +56,19 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
 
   const handleAssessesFileDownload = () => {
-    const data = [
-      { id: 1, name: 'John', age: 25 },
-      { id: 2, name: 'Jane', age: 30 },
-    ];
-    const fileName = 'download';
-    const exportType = exportFromJSON.types.csv;
-
-    exportFromJSON({ data, fileName, exportType });
+    (async () => {
+      const response = await downloadAssessesList();
+      const data = response?.map((item: DownloadUserListType) => {
+        return {
+          ...item,
+          Level: item?.Level?.levelNumber,
+          Department: item?.Department?.name,
+        };
+      });
+      const fileName = 'user-list';
+      const exportType = exportFromJSON.types.csv;
+      exportFromJSON({ data, fileName, exportType });
+    })();
   };
 
   const handleUserListDownload = () => {

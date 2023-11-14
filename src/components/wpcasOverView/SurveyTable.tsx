@@ -128,27 +128,34 @@ const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
             userSurveyData?.map((user) => {
               const { endTime, startTime, surveyName } = user;
               return (
-                <tr
-                  key={user?.surveyName}
-                  className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
-                >
-                  <td className='px-6 py-[14px]  text-sm  font-normal text-[#272728]'>
-                    {surveyName}
-                  </td>
-                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                    {new Date(startTime).toLocaleDateString('en-GB')}
-                  </td>
-                  <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
-                    {endTime && new Date(endTime).toLocaleDateString('en-GB')}
-                  </td>
-                  <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
-                    <MdModeEdit
-                      className='cursor-pointer'
-                      fontSizeAdjust={16}
-                      onClick={() => handleEdit(user)}
-                    />
-                  </td>
-                </tr>
+                <>
+                  {endTime && new Date() <= new Date(endTime) && (
+                    <tr
+                      key={user?.surveyName}
+                      className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+                    >
+                      <td className='px-6 py-[14px]  text-sm  font-normal text-[#272728]'>
+                        {surveyName}
+                      </td>
+                      <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                        {new Date(startTime).toLocaleDateString('en-GB')}
+                      </td>
+                      <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
+                        {endTime &&
+                          new Date(endTime).toLocaleDateString('en-GB')}
+                      </td>
+                      <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
+                        {startTime && new Date() < new Date(startTime) && (
+                          <MdModeEdit
+                            className='cursor-pointer'
+                            fontSizeAdjust={16}
+                            onClick={() => handleEdit(user)}
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  )}
+                </>
               );
             })}
         </tbody>
