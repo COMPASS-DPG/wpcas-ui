@@ -9,6 +9,7 @@ import Success from '../../public/svg/success.svg';
 const Popup = ({
   popUpIcon,
   popUpClosingFunction,
+  openSurveyConfigModal,
   visible,
   topHeading,
   subHeading,
@@ -19,6 +20,7 @@ const Popup = ({
 }: {
   popUpIcon?: React.ReactElement;
   popUpClosingFunction: (value: boolean) => void;
+  openSurveyConfigModal?: () => void;
   visible: boolean;
   topHeading: string;
   subHeading: string;
@@ -35,6 +37,11 @@ const Popup = ({
   const closePopup = () => {
     // setIsPopupOpen(false);
     popUpClosingFunction(false);
+  };
+
+  const handleNewSurveyCongig = () => {
+    popUpClosingFunction(false);
+    if (openSurveyConfigModal) openSurveyConfigModal();
   };
 
   return (
@@ -58,7 +65,7 @@ const Popup = ({
               <div className='flex justify-center gap-3 py-8'>
                 <Link href={`${leftButtonDestination}`}>
                   <ButtonOutline
-                    onClick={closePopup}
+                    onClick={handleNewSurveyCongig}
                     classes='bg-[#fff] border-[#26292D]'
                   >
                     {LeftButtonText}

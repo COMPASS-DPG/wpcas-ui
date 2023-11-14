@@ -4,12 +4,12 @@ import Select, { SingleValue } from 'react-select';
 
 export type OptionType = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 export type PropsType = {
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: string | number) => void;
+  value: string | number;
   width?: string;
   options: OptionType[];
   placeholder: string;
@@ -33,7 +33,12 @@ const SelectTag = ({
       <Select
         isDisabled={isDisabled}
         options={options}
-        value={options.find((item) => item.value === value)}
+        value={
+          options.find((item) => item.value === value) ?? {
+            label: '',
+            value: '',
+          }
+        }
         placeholder={placeholder}
         onChange={(e: SingleValue<OptionType>) => {
           if (e) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 
 import { outfit } from '@/components/FontFamily';
@@ -8,12 +8,18 @@ import SetupConfigurationForm, {
   SurveyDataType,
 } from '@/components/wpcasOverView/SetupConfigurationForm';
 
+import { getConfigurationList } from '@/services/configurationServices';
+
 type PropType = {
-  userSurveyDate: SurveyDataType[];
+  // userSurveyDate: SurveyDataType[];
   setIsSuccessPopUpOpen: (value: boolean) => void;
 };
 
-const SurveyTable = ({ userSurveyDate, setIsSuccessPopUpOpen }: PropType) => {
+const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  // const
+  const [userSurveyData, setUserSurveyData] = useState<SurveyDataType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [editValue, setEditValue] = useState<SurveyDataType>(
     getEmptySurveyData()
@@ -21,23 +27,40 @@ const SurveyTable = ({ userSurveyDate, setIsSuccessPopUpOpen }: PropType) => {
 
   const handleEdit = (data: SurveyDataType) => {
     setIsOpen(true);
-    const formattedStartDate = new Date(data.startDate);
-    const formattedEndDate = new Date(data.endDate);
+    const formattedStartDate = new Date(data?.startTime);
+    const formattedEndDate = data?.endTime && new Date(data?.endTime);
     const formattedData = {
       ...data,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
+      startTime: formattedStartDate,
+      endTime: formattedEndDate,
     };
 
     setEditValue(formattedData);
-    // setEditValue(data);
   };
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const data = await getConfigurationList();
+        setLoading(false);
+        setUserSurveyData(data);
+        // console.log(data)
+      } catch (error) {
+        // Handle any errors that occur during the API call
+        // eslint-disable-next-line no-console
+        console.log('Api call error', error);
+        setError(true);
+      }
+    })();
+  }, []);
 
   return (
     <div className='relative h-[52vh] overflow-x-auto overflow-y-auto shadow-md sm:rounded-md  '>
       <CommonModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <SetupConfigurationForm
           onClose={() => setIsOpen(false)}
+          isEdit={true}
           data={editValue}
           setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
         />
@@ -48,7 +71,7 @@ const SurveyTable = ({ userSurveyDate, setIsSuccessPopUpOpen }: PropType) => {
         >
           <tr>
             <th scope='col' className=' w-[60%] px-6 py-3 text-sm font-normal'>
-              Department
+              Survey Name
             </th>
             <th
               scope='col'
@@ -68,33 +91,65 @@ const SurveyTable = ({ userSurveyDate, setIsSuccessPopUpOpen }: PropType) => {
             ></th>
           </tr>
         </thead>
+
         <tbody>
-          {userSurveyDate?.map((user: SurveyDataType) => {
-            const { endDate, startDate, department } = user;
-            return (
-              <tr
-                key={user?.department}
-                className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+          {loading && (
+            <tr
+              className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+            >
+              <td
+                align='center'
+                colSpan={4}
+                className={` px-6 py-[14px] text-center 
+             text-sm  font-normal text-[#272728]`}
               >
-                <td className='px-6 py-[14px]  text-sm  font-normal text-[#272728]'>
-                  {department}
-                </td>
-                <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                  {startDate.toString()}
-                </td>
-                <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
-                  {endDate.toString()}
-                </td>
-                <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
-                  <MdModeEdit
-                    className='cursor-pointer'
-                    fontSizeAdjust={16}
-                    onClick={() => handleEdit(user)}
-                  />
-                </td>
-              </tr>
-            );
-          })}
+                Loading...
+              </td>
+            </tr>
+          )}
+          {error && (
+            <tr
+              className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+            >
+              <td
+                align='center'
+                colSpan={4}
+                className={` px-6 py-[14px] text-center 
+             text-sm  font-normal text-[#272728]`}
+              >
+                Error...
+              </td>
+            </tr>
+          )}
+
+          {!loading &&
+            !error &&
+            userSurveyData?.map((user) => {
+              const { endTime, startTime, surveyName } = user;
+              return (
+                <tr
+                  key={user?.surveyName}
+                  className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+                >
+                  <td className='px-6 py-[14px]  text-sm  font-normal text-[#272728]'>
+                    {surveyName}
+                  </td>
+                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                    {new Date(startTime).toLocaleDateString('en-GB')}
+                  </td>
+                  <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
+                    {endTime && new Date(endTime).toLocaleDateString('en-GB')}
+                  </td>
+                  <td className='px-6 py-[14px]  text-sm font-normal text-[#272728]'>
+                    <MdModeEdit
+                      className='cursor-pointer'
+                      fontSizeAdjust={16}
+                      onClick={() => handleEdit(user)}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

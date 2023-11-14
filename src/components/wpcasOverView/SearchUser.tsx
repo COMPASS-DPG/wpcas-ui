@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 
-import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import SearchInput from '@/components/uiComponents/SearchInput';
 import SelectTag from '@/components/uiComponents/SelectTag';
 
@@ -26,7 +25,10 @@ const SearchUser = ({ value, onChange, handleSearch }: PropType) => {
         placeholder='Search User'
       />
       <SelectTag
-        options={DEPARTMENT_OPTIONS}
+        options={[
+          { label: '3', value: 3 },
+          { label: '2', value: 2 },
+        ]}
         value={value?.department}
         onChange={(updatedValue) =>
           onChange({ ...value, department: updatedValue })

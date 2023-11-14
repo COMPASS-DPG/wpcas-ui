@@ -2,6 +2,7 @@ import { isArray } from 'lodash';
 import React, { MutableRefObject, useRef } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RxCross2 } from 'react-icons/rx';
+import { toast } from 'react-toastify';
 import * as xlsx from 'xlsx';
 
 type PropType = {
@@ -10,37 +11,39 @@ type PropType = {
   errorMessage: string;
 };
 
+const fileValidation = (file: unknown[]): boolean => {
+  if (file?.length === 0) {
+    toast.error('file is empty please upload valid file');
+    return false;
+  }
+  return true;
+};
+
 const UploadFileInput = ({ value, onChange, errorMessage }: PropType) => {
   const fileInputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
-
   const handleLabelClick = () => {
     fileInputRef?.current?.click();
   };
 
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) {
-  //     const selectedFile = e.target.files[0];
-  //     if (selectedFile) {
-  //       onChange(selectedFile);
-  //     }
-  //   }
-  // };
+  const handleFileToJson = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const data = e?.target?.result;
+      const workbook = xlsx.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const json = xlsx.utils.sheet_to_json(worksheet);
+      if (fileValidation(json)) {
+        onChange(file);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  };
 
   function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
-      onChange(event.target.files[0]);
-
-      const reader = new FileReader();
-
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        const data = e?.target?.result;
-        const workbook = xlsx.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const json = xlsx.utils.sheet_to_json(worksheet);
-        return json;
-      };
-      reader.readAsArrayBuffer(event.target.files[0]);
+      handleFileToJson(event?.target?.files[0]);
     }
   }
 

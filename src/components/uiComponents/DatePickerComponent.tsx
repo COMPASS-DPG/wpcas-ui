@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePickerIcon from '~/svg/datePickerIcon.svg';
 
 type PropType = {
-  data: Date;
+  data: Date | null;
   isSelectStart?: boolean;
   isSelectEnd?: boolean;
   minDate?: Date | null;

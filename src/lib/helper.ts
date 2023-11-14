@@ -20,20 +20,20 @@ export const isValidData = (
   handleError: (key: string, value: string) => void
 ): boolean => {
   let flag = true;
-  if (!data.department) {
-    handleError('department', 'department is required!');
+  if (!data.surveyName) {
+    handleError('surveyName', 'survey name is required!');
     flag = false;
   }
-  if (!data.startDate) {
-    handleError('startDate', 'start date is required!');
+  if (!data.startTime) {
+    handleError('startTime', 'start Date is required!');
     flag = false;
   }
-  if (!data.endDate) {
-    handleError('endDate', 'end date is required!');
+  if (!data.endTime) {
+    handleError('endTime', 'end Date is required!');
     flag = false;
   }
-  if (!data?.assessesFile) {
-    handleError('assessesFile', 'assesses file is required!');
+  if (!data?.file) {
+    handleError('file', 'assesses file is required!');
     flag = false;
   }
   return flag;

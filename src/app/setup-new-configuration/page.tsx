@@ -1,6 +1,6 @@
 'use client';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import exportFromJSON from 'export-from-json';
+import React, { useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
 import SubNavbar from '@/components/navbar/SubNavbar';
@@ -18,22 +18,30 @@ const assessmentGuidelines = [
   'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
 ];
 export type SurveyDataType = {
-  department: string;
-  startDate: Date;
-  endDate: Date;
+  id: string;
+  surveyName: string;
+  startTime: Date;
+  endTime: Date;
   assessesFile: string | File;
+  departmentId: string;
+  onboardingTimeUnit: string;
+  onboardingTime: string;
 };
 
 const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const [isOpen, setIsOpen] = useState(visible);
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
 
-  const [userSurveyDate, setUserSurveryDate] = useState<SurveyDataType[]>([]);
-  useEffect(() => {
-    axios.get(`http://localhost:3000/department`).then((r) => {
-      setUserSurveryDate(r.data);
-    });
-  }, []);
+  const handleAssessesFileDownload = () => {
+    const data = [
+      { id: 1, name: 'John', age: 25 },
+      { id: 2, name: 'Jane', age: 30 },
+    ];
+    const fileName = 'download';
+    const exportType = exportFromJSON.types.csv;
+
+    exportFromJSON({ data, fileName, exportType });
+  };
 
   return (
     <div
@@ -47,6 +55,7 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
       </CommonModal>
       {isSuccessPopUpOpen && (
         <Popup
+          openSurveyConfigModal={() => setIsOpen(true)}
           popUpClosingFunction={setIsSuccessPopUpOpen}
           visible={isSuccessPopUpOpen}
           topHeading='Survey has been created successfully'
@@ -61,13 +70,13 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
         <SubNavbar />
         <div className='my-4 flex flex-wrap justify-end gap-3'>
           <ButtonOutline
-            onClick={() => setIsOpen(true)}
+            onClick={() => null}
             classes='border-[#385B8B] text-[#385B8B]'
           >
             Download User List
           </ButtonOutline>
           <ButtonOutline
-            onClick={() => setIsOpen(true)}
+            onClick={handleAssessesFileDownload}
             classes='border-[#385B8B] text-[#385B8B]'
           >
             Download Assesses File Template
@@ -77,7 +86,7 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           </ButtonFill>
         </div>
         <SurveyTable
-          userSurveyDate={userSurveyDate}
+          // userSurveyDate={userSurveyData}
           setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
         />
       </div>

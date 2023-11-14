@@ -5,57 +5,70 @@ import { toast } from 'react-toastify';
 import { isValidData } from '@/lib/helper';
 
 import { outfit } from '@/components/FontFamily';
-import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import DatePickerComponent from '@/components/uiComponents/DatePickerComponent';
+import InputTag from '@/components/uiComponents/InputTag';
 import Label from '@/components/uiComponents/Label';
-import SelectTag from '@/components/uiComponents/SelectTag';
+
+import {
+  createSurveyConfig,
+  updateSurveyConfig,
+} from '@/services/configurationServices';
 
 import UploadFileInput from './UploadFileInput';
 
 export type SurveyDataType = {
-  department: string;
-  startDate: Date;
-  endDate: Date;
-  assessesFile: File | string;
+  surveyName: string;
+  startTime: Date;
+  endTime: Date | null;
+  file: File | string;
+};
+
+export type ResponseDataType = {
+  surveyName: string;
+  startTime: Date;
+  endTime: Date | null;
+  file: FormData;
 };
 
 export type SurveyErrorType = {
   [key: string]: string;
-  department: string;
-  startDate: string;
-  endDate: string;
-  assessesFile: string;
+  surveyName: string;
+  startTime: string;
+  endTime: string;
+  file: string;
 };
 
 type PropType = {
   onClose: () => void;
+  isEdit?: boolean;
   data?: SurveyDataType | null;
   setIsSuccessPopUpOpen: (value: boolean) => void;
 };
 
 export const getEmptySurveyData = () => {
   return {
-    department: '',
-    startDate: new Date(),
-    endDate: new Date(),
-    assessesFile: '',
+    surveyName: '',
+    startTime: new Date(),
+    endTime: null,
+    file: '',
   };
 };
 
 const initialError = () => {
   return {
-    department: '',
-    startDate: '',
-    endDate: '',
-    assessesFile: '',
+    surveyName: '',
+    startTime: '',
+    endTime: '',
+    file: '',
   };
 };
 
 const SetupConfigurationForm = ({
   onClose,
   data = null,
+  isEdit = false,
   setIsSuccessPopUpOpen,
 }: PropType) => {
   const [formData, setFormData] = useState(data ?? getEmptySurveyData());
@@ -92,12 +105,51 @@ const SetupConfigurationForm = ({
     });
   };
 
+  const handleUpdateConfig = async (formData: ResponseDataType) => {
+    try {
+      const data = await updateSurveyConfig('dfds', formData);
+      onClose();
+      setIsSuccessPopUpOpen(true);
+      return data;
+    } catch (error) {
+      // Handle any errors that occur during the API call
+      // eslint-disable-next-line no-console
+      console.log('Api call error', error);
+      toast.error('something went wrong please try again');
+    }
+  };
+
+  const handleCreateConfig = async (formData: ResponseDataType) => {
+    try {
+      const data = await createSurveyConfig(formData);
+      onClose();
+      setIsSuccessPopUpOpen(true);
+      return data;
+    } catch (error) {
+      // Handle any errors that occur during the API call
+      // eslint-disable-next-line no-console
+      console.log('Api call error', error);
+      toast.error('something went wrong please try again');
+    }
+  };
+
   const handleCreate = () => {
     setError(initialError());
     if (isValidData(formData, handleError)) {
-      onClose();
-      setIsSuccessPopUpOpen(true);
-      toast.success('data saved successful');
+      const assesseeFormData = new FormData();
+      assesseeFormData.append('file', formData.file);
+      const data = {
+        ...formData,
+        file: assesseeFormData,
+      };
+      // console.log('formData', formData)
+      // console.log('newFormData', data)
+
+      if (isEdit) {
+        handleUpdateConfig(data);
+      } else {
+        handleCreateConfig(data);
+      }
     }
   };
 
@@ -107,19 +159,16 @@ const SetupConfigurationForm = ({
         className={`my-2 mb-4 flex flex-col rounded bg-white px-8 pb-8 pt-6 ${outfit.className} `}
       >
         <div className='mb-4 text-xl font-semibold text-[#272728]'>
-          Setup New Configuration
+          {isEdit ? 'Edit Configuration' : 'Setup New Configuration'}
         </div>
         <div className='-mx-3 mb-6 md:flex'>
           <div className='px-3 md:w-full'>
-            <Label text='Department' />
-            <SelectTag
-              options={DEPARTMENT_OPTIONS}
-              value={formData.department}
-              onChange={(updatedValue) =>
-                handleChange('department', updatedValue)
-              }
-              placeholder='Department'
-              errorMessage={error?.department}
+            <Label text='Survey Name' />
+            <InputTag
+              value={formData.surveyName}
+              onChange={(value) => handleChange('surveyName', value)}
+              placeholder='Enter SurveyName'
+              errorMessage={error?.surveyName}
             />
           </div>
           <div></div>
@@ -129,11 +178,9 @@ const SetupConfigurationForm = ({
           <div className='flex flex-wrap items-center justify-start gap-3 px-3 md:w-full'>
             <Label text='Upload Assesses file' />
             <UploadFileInput
-              onChange={(updatedValue) =>
-                handleChange('assessesFile', updatedValue)
-              }
-              value={formData?.assessesFile}
-              errorMessage={error?.assessesFile}
+              onChange={(updatedValue) => handleChange('file', updatedValue)}
+              value={formData?.file}
+              errorMessage={error?.file}
             />
           </div>
           <div></div>
@@ -143,26 +190,26 @@ const SetupConfigurationForm = ({
           <div className='mb-6 px-3 md:mb-0 md:w-1/2'>
             <Label text='Start Date' />
             <DatePickerComponent
-              data={formData?.startDate}
+              data={formData?.startTime}
               onChange={(updatedValue) =>
-                handleChange('startDate', updatedValue)
+                handleChange('startTime', updatedValue)
               }
               isSelectStart={true}
-              startDate={formData?.startDate}
-              endDate={formData?.endDate}
-              errorMessage={error.startDate}
+              startDate={formData?.startTime}
+              endDate={formData?.endTime}
+              errorMessage={error.startTime}
             />
           </div>
           <div className='px-3 md:w-1/2'>
             <Label text='End Date' />
             <DatePickerComponent
-              data={formData?.endDate}
-              onChange={(updatedValue) => handleChange('endDate', updatedValue)}
+              data={formData?.endTime}
+              onChange={(updatedValue) => handleChange('endTime', updatedValue)}
               isSelectEnd={true}
-              startDate={formData?.startDate}
-              endDate={formData?.endDate}
-              minDate={formData?.startDate}
-              errorMessage={error.endDate}
+              startDate={formData?.startTime}
+              endDate={formData?.endTime}
+              minDate={formData?.startTime}
+              errorMessage={error.endTime}
             />
           </div>
         </div>
@@ -176,7 +223,7 @@ const SetupConfigurationForm = ({
               Cancel
             </ButtonOutline>
             <ButtonFill onClick={handleCreate} classes='bg-[#26292D] w-[200px]'>
-              Create Survey
+              {isEdit ? 'Edit Survey' : 'Create Survey'}
             </ButtonFill>
           </div>
         </div>
