@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
 import SubNavbar from '@/components/navbar/SubNavbar';
-import Popup from '@/components/PopUp';
+import Popup from '@/components/questionBank/PopUp';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import CommonModal from '@/components/uiComponents/CommonModal';

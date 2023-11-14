@@ -1,7 +1,7 @@
 'use client';
 
+import axios from 'axios';
 import React, { MutableRefObject, useRef, useState } from 'react';
-import * as xlsx from 'xlsx';
 
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
@@ -18,21 +18,31 @@ const QuestionUploadAndDownload = () => {
   const handleLabelClick = () => {
     fileInputRef?.current?.click();
   };
+  async function uploadFile(file: File) {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Make a POST request to your backend
+      await axios.post(
+        'http://localhost:5000/api/question-bank/upload',
+        formData
+      );
+
+      setShowSuccessPopUp(true);
+    } catch (error) {
+      setShowErrorPopUp(true);
+    }
+  }
+
   function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
-      const reader = new FileReader();
-
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        const data = e?.target?.result;
-        const workbook = xlsx.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const json = xlsx.utils.sheet_to_json(worksheet);
-        json;
-        // setShowSuccessPopUp(true);
+      const selectedFile = event.target.files[0];
+      if (selectedFile.name.endsWith('.csv')) {
+        uploadFile(selectedFile);
+      } else {
         setShowErrorPopUp(true);
-      };
-      reader.readAsArrayBuffer(event.target.files[0]);
+      }
     }
   }
 
@@ -61,7 +71,7 @@ const QuestionUploadAndDownload = () => {
       )}
       <ButtonOutline
         onClick={() => null}
-        classes='bg-[#fff] border-[#26292D] w-[300px]'
+        classes='bg-[#fff] border-[#26292D] w-[330px]'
       >
         Download Question Bank Template
       </ButtonOutline>
