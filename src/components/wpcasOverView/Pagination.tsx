@@ -44,7 +44,6 @@ const Pagination = ({
           value={pageSize}
           onChange={handleSize}
         >
-          <option>select limit</option>
           {[5, 10, 15, 20].map((value) => (
             <option key={value} value={value}>
               {value}
