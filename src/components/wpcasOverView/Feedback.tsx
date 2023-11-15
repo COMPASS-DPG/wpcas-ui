@@ -4,12 +4,14 @@ import React from 'react';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
+export type surveyDataType = {
+  totalSurveys: number;
+  totalSurveysFilled: number;
+  totalSurveysToBeFilled: number;
+};
+
 type PropType = {
-  surveyData: {
-    totalSurveys: number;
-    totalSurveysFilled: number;
-    totalSurveysToBeFilled: number;
-  };
+  surveyData: surveyDataType | undefined;
 };
 
 const Feedback = ({ surveyData }: PropType) => {
