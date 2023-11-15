@@ -34,7 +34,7 @@ export type SurveyDataType = {
 const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const [isOpen, setIsOpen] = useState(visible);
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
-  // const [isNewForm,setIsNewForm]=useState(false)
+  const [isNewForm, setIsNewForm] = useState(false);
   const handleAssessesFileDownload = () => {
     (async () => {
       const response = await downloadAssessesList();
@@ -44,6 +44,11 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
       exportFromJSON({ data, fileName, exportType });
       toast.success(response?.message);
     })();
+  };
+
+  const handleNewConfiguration = () => {
+    setIsOpen(true);
+    setIsNewForm(true);
   };
 
   // for download userList
@@ -79,7 +84,9 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           openSurveyConfigModal={() => setIsOpen(true)}
           popUpClosingFunction={setIsSuccessPopUpOpen}
           visible={isSuccessPopUpOpen}
-          topHeading='Survey has been created successfully'
+          topHeading={`Survey has been ${
+            isNewForm ? 'created' : 'updated'
+          } successfully`}
           subHeading='The survey has assigned to 5 users and it configured.'
           LeftButtonText='Setup New Configuration'
           rightButtonText='OK'
@@ -102,11 +109,16 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           >
             Download Assesses File Template
           </ButtonOutline>
-          <ButtonFill onClick={() => setIsOpen(true)} classes='bg-[#385B8B]'>
+          <ButtonFill onClick={handleNewConfiguration} classes='bg-[#385B8B]'>
             Setup New Configuration
           </ButtonFill>
         </div>
-        <SurveyTable setIsSuccessPopUpOpen={setIsSuccessPopUpOpen} />
+
+        {/* survey config table, search functionality and pagination component */}
+        <SurveyTable
+          setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
+          handleEditMessage={() => setIsNewForm(false)}
+        />
       </div>
       <div className='h-[80vh] w-[80vw] rounded-sm bg-white lg:w-[21vw]'>
         <div className='p-[15px] text-lg font-semibold text-[#272728]'>

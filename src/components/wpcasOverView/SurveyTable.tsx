@@ -12,14 +12,22 @@ import { getConfigurationList } from '@/services/configurationServices';
 
 type PropType = {
   setIsSuccessPopUpOpen: (value: boolean) => void;
+  handleEditMessage: () => void;
 };
 
-const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
+const SurveyTable = ({
+  setIsSuccessPopUpOpen,
+  handleEditMessage,
+}: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  // to fetch survey config details after new survey form create or update
   const [fetchData, setFetchData] = useState(true);
+
   const [userSurveyData, setUserSurveyData] = useState<SurveyDataType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
   const [editValue, setEditValue] = useState<SurveyDataType>(
     getEmptySurveyData()
   );
@@ -33,7 +41,7 @@ const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
       startTime: formattedStartDate,
       endTime: formattedEndDate,
     };
-
+    handleEditMessage();
     setEditValue(formattedData);
   };
 
