@@ -6,33 +6,23 @@ import { outfit } from '@/components/FontFamily';
 import Pagination from '@/components/wpcasOverView/Pagination';
 import SearchUser from '@/components/wpcasOverView/SearchUser';
 
-import { SearchInputType } from '@/app/wpcas/page';
-
 export type UserListType = {
   userId: string;
   userName: string;
-  department: string;
   wpcas: string;
   surveysFilled: number;
-  surveyYetToFilled: number;
+  surveysToBeFilled: number;
   dateOfJoining: Date;
   isNewEmployee: boolean;
   designation: string;
-  departmentId: string;
   isAdmin: boolean;
+  profilePicture: string;
 };
 
 type PropType = {
   userData: UserListType[];
   filterUserData: UserListType[];
   setFilterUserData: (arg: UserListType[]) => void;
-};
-
-const getEmptyValue = () => {
-  return {
-    user: '',
-    department: '',
-  };
 };
 
 const UserTable = ({
@@ -43,28 +33,23 @@ const UserTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  const totalPages = Math.ceil(filterUserData.length / pageSize);
+  const totalPages = Math.ceil(filterUserData?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentData = filterUserData.slice(startIndex, endIndex);
+  const currentData = filterUserData?.slice(startIndex, endIndex);
 
-  const [searchInput, setSearchInput] = useState<SearchInputType>(
-    getEmptyValue()
-  );
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const handleSearch = () => {
-    const newData = userData.filter((item) => {
+    const newData = userData?.filter((item) => {
       const nameMatch = item?.userName
         ?.toLowerCase()
-        .includes(searchInput.user.toLowerCase());
-      const departmentMatch =
-        searchInput.department === '' ||
-        item.departmentId === searchInput?.department;
-      return nameMatch && departmentMatch;
+        .includes(searchInput.toLowerCase());
+      return nameMatch;
     });
     setFilterUserData(newData);
     setCurrentPage(1);
-    setSearchInput(getEmptyValue());
+    setSearchInput('');
   };
 
   return (
@@ -85,9 +70,6 @@ const UserTable = ({
               </th>
               <th scope='col' className='px-6 py-3 text-sm font-normal'>
                 User Name
-              </th>
-              <th scope='col' className='px-6 py-3 text-sm font-normal'>
-                Department
               </th>
               <th
                 scope='col'
@@ -126,9 +108,6 @@ const UserTable = ({
                     {user?.userName}
                   </td>
                   <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                    {user?.departmentId}
-                  </td>
-                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
                     {user?.wpcas}
                   </td>
 
@@ -136,7 +115,7 @@ const UserTable = ({
                     {user?.surveysFilled}
                   </td>
                   <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                    {user?.surveyYetToFilled}
+                    {user?.surveysToBeFilled}
                   </td>
                   <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
                     {new Date(user?.dateOfJoining).toLocaleDateString('en-GB')}

@@ -1,46 +1,45 @@
 import axios from 'axios';
 
-import { ResponseDataType } from '@/components/wpcasOverView/SetupConfigurationForm';
-
 export const getConfigurationList = async () => {
   const data = await axios.get('http://localhost:3000/api/survey-config');
   return data.data.data;
 };
 
-export const downloadUserList = async () => {
-  const data = await axios.get(
-    'http://localhost:3000/api/mockFracService/user'
-  );
-  return data.data.data;
-};
+// export const downloadUserList = async () => {
+//   const data = await axios.get(
+//     'http://localhost:3000/api/mockFracService/user'
+//   );
+//   return data.data.data;
+// };
 
 export const downloadAssessesList = async () => {
   const data = await axios.get(
-    'http://localhost:3000/api/mockFracService/user'
+    'http://localhost:3000/api/survey-config/user-mapping-sample'
   );
-  return data.data.data;
+  return data.data;
 };
 
-export const createSurveyConfig = async (payload: ResponseDataType) => {
-  const data = await axios.post(
-    `http://localhost:3000/api/survey-config`,
-    payload
-  );
-  return data.data.data;
+export const createSurveyConfig = async (payload: FormData) => {
+  await axios.post(`http://localhost:3000/api/survey-config`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
+    },
+  });
 };
 
-export const updateSurveyConfig = async (
-  id: string,
-  payload: ResponseDataType
-) => {
-  const data = await axios.patch(
+export const updateSurveyConfig = async (id: string, payload: FormData) => {
+  await axios.patch(
     `http://localhost:3000/api/survey-config/update/${id}`,
-    payload
+    payload,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
+      },
+    }
   );
-  return data.data.data;
 };
 
 export const getUserList = async () => {
-  const data = await axios.get('http://localhost:3000/api/user-metadata');
+  const data = await axios.get('http://localhost:3000/api/survey/home-screen');
   return data.data.data;
 };

@@ -4,7 +4,15 @@ import React from 'react';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
-const Feedback = () => {
+type PropType = {
+  surveyData: {
+    totalSurveys: number;
+    totalSurveysFilled: number;
+    totalSurveysToBeFilled: number;
+  };
+};
+
+const Feedback = ({ surveyData }: PropType) => {
   const router = useRouter();
 
   const handleRoute = (route: string) => {
@@ -17,21 +25,27 @@ const Feedback = () => {
         <div className='mb-4 text-lg font-medium text-[#65758C] '>
           Feedback surveys sent
         </div>
-        <div className='text-[26px] font-bold text-[#272728]'>170</div>
+        <div className='text-[26px] font-bold text-[#272728]'>
+          {surveyData?.totalSurveys}
+        </div>
       </div>
 
       <div className='h-[100px] w-[340px] rounded-md bg-white  px-4 py-4'>
         <div className='mb-4 text-lg font-medium text-[#65758C] '>
           Feedback surveys filled
         </div>
-        <div className='text-[26px] font-bold text-[#272728]'>158</div>
+        <div className='text-[26px] font-bold text-[#272728]'>
+          {surveyData?.totalSurveysFilled}
+        </div>
       </div>
 
       <div className='h-[100px] w-[340px] rounded-md bg-white  px-4 py-4'>
         <div className='mb-4 text-lg font-medium text-[#65758C] '>
           Feedback surveys yet to be filled
         </div>
-        <div className='text-[26px] font-bold text-[#272728]'>12</div>
+        <div className='text-[26px] font-bold text-[#272728]'>
+          {surveyData?.totalSurveysToBeFilled}
+        </div>
       </div>
 
       <div className='h-[100px] w-[190px]'>
