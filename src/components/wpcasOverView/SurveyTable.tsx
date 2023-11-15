@@ -11,16 +11,23 @@ import SetupConfigurationForm, {
 import { getConfigurationList } from '@/services/configurationServices';
 
 type PropType = {
-  // userSurveyDate: SurveyDataType[];
   setIsSuccessPopUpOpen: (value: boolean) => void;
+  handleEditMessage: () => void;
 };
 
-const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
+const SurveyTable = ({
+  setIsSuccessPopUpOpen,
+  handleEditMessage,
+}: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  // const
+
+  // to fetch survey config details after new survey form create or update
+  const [fetchData, setFetchData] = useState(true);
+
   const [userSurveyData, setUserSurveyData] = useState<SurveyDataType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
   const [editValue, setEditValue] = useState<SurveyDataType>(
     getEmptySurveyData()
   );
@@ -34,32 +41,35 @@ const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
       startTime: formattedStartDate,
       endTime: formattedEndDate,
     };
-
+    handleEditMessage();
     setEditValue(formattedData);
   };
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const data = await getConfigurationList();
-        setLoading(false);
-        setUserSurveyData(data);
-        // console.log(data)
-      } catch (error) {
-        // Handle any errors that occur during the API call
-        // eslint-disable-next-line no-console
-        console.log('Api call error', error);
-        setLoading(false);
-        setError(true);
-      }
-    })();
-  }, []);
+    if (fetchData) {
+      (async () => {
+        setLoading(true);
+        try {
+          const data = await getConfigurationList();
+          setLoading(false);
+          setUserSurveyData(data);
+          setFetchData(false);
+        } catch (error) {
+          // Handle any errors that occur during the API call
+          // eslint-disable-next-line no-console
+          console.log('Api call error', error);
+          setLoading(false);
+          setError(true);
+        }
+      })();
+    }
+  }, [fetchData]);
 
   return (
     <div className='relative h-[52vh] overflow-x-auto overflow-y-auto shadow-md sm:rounded-md  '>
       <CommonModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <SetupConfigurationForm
+          handleFetchConfigData={() => setFetchData(true)}
           onClose={() => setIsOpen(false)}
           isEdit={true}
           data={editValue}
@@ -126,12 +136,12 @@ const SurveyTable = ({ setIsSuccessPopUpOpen }: PropType) => {
           {!loading &&
             !error &&
             userSurveyData?.map((user) => {
-              const { endTime, startTime, surveyName } = user;
+              const { endTime, startTime, surveyName, id } = user;
               return (
                 <>
                   {endTime && new Date() <= new Date(endTime) && (
                     <tr
-                      key={user?.surveyName}
+                      key={id}
                       className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
                     >
                       <td className='px-6 py-[14px]  text-sm  font-normal text-[#272728]'>

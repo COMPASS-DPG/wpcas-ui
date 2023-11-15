@@ -15,9 +15,10 @@ export function getFromSessionStorage(key: string): string | null {
 }
 
 // will check for all data and set error
-export const isValidData = (
+export const isValidConfigFormData = (
   data: SurveyDataType,
-  handleError: (key: string, value: string) => void
+  handleError: (key: string, value: string) => void,
+  isEdit = false
 ): boolean => {
   let flag = true;
   if (!data.surveyName) {
@@ -32,7 +33,7 @@ export const isValidData = (
     handleError('endTime', 'end Date is required!');
     flag = false;
   }
-  if (!data?.file) {
+  if (!data?.file && !isEdit) {
     handleError('file', 'assesses file is required!');
     flag = false;
   }

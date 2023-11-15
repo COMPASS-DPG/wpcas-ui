@@ -1,6 +1,7 @@
 'use client';
 import exportFromJSON from 'export-from-json';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { outfit } from '@/components/FontFamily';
 import SubNavbar from '@/components/navbar/SubNavbar';
@@ -11,10 +12,7 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm from '@/components/wpcasOverView/SetupConfigurationForm';
 import SurveyTable from '@/components/wpcasOverView/SurveyTable';
 
-import {
-  downloadAssessesList,
-  downloadUserList,
-} from '@/services/configurationServices';
+import { downloadAssessesList } from '@/services/configurationServices';
 
 const assessmentGuidelines = [
   'Duis 2 aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
@@ -33,58 +31,42 @@ export type SurveyDataType = {
   onboardingTime: string;
 };
 
-type DownloadUserListType = {
-  id: string;
-  email: string;
-  role: string;
-  userName: string;
-  profile: string;
-  designation: string;
-  Level: {
-    levelNumber: string;
-  };
-  Department: {
-    id: string;
-    name: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-};
-
 const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const [isOpen, setIsOpen] = useState(visible);
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
-
+  const [isNewForm, setIsNewForm] = useState(false);
   const handleAssessesFileDownload = () => {
     (async () => {
       const response = await downloadAssessesList();
-      const data = response?.map((item: DownloadUserListType) => {
-        return {
-          ...item,
-          Level: item?.Level?.levelNumber,
-          Department: item?.Department?.name,
-        };
-      });
-      const fileName = 'user-list';
+      const data = response?.data;
+      const fileName = 'assesses-file-template';
       const exportType = exportFromJSON.types.csv;
       exportFromJSON({ data, fileName, exportType });
+      toast.success(response?.message);
     })();
   };
 
+  const handleNewConfiguration = () => {
+    setIsOpen(true);
+    setIsNewForm(true);
+  };
+
+  // for download userList
   const handleUserListDownload = () => {
-    (async () => {
-      const response = await downloadUserList();
-      const data = response?.map((item: DownloadUserListType) => {
-        return {
-          ...item,
-          Level: item?.Level?.levelNumber,
-          Department: item?.Department?.name,
-        };
-      });
-      const fileName = 'user-list';
-      const exportType = exportFromJSON.types.csv;
-      exportFromJSON({ data, fileName, exportType });
-    })();
+    return null;
+    // (async () => {
+    //   const response = await downloadUserList();
+    //   const data = response?.map((item: DownloadUserListType) => {
+    //     return {
+    //       ...item,
+    //       Level: item?.Level?.levelNumber,
+    //       Department: item?.Department?.name,
+    //     };
+    //   });
+    //   const fileName = 'user-list';
+    //   const exportType = exportFromJSON.types.csv;
+    //   exportFromJSON({ data, fileName, exportType });
+    // })();
   };
 
   return (
@@ -102,7 +84,9 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           openSurveyConfigModal={() => setIsOpen(true)}
           popUpClosingFunction={setIsSuccessPopUpOpen}
           visible={isSuccessPopUpOpen}
-          topHeading='Survey has been created successfully'
+          topHeading={`Survey has been ${
+            isNewForm ? 'created' : 'updated'
+          } successfully`}
           subHeading='The survey has assigned to 5 users and it configured.'
           LeftButtonText='Setup New Configuration'
           rightButtonText='OK'
@@ -125,13 +109,15 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
           >
             Download Assesses File Template
           </ButtonOutline>
-          <ButtonFill onClick={() => setIsOpen(true)} classes='bg-[#385B8B]'>
+          <ButtonFill onClick={handleNewConfiguration} classes='bg-[#385B8B]'>
             Setup New Configuration
           </ButtonFill>
         </div>
+
+        {/* survey config table, search functionality and pagination component */}
         <SurveyTable
-          // userSurveyDate={userSurveyData}
           setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
+          handleEditMessage={() => setIsNewForm(false)}
         />
       </div>
       <div className='h-[80vh] w-[80vw] rounded-sm bg-white lg:w-[21vw]'>

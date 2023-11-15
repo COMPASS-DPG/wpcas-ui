@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { isValidData } from '@/lib/helper';
+import { isValidConfigFormData } from '@/lib/helper';
 
 import { outfit } from '@/components/FontFamily';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
@@ -19,17 +19,11 @@ import {
 import UploadFileInput from './UploadFileInput';
 
 export type SurveyDataType = {
+  id?: string;
   surveyName: string;
   startTime: Date;
   endTime: Date | null;
   file: File | string;
-};
-
-export type ResponseDataType = {
-  surveyName: string;
-  startTime: Date;
-  endTime: Date | null;
-  file: FormData;
 };
 
 export type SurveyErrorType = {
@@ -45,6 +39,7 @@ type PropType = {
   isEdit?: boolean;
   data?: SurveyDataType | null;
   setIsSuccessPopUpOpen: (value: boolean) => void;
+  handleFetchConfigData?: () => void;
 };
 
 export const getEmptySurveyData = () => {
@@ -66,12 +61,13 @@ const initialError = () => {
 };
 
 const SetupConfigurationForm = ({
+  handleFetchConfigData,
   onClose,
   data = null,
   isEdit = false,
   setIsSuccessPopUpOpen,
 }: PropType) => {
-  const [formData, setFormData] = useState(data ?? getEmptySurveyData());
+  const [configData, setConfigData] = useState(data ?? getEmptySurveyData());
   const [error, setError] = useState<SurveyErrorType>(initialError());
 
   // will set values and set error to empty string
@@ -87,7 +83,7 @@ const SetupConfigurationForm = ({
         };
       });
     }
-    setFormData((prev) => {
+    setConfigData((prev) => {
       return {
         ...prev,
         [key]: value,
@@ -105,51 +101,40 @@ const SetupConfigurationForm = ({
     });
   };
 
-  const handleUpdateConfig = async (formData: ResponseDataType) => {
+  const handleSaveConfig = async (formData: FormData) => {
     try {
-      const data = await updateSurveyConfig('dfds', formData);
+      if (isEdit && data?.id) {
+        await updateSurveyConfig(data?.id, formData);
+      } else {
+        await createSurveyConfig(formData);
+      }
       onClose();
+      handleFetchConfigData && handleFetchConfigData();
       setIsSuccessPopUpOpen(true);
-      return data;
     } catch (error) {
       // Handle any errors that occur during the API call
       // eslint-disable-next-line no-console
       console.log('Api call error', error);
-      toast.error('something went wrong please try again');
-    }
-  };
-
-  const handleCreateConfig = async (formData: ResponseDataType) => {
-    try {
-      const data = await createSurveyConfig(formData);
-      onClose();
-      setIsSuccessPopUpOpen(true);
-      return data;
-    } catch (error) {
-      // Handle any errors that occur during the API call
-      // eslint-disable-next-line no-console
-      console.log('Api call error', error);
-      toast.error('something went wrong please try again');
+      toast.error('something went wrong please try again', {
+        draggable: false,
+      });
     }
   };
 
   const handleCreate = () => {
     setError(initialError());
-    if (isValidData(formData, handleError)) {
-      const assesseeFormData = new FormData();
-      assesseeFormData.append('file', formData.file);
-      const data = {
-        ...formData,
-        file: assesseeFormData,
-      };
-      // console.log('formData', formData)
-      // console.log('newFormData', data)
 
-      if (isEdit) {
-        handleUpdateConfig(data);
-      } else {
-        handleCreateConfig(data);
-      }
+    // will check for all valid fields
+    if (isValidConfigFormData(configData, handleError, isEdit)) {
+      const assesseeForm = new FormData();
+      assesseeForm.append('surveyName', configData?.surveyName);
+      assesseeForm.append('startTime', configData?.startTime?.toDateString());
+      if (configData?.endTime)
+        assesseeForm.append('endTime', configData?.endTime?.toDateString());
+      if (configData?.file) assesseeForm.append('file', configData?.file);
+
+      // will handle edit and save configuration
+      handleSaveConfig(assesseeForm);
     }
   };
 
@@ -165,7 +150,7 @@ const SetupConfigurationForm = ({
           <div className='px-3 md:w-full'>
             <Label text='Survey Name' />
             <InputTag
-              value={formData.surveyName}
+              value={configData.surveyName}
               onChange={(value) => handleChange('surveyName', value)}
               placeholder='Enter SurveyName'
               errorMessage={error?.surveyName}
@@ -179,7 +164,7 @@ const SetupConfigurationForm = ({
             <Label text='Upload Assesses file' />
             <UploadFileInput
               onChange={(updatedValue) => handleChange('file', updatedValue)}
-              value={formData?.file}
+              value={configData?.file}
               errorMessage={error?.file}
             />
           </div>
@@ -190,25 +175,25 @@ const SetupConfigurationForm = ({
           <div className='mb-6 px-3 md:mb-0 md:w-1/2'>
             <Label text='Start Date' />
             <DatePickerComponent
-              data={formData?.startTime}
+              data={configData?.startTime}
               onChange={(updatedValue) =>
                 handleChange('startTime', updatedValue)
               }
               isSelectStart={true}
-              startDate={formData?.startTime}
-              endDate={formData?.endTime}
+              startDate={configData?.startTime}
+              endDate={configData?.endTime}
               errorMessage={error.startTime}
             />
           </div>
           <div className='px-3 md:w-1/2'>
             <Label text='End Date' />
             <DatePickerComponent
-              data={formData?.endTime}
+              data={configData?.endTime}
               onChange={(updatedValue) => handleChange('endTime', updatedValue)}
               isSelectEnd={true}
-              startDate={formData?.startTime}
-              endDate={formData?.endTime}
-              minDate={formData?.startTime}
+              startDate={configData?.startTime}
+              endDate={configData?.endTime}
+              minDate={configData?.startTime}
               errorMessage={error.endTime}
             />
           </div>
