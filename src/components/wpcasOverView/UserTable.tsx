@@ -9,7 +9,7 @@ import SearchUser from '@/components/wpcasOverView/SearchUser';
 export type UserListType = {
   userId: string;
   userName: string;
-  wpcas: string;
+  wpcasScore: string;
   surveysFilled: number;
   surveysToBeFilled: number;
   dateOfJoining: Date;
@@ -95,34 +95,51 @@ const UserTable = ({
             </tr>
           </thead>
           <tbody>
-            {currentData?.map((user: UserListType) => {
-              return (
-                <tr
-                  key={user?.userId}
-                  className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+            {currentData.length == 0 && (
+              <tr
+                className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+              >
+                <td
+                  align='center'
+                  colSpan={6}
+                  className={` px-6 py-[14px] text-center 
+             text-sm  font-normal text-[#272728]`}
                 >
-                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                    {user?.userId}
-                  </td>
-                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                    {user?.userName}
-                  </td>
-                  <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                    {user?.wpcas}
-                  </td>
+                  No Result Found
+                </td>
+              </tr>
+            )}
+            {currentData.length > 0 &&
+              currentData?.map((user: UserListType) => {
+                return (
+                  <tr
+                    key={user?.userId}
+                    className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+                  >
+                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                      {user?.userId}
+                    </td>
+                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                      {user?.userName}
+                    </td>
+                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                      {user?.wpcasScore ? user?.wpcasScore : '--'}
+                    </td>
 
-                  <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                    {user?.surveysFilled}
-                  </td>
-                  <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                    {user?.surveysToBeFilled}
-                  </td>
-                  <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                    {new Date(user?.dateOfJoining).toLocaleDateString('en-GB')}
-                  </td>
-                </tr>
-              );
-            })}
+                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                      {user?.surveysFilled}
+                    </td>
+                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                      {user?.surveysToBeFilled}
+                    </td>
+                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
+                      {new Date(user?.dateOfJoining).toLocaleDateString(
+                        'en-GB'
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
         <Pagination

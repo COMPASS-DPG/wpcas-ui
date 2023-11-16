@@ -77,7 +77,7 @@ const QuestionBank = () => {
                     if (typeof option == 'number') setCurrentCompetency(option);
                   }}
                   width='714px'
-                  placeholder='Department'
+                  placeholder='Competency'
                   paddingY='2px'
                   errorMessage={currentCompetency === null ? showError : ''}
                 />

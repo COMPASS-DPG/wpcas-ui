@@ -27,7 +27,7 @@ const QuestionUploadAndDownload = () => {
 
       // Make a POST request to backend
       await axios.post(
-        'http://localhost:5000/api/question-bank/upload',
+        'http://localhost:3000/api/question-bank/upload',
         formData
       );
 

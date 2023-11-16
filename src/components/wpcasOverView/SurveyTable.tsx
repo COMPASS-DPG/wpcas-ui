@@ -13,17 +13,21 @@ import { getConfigurationList } from '@/services/configurationServices';
 type PropType = {
   setIsSuccessPopUpOpen: (value: boolean) => void;
   handleEditMessage: () => void;
+  setFetchData: (arg: boolean) => void;
+  fetchData: boolean;
 };
 
 const SurveyTable = ({
   setIsSuccessPopUpOpen,
   handleEditMessage,
+  setFetchData,
+  fetchData,
 }: PropType) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   // to fetch survey config details after new survey form create or update
-  const [fetchData, setFetchData] = useState(true);
+  // const [fetchData, setFetchData] = useState(true);
 
   const [userSurveyData, setUserSurveyData] = useState<SurveyDataType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +67,7 @@ const SurveyTable = ({
         }
       })();
     }
-  }, [fetchData]);
+  }, [fetchData, setFetchData]);
 
   return (
     <div className='relative h-[52vh] overflow-x-auto overflow-y-auto shadow-md sm:rounded-md  '>
@@ -133,8 +137,24 @@ const SurveyTable = ({
             </tr>
           )}
 
+          {!loading && !error && userSurveyData.length == 0 && (
+            <tr
+              className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+            >
+              <td
+                align='center'
+                colSpan={4}
+                className={` px-6 py-[14px] text-center 
+             text-sm  font-normal text-[#272728]`}
+              >
+                No Survey Configuration
+              </td>
+            </tr>
+          )}
+
           {!loading &&
             !error &&
+            userSurveyData.length > 0 &&
             userSurveyData?.map((user) => {
               const { endTime, startTime, surveyName, id } = user;
               return (

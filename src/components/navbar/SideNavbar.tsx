@@ -39,7 +39,7 @@ const SideNavbar = () => {
             <Link href='/wpcas'>
               <div className={`flex `}>
                 <WpcasIcon className='mr-2 w-5' />
-                WPCAS
+                WPCAS Overview
               </div>
             </Link>
           </li>
@@ -55,7 +55,7 @@ const SideNavbar = () => {
                                   }`}
                 >
                   <ListIcon className='mr-2 w-3' />
-                  Setup New Configuration
+                  Setup New Survey
                 </li>
               </Link>
               <Link href='/question-bank'>

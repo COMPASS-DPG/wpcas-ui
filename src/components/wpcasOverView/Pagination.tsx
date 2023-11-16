@@ -3,6 +3,7 @@ import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
 } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 type PropsType = {
   handlePageSize: (value: number) => void;
@@ -24,9 +25,13 @@ const Pagination = ({
   const [pageNumber, setPageNumber] = useState('');
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13 && parseInt(pageNumber) <= totalPages) {
-      handlePage(parseInt(pageNumber));
-      setPageNumber('');
+    if (e.keyCode === 13) {
+      if (parseInt(pageNumber) <= totalPages) {
+        handlePage(parseInt(pageNumber));
+        setPageNumber('');
+      } else {
+        toast.error(`page ${pageNumber} not found`);
+      }
     }
   };
 

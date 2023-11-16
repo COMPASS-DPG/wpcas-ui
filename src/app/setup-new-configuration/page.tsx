@@ -35,6 +35,10 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const [isOpen, setIsOpen] = useState(visible);
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
   const [isNewForm, setIsNewForm] = useState(false);
+
+  // to fetch survey config details after new survey form create or update
+  const [fetchData, setFetchData] = useState(true);
+
   const handleAssessesFileDownload = () => {
     (async () => {
       const response = await downloadAssessesList();
@@ -77,6 +81,7 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
         <SetupConfigurationForm
           onClose={() => setIsOpen(false)}
           setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
+          handleFetchConfigData={() => setFetchData(true)}
         />
       </CommonModal>
       {isSuccessPopUpOpen && (
@@ -116,6 +121,8 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
 
         {/* survey config table, search functionality and pagination component */}
         <SurveyTable
+          fetchData={fetchData}
+          setFetchData={setFetchData}
           setIsSuccessPopUpOpen={setIsSuccessPopUpOpen}
           handleEditMessage={() => setIsNewForm(false)}
         />

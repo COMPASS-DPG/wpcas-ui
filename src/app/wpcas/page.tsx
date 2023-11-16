@@ -15,7 +15,7 @@ export type SearchInputType = {
 type UserListType = {
   userId: string;
   userName: string;
-  wpcas: string;
+  wpcasScore: string;
   surveysFilled: number;
   surveysToBeFilled: number;
   dateOfJoining: Date;

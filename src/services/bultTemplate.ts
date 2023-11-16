@@ -51,7 +51,12 @@ export const uploadTemplate = async (
     // Make a POST request to backend
     await axios.post(
       'http://localhost:3000/api/question-bank/upload',
-      formData
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
+        },
+      }
     );
 
     setShowSuccessPopUp(true);
