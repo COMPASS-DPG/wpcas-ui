@@ -32,32 +32,31 @@ const UserTable = ({
 }: PropType) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const totalPages = Math.ceil(filterUserData?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentData = filterUserData?.slice(startIndex, endIndex);
 
-  const [searchInput, setSearchInput] = useState<string>('');
-
-  const handleSearch = () => {
+  const handleSearch = (value: string) => {
     const newData = userData?.filter((item) => {
       const nameMatch = item?.userName
         ?.toLowerCase()
-        .includes(searchInput.toLowerCase());
+        .includes(value.toLowerCase());
       return nameMatch;
     });
+    setSearchInput(value);
     setFilterUserData(newData);
-    setCurrentPage(1);
-    setSearchInput('');
+    if (currentPage != 1) setCurrentPage(1);
   };
 
   return (
     <>
       <SearchUser
         value={searchInput}
-        onChange={(value) => setSearchInput(value)}
-        handleSearch={handleSearch}
+        onChange={(value) => handleSearch(value)}
+        // handleSearch={() => null}
       />
       <div className='relative overflow-x-auto shadow-md sm:rounded-md'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
