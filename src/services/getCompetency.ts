@@ -21,7 +21,7 @@ export const getCompetency = async () => {
       'http://localhost:3000/api/admin-competency/names'
     );
 
-    const mappedData = response.data.data.map(
+    const mappedData = response?.data?.data?.map(
       ({ name, competencyId }: { name: string; competencyId: number }) => ({
         label: name,
         value: competencyId,
@@ -32,7 +32,10 @@ export const getCompetency = async () => {
     toast.error('something went wrong');
   }
 };
-export const getAllLevels = async (currentCompetencyId: number) => {
+export const getAllLevels = async (
+  currentCompetencyId: number,
+  setLoading: (val: boolean) => void
+) => {
   try {
     const questionsResponse = await axios.get(
       `http://localhost:3000/api/question-bank?competencyId=${currentCompetencyId}`
@@ -85,11 +88,13 @@ export const getAllLevels = async (currentCompetencyId: number) => {
           value: competencyLevelNumber,
         })
       );
+    setLoading(false);
     return {
       levelsWithQuestion: combinedData.filter(Boolean),
       levelsWithoutQuestion,
     };
   } catch (error) {
+    setLoading(false);
     toast.error('something went wrong');
   }
 };
@@ -105,7 +110,7 @@ export const updateItemOnServer = async (
       finalObj.deleteQuestions.length
     ) {
       // Only include deleteQuestions if it's not empty
-      if (finalObj.deleteQuestions.length === 0) {
+      if (finalObj.deleteQuestions?.length === 0) {
         await axios.post(
           'http://localhost:3000/api/question-bank/updateMultipleQuestions',
           {

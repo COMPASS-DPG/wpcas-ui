@@ -9,9 +9,9 @@ type CompetencyItem = {
 export const downloadTemplate = async () => {
   try {
     const response = await axios.get(
-      'http://localhost:5000/api/question-bank/template'
+      'http://localhost:3000/api/question-bank/template'
     );
-    const templateData = response.data.data;
+    const templateData = response?.data?.data;
 
     const header = ['competency', 'competencyLevelNumber', 'question'];
 
@@ -50,7 +50,7 @@ export const uploadTemplate = async (
 
     // Make a POST request to backend
     await axios.post(
-      'http://localhost:5000/api/question-bank/upload',
+      'http://localhost:3000/api/question-bank/upload',
       formData
     );
 

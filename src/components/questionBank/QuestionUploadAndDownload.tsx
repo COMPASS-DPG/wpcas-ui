@@ -7,6 +7,8 @@ import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import SingleButtonPopUp from '@/components/wpcasOverView/SingleButtonPopUp';
 
+import { downloadTemplate } from '@/services/bultTemplate';
+
 import Warning from '~/svg/warning.svg';
 
 const QuestionUploadAndDownload = () => {
@@ -70,7 +72,7 @@ const QuestionUploadAndDownload = () => {
         />
       )}
       <ButtonOutline
-        onClick={() => null}
+        onClick={() => downloadTemplate()}
         classes='bg-[#fff] border-[#26292D] w-[330px]'
       >
         Download Question Bank Template

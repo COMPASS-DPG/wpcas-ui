@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { TiTick } from 'react-icons/ti';
 
-import Popup2 from '@/components/DeleteLevelPopUp';
 import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import SelectTag from '@/components/uiComponents/SelectTag';
 
@@ -16,17 +15,13 @@ export type QuestionType = {
 };
 const SavedLevels = ({
   completeLevel,
-  showdeletePopUp,
   setShowdeletePopUp,
-  handleDeleteLevel,
   setSavedIdtoDelete,
   updateQuestioninLevel,
 }: {
   completeLevel: levelsWithQuestionType;
-  showdeletePopUp: boolean;
   setShowdeletePopUp: (value: boolean) => void;
   setSavedIdtoDelete: (value: number) => void;
-  handleDeleteLevel: () => void;
   updateQuestioninLevel: (
     competencyLevelNumber: number,
     newQuestion: string
@@ -47,16 +42,6 @@ const SavedLevels = ({
   };
   return (
     <div>
-      <Popup2
-        popUpIcon={<Delete width='60' />}
-        popUpClosingFunction={setShowdeletePopUp}
-        handleDeleteButton={handleDeleteLevel}
-        visible={showdeletePopUp}
-        topHeading='Are you sure'
-        subHeading='Do you want to delete this competency level?   '
-        LeftButtonText='No'
-        rightButtonText='Yes'
-      />
       <div className='mb-2 mt-8 w-3/5'>
         <label className='text-font-sub-text font-Outfit mb-2 mt-2 text-base  font-medium text-[#6F747E] '>
           Select Level

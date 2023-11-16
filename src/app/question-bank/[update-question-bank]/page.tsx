@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import Popup2 from '@/components/DeleteLevelPopUp';
 import EditableLevel from '@/components/questionBank/EditableLevel';
 import QuestionUploadAndDownload from '@/components/questionBank/QuestionUploadAndDownload';
 import SavedLevels from '@/components/questionBank/SavedLevels';
@@ -15,6 +16,8 @@ import {
   OptionType,
 } from '@/app/propTypes';
 import { getAllLevels, updateItemOnServer } from '@/services/getCompetency';
+
+import Delete from '~/svg/delete.svg';
 
 const CreateQuestionBank = () => {
   const {
@@ -35,12 +38,14 @@ const CreateQuestionBank = () => {
     updateQuestions: [],
     deleteQuestions: [],
   });
+  const [loading, setLoading] = useState<boolean>(false);
 
   // render  if the competency change
   useEffect(() => {
     if (currentCompetency == null) return;
+    setLoading(true);
     (async () => {
-      const combinedLevels = await getAllLevels(currentCompetency);
+      const combinedLevels = await getAllLevels(currentCompetency, setLoading);
       setLevelsWithQuestion(combinedLevels?.levelsWithQuestion);
       setLevelsWithoutQuestion(combinedLevels?.levelsWithoutQuestion);
     })();
@@ -113,11 +118,10 @@ const CreateQuestionBank = () => {
         competencyLevelNumber: level,
         competencyLevelName: newLevel?.label,
         question: question,
-        questionId: Math.random() * 100000,
+        questionId: parseFloat(Date.now() + '.1'),
         questionPresent: false,
       },
     ];
-
     const updatedRemainingLevels = levelsWithoutQuestion.filter(
       (item) => item.value !== level
     );
@@ -176,26 +180,38 @@ const CreateQuestionBank = () => {
 
   return (
     <div className='mx-[30px] gap-1 bg-white p-5'>
+      <Popup2
+        popUpIcon={<Delete width='60' />}
+        popUpClosingFunction={setShowdeletePopUp}
+        handleDeleteButton={handleDeleteLevel}
+        visible={showdeletePopUp}
+        topHeading='Are you sure'
+        subHeading='Do you want to delete this competency level?   '
+        LeftButtonText='No'
+        rightButtonText='Yes'
+      />
       {/* Upload and download section */}
       <QuestionUploadAndDownload />
       {/* select Competency dropdown */}
       <SelectComeptency />
       {/*all levels with question*/}
-      {currentCompetency && <SubHeading heading='Add Level & Questions' />}
+      {currentCompetency && (
+        <SubHeading
+          heading={loading ? 'Loading....' : 'Add Level & Questions'}
+        />
+      )}
       {levelsWithQuestion.map((question: levelsWithQuestionType) => {
         return (
           <SavedLevels
             key={question.competencyLevelName}
             completeLevel={question}
             setSavedIdtoDelete={setSavedIdtoDelete}
-            showdeletePopUp={showdeletePopUp}
             setShowdeletePopUp={setShowdeletePopUp}
-            handleDeleteLevel={handleDeleteLevel}
             updateQuestioninLevel={updateQuestioninLevel}
           />
         );
       })}
-      {currentCompetency && (
+      {currentCompetency && !loading && (
         <>
           {/* editable levels, save and delete button section */}
           <EditableLevel
@@ -205,12 +221,6 @@ const CreateQuestionBank = () => {
             showSavePopUp={showSavePopUp}
             setShowSavePopUp={setShowSavePopUp}
           />
-          {/* save and delete button */}
-          {/* <SaveandDeleteButton
-            handleSaveButton={handleSaveButton}
-            showSavePopUp={showSavePopUp}
-            setShowSavePopUp={setShowSavePopUp}
-          /> */}
         </>
       )}
     </div>

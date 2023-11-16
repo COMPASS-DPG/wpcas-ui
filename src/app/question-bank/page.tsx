@@ -25,6 +25,7 @@ const QuestionBank = () => {
   const router = useRouter();
 
   const [showError, setShowError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleViewButton = () => {
     if (!currentCompetency) {
@@ -32,8 +33,9 @@ const QuestionBank = () => {
       return;
     }
     setShowError('');
+    setLoading(true);
     (async () => {
-      const levels = await getAllLevels(currentCompetency);
+      const levels = await getAllLevels(currentCompetency, setLoading);
       setLevelsWithQuestion(levels?.levelsWithQuestion);
       setCurrentLevelsAndQuestions(levels?.levelsWithQuestion);
     })();
@@ -98,13 +100,14 @@ const QuestionBank = () => {
           </div>
         </div>
         {/* question */}
+
         {currentCompetency &&
           viewQuestions &&
           (currentLevelsAnsQuestions.length ? (
             <Questions levelsWithQuestion={currentLevelsAnsQuestions} />
           ) : (
             <div className='mt-10 pl-6 text-[18px] font-semibold leading-6 text-[#385B8B]'>
-              No Question Found in this competency
+              {loading ? 'Loading...' : 'No Question Found in this competency'}
             </div>
           ))}
       </div>
