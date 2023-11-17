@@ -26,11 +26,14 @@ const SurveyTable = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  // to fetch survey config details after new survey form create or update
-  // const [fetchData, setFetchData] = useState(true);
-
   const [userSurveyData, setUserSurveyData] = useState<SurveyDataType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  // will sort  start date by descending order
+  const sortedSurveyData: SurveyDataType[] = [...userSurveyData]?.sort(
+    (a: SurveyDataType, b: SurveyDataType) =>
+      new Date(b?.startTime).valueOf() - new Date(a?.startTime).valueOf()
+  );
 
   const [editValue, setEditValue] = useState<SurveyDataType>(
     getEmptySurveyData()
@@ -154,8 +157,8 @@ const SurveyTable = ({
 
           {!loading &&
             !error &&
-            userSurveyData.length > 0 &&
-            userSurveyData?.map((user) => {
+            sortedSurveyData.length > 0 &&
+            sortedSurveyData?.map((user) => {
               const { endTime, startTime, surveyName, id } = user;
               return (
                 <>
