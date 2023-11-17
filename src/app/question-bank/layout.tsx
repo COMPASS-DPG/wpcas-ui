@@ -8,13 +8,24 @@ import ContextWrapper from '@/app/context/ContextWrapper';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const url =
+  const createUrl =
     pathname?.includes('/create-question-bank') ||
     pathname?.includes('/edit-question-bank');
+
+  const editUrl = pathname?.includes('/edit-question-bank');
+
   return (
     <ContextWrapper>
       <div className='w-screen bg-[#F7F9FC]'>
-        <TopNavbar menu={`${url ? 'Create Question Bank' : 'WPCAS'}`} />
+        <TopNavbar
+          menu={`${
+            createUrl
+              ? editUrl
+                ? 'Edit Question Bank'
+                : 'Create Question Bank'
+              : 'WPCAS'
+          }`}
+        />
         {children}
       </div>
     </ContextWrapper>
