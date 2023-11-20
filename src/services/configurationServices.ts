@@ -5,18 +5,16 @@ export const getConfigurationList = async () => {
   return data.data.data;
 };
 
-// export const downloadUserList = async () => {
-//   const data = await axios.get(
-//     'http://localhost:3000/api/mockFracService/user'
-//   );
-//   return data.data.data;
-// };
+export const downloadUserList = async () => {
+  const data = await axios.get('http://localhost:3000/api/user-metadata');
+  return data.data.data;
+};
 
 export const downloadAssessesList = async () => {
   const data = await axios.get(
     'http://localhost:3000/api/survey-config/user-mapping-sample'
   );
-  return data.data;
+  return data.data.data;
 };
 
 export const createSurveyConfig = async (payload: FormData) => {

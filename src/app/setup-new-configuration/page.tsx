@@ -1,7 +1,6 @@
 'use client';
 import exportFromJSON from 'export-from-json';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { outfit } from '@/components/FontFamily';
 import SubNavbar from '@/components/navbar/SubNavbar';
@@ -12,7 +11,10 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm from '@/components/wpcasOverView/SetupConfigurationForm';
 import SurveyTable from '@/components/wpcasOverView/SurveyTable';
 
-import { downloadAssessesList } from '@/services/configurationServices';
+import {
+  downloadAssessesList,
+  downloadUserList,
+} from '@/services/configurationServices';
 
 const assessmentGuidelines = [
   'Duis 2 aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
@@ -41,12 +43,11 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
 
   const handleAssessesFileDownload = () => {
     (async () => {
-      const response = await downloadAssessesList();
-      const data = response?.data;
+      const data = await downloadAssessesList();
       const fileName = 'assesses-file-template';
       const exportType = exportFromJSON.types.csv;
       exportFromJSON({ data, fileName, exportType });
-      toast.success(response?.message);
+      // toast.success(response?.message);
     })();
   };
 
@@ -57,20 +58,19 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
 
   // for download userList
   const handleUserListDownload = () => {
-    return null;
-    // (async () => {
-    //   const response = await downloadUserList();
-    //   const data = response?.map((item: DownloadUserListType) => {
-    //     return {
-    //       ...item,
-    //       Level: item?.Level?.levelNumber,
-    //       Department: item?.Department?.name,
-    //     };
-    //   });
-    //   const fileName = 'user-list';
-    //   const exportType = exportFromJSON.types.csv;
-    //   exportFromJSON({ data, fileName, exportType });
-    // })();
+    (async () => {
+      const data = await downloadUserList();
+      // const data = response?.map((item: DownloadUserListType) => {
+      //   return {
+      //     ...item,
+      //     Level: item?.Level?.levelNumber,
+      //     Department: item?.Department?.name,
+      //   };
+      // });
+      const fileName = 'user-list';
+      const exportType = exportFromJSON.types.csv;
+      exportFromJSON({ data, fileName, exportType });
+    })();
   };
 
   return (

@@ -62,7 +62,7 @@ const Wpcas = () => {
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>
-      <WpcasNavbar />
+      <WpcasNavbar heading='WPCAS' />
       {loading && <div className='mt-[100px] text-center'>Loading...</div>}
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
