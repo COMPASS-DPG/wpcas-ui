@@ -41,3 +41,13 @@ export const getUserList = async () => {
   const data = await axios.get('http://localhost:3000/api/survey/home-screen');
   return data.data.data;
 };
+
+export const getSettlementsData = async () => {
+  const data = await axios.get('http://localhost:8080/settlement');
+  return data.data;
+};
+
+export const getUserWalletDetails = async () => {
+  const data = await axios.get('http://localhost:8080/wallet');
+  return data.data;
+};

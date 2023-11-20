@@ -1,35 +1,31 @@
 'use client';
 
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
-import ConfirmSettlement from '@/components/settlements/ConfirmSettlement';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
-import CommonModal from '@/components/uiComponents/CommonModal';
 import Pagination from '@/components/wpcasOverView/Pagination';
 import SearchUser from '@/components/wpcasOverView/SearchUser';
 
-import { SettlementDataType } from '@/app/3cp/settlements/page';
-
-import groupProfileImage from '~/images/group-profile-users.png';
+import { UserWalletDataType } from '@/app/user-management/user-wallet/page';
 
 type PropType = {
-  userData: SettlementDataType[];
-  filterUserData: SettlementDataType[];
-  setFilterUserData: (arg: SettlementDataType[]) => void;
+  userData: UserWalletDataType[];
+  filterUserData: UserWalletDataType[];
+  setFilterUserData: (arg: UserWalletDataType[]) => void;
 };
 
-const SettlementsTable = ({
+const UserWalletTable = ({
   userData,
   setFilterUserData,
   filterUserData,
 }: PropType) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [searchInput, setSearchInput] = useState<string>('');
+
+  const router = useRouter();
 
   const totalPages = Math.ceil(filterUserData?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -38,7 +34,7 @@ const SettlementsTable = ({
 
   const handleSearch = (value: string) => {
     const newData = userData?.filter((item) => {
-      const nameMatch = item?.thirdPartyCourseProvide
+      const nameMatch = item?.userName
         ?.toLowerCase()
         .includes(value.toLowerCase());
       return nameMatch;
@@ -48,23 +44,12 @@ const SettlementsTable = ({
     if (currentPage != 1) setCurrentPage(1);
   };
 
-  const handleSettlement = () => {
-    setIsOpen(true);
-  };
-
   return (
     <>
-      <CommonModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        isCrossShow={false}
-      >
-        <ConfirmSettlement onClose={() => setIsOpen(false)} />
-      </CommonModal>
       <SearchUser
         value={searchInput}
         onChange={(value) => handleSearch(value)}
-        placeholder='Search Course Provider'
+        placeholder='Search User'
       />
       <div className='relative overflow-x-auto shadow-md sm:rounded-md'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
@@ -73,30 +58,32 @@ const SettlementsTable = ({
           >
             <tr>
               <th scope='col' className='px-6 py-3 text-sm font-normal'>
-                Sr No
+                User Id
               </th>
               <th scope='col' className='px-6 py-3 text-sm font-normal'>
-                Third Party Course Providers
+                User Name
+              </th>
+              <th scope='col' className='px-6 py-3 text-sm font-normal'>
+                Role
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-center text-sm font-normal'
               >
-                Total Courses
+                Course Purchased
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-center text-sm font-normal'
               >
-                Active Users
+                Wallet Balance
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-center text-sm font-normal'
               >
-                Total Credits
+                Action
               </th>
-              <th scope='col' className='px-6 py-3 text-sm font-normal'></th>
             </tr>
           </thead>
           <tbody>
@@ -107,50 +94,43 @@ const SettlementsTable = ({
                 <td
                   align='center'
                   colSpan={6}
-                  className={` px-6 py-[7px] text-center text-sm  font-normal text-[#272728]`}
+                  className={` px-6 py-3 text-center text-sm  font-normal text-[#272728]`}
                 >
                   No Result Found
                 </td>
               </tr>
             )}
             {currentData.length > 0 &&
-              currentData?.map((user: SettlementDataType, index: number) => {
+              currentData?.map((user: UserWalletDataType) => {
                 return (
                   <tr
-                    key={user?.id}
+                    key={user?.userId}
                     className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
                   >
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {index + 1}
+                      {user?.userId}
                     </td>
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      <div className='flex items-center gap-2'>
-                        <Image
-                          src={groupProfileImage}
-                          alt='img'
-                          className='rounded-full'
-                          width={20}
-                          height={20}
-                        />
-                        {user?.thirdPartyCourseProvide}
-                      </div>
+                      {user.userName}
                     </td>
-                    <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.totalCourse}
+                    <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
+                      {user?.role}
                     </td>
 
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.activeUsers}
+                      {user?.coursePurchased}
                     </td>
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.totalCredits}
+                      {user?.walletBalance}
                     </td>
-                    <td className='flex justify-end px-6 py-[7px] text-sm font-normal text-[#272728]'>
+                    <td className='flex justify-center px-6 py-[7px] text-sm font-normal text-[#272728]'>
                       <ButtonFill
-                        onClick={handleSettlement}
-                        classes='bg-[#26292D]'
+                        onClick={() =>
+                          router.push('/user-management/user-wallet/1')
+                        }
+                        classes='bg-[#385B8B]'
                       >
-                        Settle
+                        Add/view wallet
                       </ButtonFill>
                     </td>
                   </tr>
@@ -171,4 +151,4 @@ const SettlementsTable = ({
   );
 };
 
-export default SettlementsTable;
+export default UserWalletTable;

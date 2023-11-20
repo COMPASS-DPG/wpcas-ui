@@ -131,7 +131,7 @@ const SideNavbar = () => {
           </li>
           <li className={`text-base font-medium ${outfit.className}`}>
             <ul>
-              <Link href='/user-wallet'>
+              <Link href='/user-management/user-wallet'>
                 <li
                   className={`my-2 flex py-2 pl-7 text-sm font-normal
                                   ${

@@ -1,23 +1,23 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import SettlementsTable from '@/components/settlements/SettlementsTable';
+import UserWalletTable from '@/components/userManagement/UserWalletTable';
 
-import { getSettlementsData } from '@/services/configurationServices';
+import { getUserWalletDetails } from '@/services/configurationServices';
 
-export type SettlementDataType = {
-  id: string;
-  thirdPartyCourseProvide: string;
-  totalCourse: number;
-  activeUsers: number;
-  totalCredits: number;
+export type UserWalletDataType = {
+  userId: string;
+  userName: string;
+  role: string;
+  coursePurchased: number;
+  walletBalance: string;
 };
 
-const Settlements = () => {
-  const [filterUserData, setFilterUserData] = useState<SettlementDataType[]>(
+const Wallet = () => {
+  const [filterUserData, setFilterUserData] = useState<UserWalletDataType[]>(
     []
   );
-  const [userData, setUserData] = useState<SettlementDataType[]>([]);
+  const [userData, setUserData] = useState<UserWalletDataType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -25,7 +25,7 @@ const Settlements = () => {
     (async () => {
       setLoading(true);
       try {
-        const data = await getSettlementsData();
+        const data = await getUserWalletDetails();
         setLoading(false);
         setUserData(data);
         setFilterUserData(data);
@@ -45,7 +45,7 @@ const Settlements = () => {
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
         <div className='mb-[110px] px-[40px] py-[10px] '>
-          <SettlementsTable
+          <UserWalletTable
             userData={userData}
             filterUserData={filterUserData}
             setFilterUserData={(value) => setFilterUserData(value)}
@@ -56,4 +56,4 @@ const Settlements = () => {
   );
 };
 
-export default Settlements;
+export default Wallet;
