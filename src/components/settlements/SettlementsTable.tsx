@@ -100,20 +100,7 @@ const SettlementsTable = ({
             </tr>
           </thead>
           <tbody>
-            {currentData.length == 0 && (
-              <tr
-                className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
-              >
-                <td
-                  align='center'
-                  colSpan={6}
-                  className={` px-6 py-[7px] text-center text-sm  font-normal text-[#272728]`}
-                >
-                  No Result Found
-                </td>
-              </tr>
-            )}
-            {currentData.length > 0 &&
+            {currentData?.length > 0 ? (
               currentData?.map((user: SettlementDataType, index: number) => {
                 return (
                   <tr
@@ -155,7 +142,20 @@ const SettlementsTable = ({
                     </td>
                   </tr>
                 );
-              })}
+              })
+            ) : (
+              <tr
+                className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
+              >
+                <td
+                  align='center'
+                  colSpan={6}
+                  className={` px-6 py-3 text-center text-sm  font-normal text-[#272728]`}
+                >
+                  No Result Found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         <Pagination

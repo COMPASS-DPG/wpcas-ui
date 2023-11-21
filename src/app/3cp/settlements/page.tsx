@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import SettlementsTable from '@/components/settlements/SettlementsTable';
+import Spinner from '@/components/Spinner';
 
 import { getSettlementsData } from '@/services/configurationServices';
 
@@ -18,12 +19,11 @@ const Settlements = () => {
     []
   );
   const [userData, setUserData] = useState<SettlementDataType[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       try {
         const data = await getSettlementsData();
         setLoading(false);
@@ -41,7 +41,11 @@ const Settlements = () => {
 
   return (
     <>
-      {loading && <div className='mt-[100px] text-center'>Loading...</div>}
+      {loading && (
+        <div className='mt-[100px] text-center'>
+          <Spinner />
+        </div>
+      )}
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
         <div className='mb-[110px] px-[40px] py-[10px] '>

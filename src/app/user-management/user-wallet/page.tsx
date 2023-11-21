@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
+import Spinner from '@/components/Spinner';
 import UserWalletTable from '@/components/userManagement/UserWalletTable';
 
 import { getUserWalletDetails } from '@/services/configurationServices';
@@ -18,12 +19,11 @@ const Wallet = () => {
     []
   );
   const [userData, setUserData] = useState<UserWalletDataType[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       try {
         const data = await getUserWalletDetails();
         setLoading(false);
@@ -41,7 +41,11 @@ const Wallet = () => {
 
   return (
     <>
-      {loading && <div className='mt-[100px] text-center'>Loading...</div>}
+      {loading && (
+        <div className='mt-[100px] text-center'>
+          <Spinner />
+        </div>
+      )}
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
         <div className='mb-[110px] px-[40px] py-[10px] '>
