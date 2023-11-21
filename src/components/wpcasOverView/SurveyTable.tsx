@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 
 import { outfit } from '@/components/FontFamily';
+import Spinner from '@/components/Spinner';
 import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm, {
   getEmptySurveyData,
@@ -23,7 +24,7 @@ const SurveyTable = ({
   setFetchData,
   fetchData,
 }: PropType) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const [userSurveyData, setUserSurveyData] = useState<SurveyDataType[]>([]);
@@ -55,7 +56,6 @@ const SurveyTable = ({
   useEffect(() => {
     if (fetchData) {
       (async () => {
-        setLoading(true);
         try {
           const data = await getConfigurationList();
           setLoading(false);
@@ -112,16 +112,14 @@ const SurveyTable = ({
 
         <tbody>
           {loading && (
-            <tr
-              className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
-            >
+            <tr className={`bg-white hover:bg-gray-50 ${outfit.className}`}>
               <td
                 align='center'
                 colSpan={4}
                 className={` px-6 py-[14px] text-center 
              text-sm  font-normal text-[#272728]`}
               >
-                Loading...
+                <Spinner classes='h-10 w-10' />
               </td>
             </tr>
           )}

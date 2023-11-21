@@ -11,17 +11,12 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import SetupConfigurationForm from '@/components/wpcasOverView/SetupConfigurationForm';
 import SurveyTable from '@/components/wpcasOverView/SurveyTable';
 
+import { assessmentGuidelines } from '@/app/contantData/constant-data';
 import {
   downloadAssessesList,
   downloadUserList,
 } from '@/services/configurationServices';
 
-const assessmentGuidelines = [
-  'Duis 2 aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
-  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
-  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
-  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat',
-];
 export type SurveyDataType = {
   id: string;
   surveyName: string;
@@ -47,7 +42,6 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
       const fileName = 'assesses-file-template';
       const exportType = exportFromJSON.types.csv;
       exportFromJSON({ data, fileName, exportType });
-      // toast.success(response?.message);
     })();
   };
 
@@ -60,13 +54,6 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
   const handleUserListDownload = () => {
     (async () => {
       const data = await downloadUserList();
-      // const data = response?.map((item: DownloadUserListType) => {
-      //   return {
-      //     ...item,
-      //     Level: item?.Level?.levelNumber,
-      //     Department: item?.Department?.name,
-      //   };
-      // });
       const fileName = 'user-list';
       const exportType = exportFromJSON.types.csv;
       exportFromJSON({ data, fileName, exportType });
@@ -133,7 +120,7 @@ const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
         </div>
         <div className=' ml-5 h-[60vh] overflow-y-scroll pr-5'>
           <ol className='list-decimal pl-4'>
-            {assessmentGuidelines.map((item, index) => (
+            {assessmentGuidelines?.map((item, index) => (
               <li
                 key={index}
                 className='my-2 text-sm font-normal text-[#65758C]'
