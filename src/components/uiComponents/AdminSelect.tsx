@@ -3,7 +3,9 @@ import Image from 'next/image';
 import React from 'react';
 import Select, { SingleValue } from 'react-select';
 
-import { OptionType, PropsType } from '@/components/uiComponents/SelectTag';
+import { PropsType } from '@/components/uiComponents/SelectTag';
+
+import { OptionType } from '@/app/propTypes';
 
 import Profile from '~/images/profile.png';
 
