@@ -28,6 +28,26 @@
   /* #endregion  /**======== Primary Color =========== */
 }
 
+/* Style the scrollbar track (the area behind the thumb) */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust the width to make it thinner */
+}
+
+/* Style the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background-color: #e1dede; /* Change the color of the thumb */
+  border-radius: 4px; /* Add some border radius to make it rounded */
+}
+
+/* Style the scrollbar track on hover */
+::-webkit-scrollbar:hover {
+  width: 12px; /* Adjust the width on hover if desired */
+}
+
+.scrollBox::-webkit-scrollbar {
+  /* display: none; */
+}
+
 @layer base {
   /* inter var - latin */
   @font-face {
@@ -142,6 +162,11 @@
   padding-bottom: 0.2rem;
   padding-left: 0.7rem;
   border-radius: 0.25rem;
+}
+
+.react-select__input input:focus,
+.react-select__input input:active {
+  outline: none;
 }
 
 /* Selected date color */

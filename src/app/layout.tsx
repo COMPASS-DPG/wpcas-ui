@@ -1,9 +1,13 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+import SideNavbar from '@/components/navbar/SideNavbar';
 
 import { siteConfig } from '@/constant/config';
 
@@ -55,7 +59,24 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <div className='flex '>
+          <SideNavbar />
+          {children}
+          <ToastContainer
+            position='top-right'
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='colored'
+          />
+        </div>
+      </body>
     </html>
   );
 }
