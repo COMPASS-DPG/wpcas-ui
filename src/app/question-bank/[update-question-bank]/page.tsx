@@ -122,7 +122,7 @@ const CreateQuestionBank = () => {
         questionPresent: false,
       },
     ];
-    const updatedRemainingLevels = levelsWithoutQuestion.filter(
+    const updatedRemainingLevels = levelsWithoutQuestion?.filter(
       (item) => item.value !== level
     );
 
@@ -138,9 +138,9 @@ const CreateQuestionBank = () => {
       }
     }
     // Task 1: Check each deleteQuestion, remove if present in the questions array
-    const filteredDeleteQuestions = finalObj.deleteQuestions.filter(
+    const filteredDeleteQuestions = finalObj?.deleteQuestions?.filter(
       (questionId) =>
-        !levelsWithQuestion.some(
+        !levelsWithQuestion?.some(
           (question) => question.questionId === questionId
         )
     );
@@ -200,7 +200,7 @@ const CreateQuestionBank = () => {
           heading={loading ? 'Loading....' : 'Add Level & Questions'}
         />
       )}
-      {levelsWithQuestion.map((question: levelsWithQuestionType) => {
+      {levelsWithQuestion?.map((question: levelsWithQuestionType) => {
         return (
           <SavedLevels
             key={question.competencyLevelName}
