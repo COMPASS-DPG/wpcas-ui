@@ -7,10 +7,12 @@ import AdminSelect from '@/components/uiComponents/AdminSelect';
 
 import BellLogo from '~/svg/bellLogo.svg';
 
-const WpcasNavbar = () => {
+const WpcasNavbar = ({ heading }: { heading?: string }) => {
   return (
     <nav className='flex items-center justify-between bg-white px-[14px] '>
-      <div className={`text-2xl font-semibold ${outfit.className}`}>WPCAS</div>
+      <div className={`text-2xl font-semibold ${outfit.className}`}>
+        {heading ? heading : 'WPCAS'}
+      </div>
       <div className='flex gap-x-11'>
         <BellLogo className='w-[24px]' />
         <AdminSelect
