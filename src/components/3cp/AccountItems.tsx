@@ -3,26 +3,19 @@ import SingleAccount from '@/components/3cp/SingleAccount';
 import { accountType } from '@/app/account-verification/page';
 
 const AccountItems = ({
-  activeComponenet,
+  activeSection,
   accountList,
 }: {
-  activeComponenet: string;
+  activeSection: string;
   accountList: accountType[];
 }) => {
   return (
     <div className='flex flex-col gap-2.5'>
-      {/* Review Courses PopUp */}
-
-      {/* <CommonModal isOpen={showReviewPopUp} onClose={() => null}> */}
-      {/* <ReviewCourse /> */}
-      {/* <RejectedReason /> */}
-      {/* </CommonModal> */}
-
       {accountList.map((account) => {
         return (
           <SingleAccount
-            key={account.userId}
-            activeComponenet={activeComponenet}
+            key={account?.userId}
+            activeSection={activeSection}
             account={account}
           />
         );

@@ -1,7 +1,8 @@
 'use client';
 
-import { outfit } from '@/components/FontFamily';
+import { usePathname } from 'next/navigation';
 
+import { outfit } from '@/components/FontFamily';
 const MarketPlaceNavbar = ({
   activeSection,
   setActiveSection,
@@ -9,18 +10,21 @@ const MarketPlaceNavbar = ({
 }: {
   activeSection: string;
   setActiveSection: (value: string) => void;
-  filterCourse?: (value: string) => void;
+  filterCourse: (value: string) => void;
 }) => {
   const handleClick = (type: string) => {
     setActiveSection(type);
-    if (type === 'approvedSection' && filterCourse) {
+    if (type === 'approvedSection') {
       filterCourse('approved');
-    } else if (type === 'pendingSection' && filterCourse) {
+    } else if (type === 'pendingSection') {
       filterCourse('pending');
-    } else if (type === 'rejectedSection' && filterCourse) {
+    } else if (type === 'rejectedSection') {
       filterCourse('rejected');
     }
   };
+  const pathname = usePathname();
+  const isAccountVerificationPage = pathname?.includes('/account-verification');
+
   return (
     <div
       className={`border-[#ECECEC]' mx-5 mt-5 flex justify-between border-b-2 ${outfit.className}`}
@@ -58,7 +62,7 @@ const MarketPlaceNavbar = ({
             }`}
             onClick={() => handleClick('approvedSection')}
           >
-            Approved Courses
+            Approved {isAccountVerificationPage ? '3CP' : 'Courses'}
           </nav>
         </div>
         <div
@@ -75,7 +79,7 @@ const MarketPlaceNavbar = ({
             }`}
             onClick={() => handleClick('rejectedSection')}
           >
-            Rejected Course
+            Rejected {isAccountVerificationPage ? '3CP' : 'Courses'}
           </nav>
         </div>
       </div>

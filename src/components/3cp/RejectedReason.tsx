@@ -6,18 +6,21 @@ import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
 const RejectedReason = ({
   setShowReviewReasonPopUp,
+  heading,
 }: {
   setShowReviewReasonPopUp: (value: boolean) => void;
+  heading?: string;
 }) => {
+  const [text, setText] = useState('');
+
   const handleProceedButton = () => {
     //call api to handle the proceed button
     setShowReviewReasonPopUp(false);
   };
-  const [text, setText] = useState('');
   return (
     <div className={`${outfit} mx-3 mt-2`}>
       <p className='mb-8 text-[20px] font-semibold leading-6 text-[#272728]'>
-        Describe Rejection Reason
+        {heading ? 'Account Rejection Reason' : 'Describe Rejection Reason'}
       </p>
       <div className='flex flex-col'>
         <label

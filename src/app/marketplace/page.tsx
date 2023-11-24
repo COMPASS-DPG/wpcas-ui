@@ -105,7 +105,7 @@ const MarketPlace = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); // Fetch data when the component mounts
+  }, []);
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>
