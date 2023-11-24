@@ -28,8 +28,8 @@ export type SurveyDataType = {
   onboardingTime: string;
 };
 
-const SetupNewSurvey = ({ visible }: { visible: boolean }) => {
-  const [isOpen, setIsOpen] = useState(visible);
+const SetupNewSurvey = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isSuccessPopUpOpen, setIsSuccessPopUpOpen] = useState(false);
   const [isNewForm, setIsNewForm] = useState(false);
 
