@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import RejectedReason from '@/components/3cp/RejectedReason';
 import RejectSummary from '@/components/3cp/RejectSummary';
@@ -37,6 +37,7 @@ const SingleAccount = ({
           heading='Account Rejection Reason'
         />
       </CommonModal>
+      {/* head line */}
       <div className='flex justify-between'>
         <div className='flex items-center gap-3'>
           <Image
@@ -83,50 +84,29 @@ const SingleAccount = ({
       {/* details */}
       <div className='mr-[200px] flex justify-between'>
         <div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>
-              Name of moderator
-            </p>
-            <p className='text-[16px] '>{account?.name}</p>
-          </div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>Email Id</p>
-            <p className='text-[16px] '>{account?.email}</p>
-          </div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>Phone</p>
-            <p className='text-[16px] '>{account?.Phone}</p>
-          </div>
+          <SingleDetail subHeading='Name of moderator'>
+            {account?.name}
+          </SingleDetail>
+          <SingleDetail subHeading='Email Id'>{account?.email}</SingleDetail>
+          <SingleDetail subHeading='Phone'>{account?.Phone}</SingleDetail>
         </div>
         <div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>Bank</p>
-            <p className='text-[16px] '>{account?.bank}</p>
-          </div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>Branch</p>
-            <p className='text-[16px] '>{account?.branch}</p>
-          </div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>
-              Account Number
-            </p>
-            <p className='text-[16px] '>{account?.accountNumber}</p>
-          </div>
+          <SingleDetail subHeading='Bank'>{account?.bank}</SingleDetail>
+          <SingleDetail subHeading='Branch'>{account?.branch}</SingleDetail>
+          <SingleDetail subHeading='Account Number'>
+            {account?.accountNumber}
+          </SingleDetail>
         </div>
         <div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>IFSC Code</p>
-            <p className='text-[16px] '>{account?.ifscCode}</p>
-          </div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>PAN Number</p>
-            <p className='text-[16px] '>{account?.panNumber}</p>
-          </div>
-          <div className=' my-4 flex flex-col gap-1'>
-            <p className='text-[14px] font-medium text-[#6F747E]'>GST Number</p>
-            <p className='text-[16px] '>{account?.gstNumber}</p>
-          </div>
+          <SingleDetail subHeading='IFSC Code'>
+            {account?.ifscCode}
+          </SingleDetail>
+          <SingleDetail subHeading='PAN Number'>
+            {account?.panNumber}
+          </SingleDetail>
+          <SingleDetail subHeading='GST Number'>
+            {account?.gstNumber}
+          </SingleDetail>
         </div>
       </div>
 
@@ -135,6 +115,21 @@ const SingleAccount = ({
           <RejectSummary />
         </div>
       )}
+    </div>
+  );
+};
+
+const SingleDetail = ({
+  children,
+  subHeading,
+}: {
+  children: React.ReactNode;
+  subHeading: string;
+}) => {
+  return (
+    <div className=' my-4 flex flex-col gap-1'>
+      <p className='text-[14px] font-medium text-[#6F747E]'>{subHeading}</p>
+      <p className='text-[16px] '>{children}</p>
     </div>
   );
 };
