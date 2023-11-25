@@ -29,7 +29,11 @@ const LevelAndQuestion = ({
           <SelectTag
             options={DEPARTMENT_OPTIONS}
             value={level}
-            onChange={(option) => setLevel(option)}
+            onChange={(option) => {
+              if (typeof option === 'string') {
+                setLevel(option);
+              }
+            }}
             width='710px'
             placeholder='Department'
             paddingY='2px'
