@@ -14,13 +14,7 @@ const MarketPlaceNavbar = ({
 }) => {
   const handleClick = (type: string) => {
     setActiveSection(type);
-    if (type === 'approvedSection') {
-      filterCourse('approved');
-    } else if (type === 'pendingSection') {
-      filterCourse('pending');
-    } else if (type === 'rejectedSection') {
-      filterCourse('rejected');
-    }
+    filterCourse(type);
   };
   const pathname = usePathname();
   const isAccountVerificationPage = pathname?.includes('/account-verification');
@@ -32,52 +26,44 @@ const MarketPlaceNavbar = ({
       <div className='flex  gap-5'>
         <div
           className={`flex justify-center px-2.5 pb-4 pt-2.5 align-middle ${
-            activeSection === 'pendingSection'
-              ? 'border-b-[3px] border-black'
-              : ''
+            activeSection === 'PENDING' ? 'border-b-[3px] border-black' : ''
           } `}
         >
           <nav
             className={`cursor-pointer text-[20px] font-semibold  ${
-              activeSection == 'pendingSection'
-                ? 'text-[#272728]'
-                : 'text-[#65758C]'
+              activeSection == 'PENDING' ? 'text-[#272728]' : 'text-[#65758C]'
             }`}
-            onClick={() => handleClick('pendingSection')}
+            onClick={() => handleClick('PENDING')}
           >
             Approval Pending
           </nav>
         </div>
         <div
           className={`flex justify-center px-2.5 pb-4 pt-2.5 align-middle ${
-            activeSection == 'approvedSection' && 'border-b-[3px] border-black'
+            activeSection == 'ACCEPTED' && 'border-b-[3px] border-black'
           } `}
         >
           {' '}
           <nav
             className={`cursor-pointer text-[20px] font-semibold  ${
-              activeSection == 'approvedSection'
-                ? 'text-[#272728]'
-                : 'text-[#65758C]'
+              activeSection == 'ACCEPTED' ? 'text-[#272728]' : 'text-[#65758C]'
             }`}
-            onClick={() => handleClick('approvedSection')}
+            onClick={() => handleClick('ACCEPTED')}
           >
             Approved {isAccountVerificationPage ? '3CP' : 'Courses'}
           </nav>
         </div>
         <div
           className={`flex justify-center px-2.5 pb-4 pt-2.5 align-middle ${
-            activeSection == 'rejectedSection' && 'border-b-[3px] border-black'
+            activeSection == 'REJECTED' && 'border-b-[3px] border-black'
           } `}
         >
           {' '}
           <nav
             className={`cursor-pointer text-[20px] font-semibold  ${
-              activeSection == 'rejectedSection'
-                ? 'text-[#272728]'
-                : 'text-[#65758C]'
+              activeSection == 'REJECTED' ? 'text-[#272728]' : 'text-[#65758C]'
             }`}
-            onClick={() => handleClick('rejectedSection')}
+            onClick={() => handleClick('REJECTED')}
           >
             Rejected {isAccountVerificationPage ? '3CP' : 'Courses'}
           </nav>

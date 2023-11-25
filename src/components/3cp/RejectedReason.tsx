@@ -1,21 +1,39 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { outfit } from '@/components/FontFamily';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
+import { rejectCourse } from '@/services/marketPlaceServices';
+
 const RejectedReason = ({
   setShowReviewReasonPopUp,
   heading,
+  id,
+  fetchData,
 }: {
   setShowReviewReasonPopUp: (value: boolean) => void;
   heading?: string;
+  id?: number;
+  fetchData?: () => void;
 }) => {
   const [text, setText] = useState('');
+  const [error, setError] = useState<boolean>(false);
 
-  const handleProceedButton = () => {
+  const handleProceedButton = async () => {
     //call api to handle the proceed button
-    setShowReviewReasonPopUp(false);
+    if (text === '' || !id || !fetchData) {
+      setError(true);
+      return;
+    }
+    try {
+      await rejectCourse(id, text);
+      await fetchData();
+      setShowReviewReasonPopUp(false);
+    } catch (error) {
+      toast.error('somethings went wrong');
+    }
   };
   return (
     <div className={`${outfit} mx-3 mt-2`}>
@@ -30,15 +48,23 @@ const RejectedReason = ({
           Rejection Reason
         </label>
         <textarea
-          name='Enter...'
-          id=''
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value);
+            setError(false);
+          }}
           cols={30}
           rows={10}
-          placeholder=''
-          className='rounded-lg border border-[#E3E7EF] bg-[#fff] text-[16px] leading-5'
+          placeholder='Enter...'
+          className={`rounded-lg border ${
+            error ? 'border-[red]' : 'border-[#E3E7EF]'
+          } border-[#E3E7EF] bg-[#fff] text-[16px] leading-5`}
         ></textarea>
+        {error && (
+          <div className='text-[14px] font-medium text-[red]'>
+            Rejection Reason should not be Empty
+          </div>
+        )}
         <div className='mb-4 mt-6 flex gap-9'>
           <ButtonOutline
             classes='border-[#000] w-[150px]'

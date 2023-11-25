@@ -3,17 +3,26 @@ import { SearchIcon } from 'lucide-react';
 import React from 'react';
 
 import { SearchInputType } from '@/components/3cp/CourseSection';
-import { DEPARTMENT_OPTIONS } from '@/components/SelectOptions';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import SearchInput from '@/components/uiComponents/SearchInput';
 import SelectTag from '@/components/uiComponents/SelectTag';
+
+import { OptionType } from '@/app/propTypes';
 
 type PropType = {
   value: SearchInputType;
   onChange: (arg: SearchInputType) => void;
   handleSearch: () => void;
+  competencyOption: OptionType[];
+  languageOption: OptionType[];
 };
-const SearchCourse = ({ value, onChange, handleSearch }: PropType) => {
+const SearchCourse = ({
+  value,
+  onChange,
+  handleSearch,
+  competencyOption,
+  languageOption,
+}: PropType) => {
   return (
     <div className='my-7 flex flex-wrap justify-between gap-3'>
       <SearchInput
@@ -24,7 +33,7 @@ const SearchCourse = ({ value, onChange, handleSearch }: PropType) => {
         placeholder='Search Course by title'
       />
       <SelectTag
-        options={DEPARTMENT_OPTIONS}
+        options={competencyOption}
         value={value?.competency}
         onChange={(updatedValue) => {
           if (typeof updatedValue == 'string') {
@@ -36,7 +45,7 @@ const SearchCourse = ({ value, onChange, handleSearch }: PropType) => {
         paddingY='2px'
       />
       <SelectTag
-        options={DEPARTMENT_OPTIONS}
+        options={languageOption}
         value={value?.language}
         onChange={(updatedValue) => {
           if (typeof updatedValue == 'string') {

@@ -4,20 +4,19 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 
 import { outfit, poppins } from '@/components/FontFamily';
 
-type propType = {
-  key: number;
+type CompetencyType = {
   name: string;
   levels: string[];
 };
-
-const SingleCompetency = ({ competency }: { competency: propType }) => {
+const SingleCompetency = ({ competency }: { competency: CompetencyType }) => {
   const [open, setOpen] = useState(false);
-  const { name, levels } = competency;
   return (
     <div className={`${outfit.className} mb-3 text-[#272728]`}>
       <div className=' rounded-lg border p-2'>
         <div className='flex justify-between'>
-          <p className='text-[16px] font-medium leading-[18px]'>{name}</p>
+          <p className='text-[16px] font-medium leading-[18px]'>
+            {competency?.name}
+          </p>
           <div onClick={() => setOpen(!open)}>
             {open ? (
               <MdKeyboardArrowUp size='20px' />
@@ -35,7 +34,7 @@ const SingleCompetency = ({ competency }: { competency: propType }) => {
               </p>
             </div>
             <ul className='flex flex-col gap-2 pl-2'>
-              {levels.map((level, index) => {
+              {competency?.levels?.map((level, index) => {
                 return (
                   <li key={index} className='flex items-start'>
                     &bull; {level}

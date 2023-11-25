@@ -5,6 +5,7 @@ import SearchCourse from '@/components/3cp/SearchCourse';
 import { outfit } from '@/components/FontFamily';
 
 import { CourseType } from '@/app/marketplace/page';
+import { OptionType } from '@/app/propTypes';
 
 import EmptyBox from '~/svg/emptyBox.svg';
 
@@ -20,38 +21,86 @@ const getEmptyValue = () => {
 const CourseSection = ({
   activeSection,
   courseList,
+  fetchData,
 }: {
   activeSection: string;
   courseList: CourseType[];
+  fetchData: () => void;
 }) => {
   const [input, setInput] = useState<SearchInputType>(getEmptyValue());
+  const [competencyOption, setCompetencyOption] = useState<OptionType[]>([]);
+  const [languageOption, setLanguageOption] = useState<OptionType[]>([]);
   const [filterCourse, setFilterCourse] = useState<CourseType[]>([]);
   const handleSearch = () => {
-    //   // filter based on the  input
-    //   //filter from above courseList and set in present course list
-    //   // console.log(input);
-    //   // setFilterCourse([]);
+    const filteredCourses = courseList.filter((course) => {
+      const courseTitleLower = course.title.toLowerCase();
+      const inputCourseLower = input.course.toLowerCase();
+      const competencyMatch =
+        input.competency === '' ||
+        course.competency[input.competency]?.length > 0;
+
+      const languageMatch =
+        input.language === '' || course.language.includes(input.language);
+
+      return (
+        courseTitleLower.includes(inputCourseLower) &&
+        competencyMatch &&
+        languageMatch
+      );
+    });
+
+    setFilterCourse(filteredCourses);
   };
 
   useEffect(() => {
+    const allCompetencies: string[] = courseList.reduce<string[]>(
+      (competencies, course) =>
+        competencies.concat(Object.keys(course.competency)),
+      []
+    );
+    const uniqueCompetencies: string[] = Array.from(new Set(allCompetencies));
+
+    const competencyOptions: OptionType[] = uniqueCompetencies.map(
+      (competency) => ({
+        label: competency,
+        value: competency,
+      })
+    );
+    const allLanguages: string[] = courseList.reduce<string[]>(
+      (languages, course) => languages.concat(course.language),
+      []
+    );
+
+    const uniqueLanguages: string[] = Array.from(new Set(allLanguages));
+
+    const languageOptions: OptionType[] = uniqueLanguages.map((language) => ({
+      label: language,
+      value: language,
+    }));
+
+    setLanguageOption(languageOptions);
+    setCompetencyOption(competencyOptions);
     setFilterCourse(courseList);
   }, [courseList]);
   return (
     <div className={`mx-7 ${outfit.className}`}>
-      {filterCourse.length !== 0 ? (
+      {courseList?.length !== 0 ? (
         <div>
           <SearchCourse
             value={input}
             onChange={setInput}
+            competencyOption={competencyOption}
             handleSearch={handleSearch}
+            languageOption={languageOption}
           />
 
           <p className='my-2 text-[18px] font-medium leading-5 text-[#65758C]'>
-            {courseList.length} Courses
+            {filterCourse?.length} Courses
           </p>
           <CourseItems
             activeSection={activeSection}
             courseList={filterCourse}
+            fetchData={fetchData}
           />
         </div>
       ) : (
