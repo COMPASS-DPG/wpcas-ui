@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import SubNavbar from '@/components/navbar/SubNavbar';
+import Spinner from '@/components/Spinner';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import SelectTag from '@/components/uiComponents/SelectTag';
 
@@ -107,7 +108,7 @@ const QuestionBank = () => {
             <Questions levelsWithQuestion={currentLevelsAnsQuestions} />
           ) : (
             <div className='mt-10 pl-6 text-[18px] font-semibold leading-6 text-[#385B8B]'>
-              {loading ? 'Loading...' : 'No Question Found in this competency'}
+              {loading ? <Spinner /> : 'No Question Found in this competency'}
             </div>
           ))}
       </div>

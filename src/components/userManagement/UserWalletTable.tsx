@@ -1,31 +1,22 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
+import ButtonFill from '@/components/uiComponents/ButtonFill';
 import Pagination from '@/components/wpcasOverView/Pagination';
 import SearchUser from '@/components/wpcasOverView/SearchUser';
 
-export type UserListType = {
-  userId: string;
-  userName: string;
-  wpcasScore: string;
-  surveysFilled: number;
-  surveysToBeFilled: number;
-  dateOfJoining: Date;
-  isNewEmployee: boolean;
-  designation: string;
-  isAdmin: boolean;
-  profilePicture: string;
-};
+import { UserWalletDataType } from '@/app/user-management/user-wallet/page';
 
 type PropType = {
-  userData: UserListType[];
-  filterUserData: UserListType[];
-  setFilterUserData: (arg: UserListType[]) => void;
+  userData: UserWalletDataType[];
+  filterUserData: UserWalletDataType[];
+  setFilterUserData: (arg: UserWalletDataType[]) => void;
 };
 
-const UserTable = ({
+const UserWalletTable = ({
   userData,
   setFilterUserData,
   filterUserData,
@@ -33,6 +24,8 @@ const UserTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [searchInput, setSearchInput] = useState<string>('');
+
+  const router = useRouter();
 
   const totalPages = Math.ceil(filterUserData?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -55,9 +48,8 @@ const UserTable = ({
     <>
       <SearchUser
         value={searchInput}
-        placeholder='Search User'
         onChange={(value) => handleSearch(value)}
-        // handleSearch={() => null}
+        placeholder='Search User'
       />
       <div className='relative overflow-x-auto shadow-md sm:rounded-md'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
@@ -71,26 +63,26 @@ const UserTable = ({
               <th scope='col' className='px-6 py-3 text-sm font-normal'>
                 User Name
               </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-center text-sm font-normal'
-              >
-                WPCAS
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-center text-sm font-normal'
-              >
-                Surveys Filled
-              </th>
-              <th
-                scope='col'
-                className='px-6 py-3 text-center text-sm font-normal'
-              >
-                Survey yet to Filled
-              </th>
               <th scope='col' className='px-6 py-3 text-sm font-normal'>
-                Onboarding On
+                Role
+              </th>
+              <th
+                scope='col'
+                className='px-6 py-3 text-center text-sm font-normal'
+              >
+                Course Purchased
+              </th>
+              <th
+                scope='col'
+                className='px-6 py-3 text-center text-sm font-normal'
+              >
+                Wallet Balance
+              </th>
+              <th
+                scope='col'
+                className='px-6 py-3 text-center text-sm font-normal'
+              >
+                Action
               </th>
             </tr>
           </thead>
@@ -102,40 +94,44 @@ const UserTable = ({
                 <td
                   align='center'
                   colSpan={6}
-                  className={` px-6 py-[14px] text-center 
-             text-sm  font-normal text-[#272728]`}
+                  className={` px-6 py-3 text-center text-sm  font-normal text-[#272728]`}
                 >
                   No Result Found
                 </td>
               </tr>
             )}
             {currentData.length > 0 &&
-              currentData?.map((user: UserListType) => {
+              currentData?.map((user: UserWalletDataType) => {
                 return (
                   <tr
                     key={user?.userId}
                     className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
                   >
-                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
+                    <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
                       {user?.userId}
                     </td>
-                    <td className='px-6 py-[14px] text-sm font-normal text-[#272728]'>
-                      {user?.userName}
+                    <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
+                      {user.userName}
                     </td>
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.wpcasScore ? user?.wpcasScore : '--'}
+                    <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
+                      {user?.role}
                     </td>
 
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.surveysFilled}
+                    <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
+                      {user?.coursePurchased}
                     </td>
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.surveysToBeFilled}
+                    <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
+                      {user?.walletBalance}
                     </td>
-                    <td className='px-6 py-[14px] text-center text-sm font-normal text-[#272728]'>
-                      {new Date(user?.dateOfJoining).toLocaleDateString(
-                        'en-GB'
-                      )}
+                    <td className='flex justify-center px-6 py-[7px] text-sm font-normal text-[#272728]'>
+                      <ButtonFill
+                        onClick={() =>
+                          router.push('/user-management/user-wallet/1')
+                        }
+                        classes='bg-[#385B8B]'
+                      >
+                        Add/view wallet
+                      </ButtonFill>
                     </td>
                   </tr>
                 );
@@ -155,4 +151,4 @@ const UserTable = ({
   );
 };
 
-export default UserTable;
+export default UserWalletTable;

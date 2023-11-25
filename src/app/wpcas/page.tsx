@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 
+import Spinner from '@/components/Spinner';
 import Feedback from '@/components/wpcasOverView/Feedback';
 import UserTable from '@/components/wpcasOverView/UserTable';
 import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
@@ -35,7 +36,7 @@ type HomeScreenDataType = {
 };
 
 const Wpcas = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [userData, setUserData] = useState<HomeScreenDataType>();
   const [filterUserData, setFilterUserData] = useState<UserListType[]>([]);
@@ -44,7 +45,6 @@ const Wpcas = () => {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       try {
         const data = await getUserList();
         setLoading(false);
@@ -62,8 +62,12 @@ const Wpcas = () => {
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>
-      <WpcasNavbar />
-      {loading && <div className='mt-[100px] text-center'>Loading...</div>}
+      <WpcasNavbar heading='WPCAS' />
+      {loading && (
+        <div className='mt-[100px] text-center'>
+          <Spinner />
+        </div>
+      )}
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
         <div className='mb-[110px] px-[40px] pb-[10px] pt-[30px]'>

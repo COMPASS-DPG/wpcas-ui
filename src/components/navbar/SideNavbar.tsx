@@ -8,9 +8,7 @@ import { outfit, oxanium } from '../../components/FontFamily';
 
 import ListIcon from '~/svg/admin.svg';
 import DashboardIcon from '~/svg/dashboardIcon.svg';
-import MarketPlaceIcon from '~/svg/marketplaceIcon.svg';
 import UserIcon from '~/svg/userIcon.svg';
-import WalletIcon from '~/svg/walletIcon.svg';
 import WpcasIcon from '~/svg/wpcasIcon.svg';
 
 const SideNavbar = () => {
@@ -27,9 +25,56 @@ const SideNavbar = () => {
           <NavbarLink currentRoute='/'>
             <DashboardIcon className='mr-2 w-5' /> Dashboard{' '}
           </NavbarLink>
-          <NavbarLink currentRoute='/'>
-            <MarketPlaceIcon className='mr-2 w-5' /> Market Place{' '}
-          </NavbarLink>
+          <li
+            className={`flex items-center py-2.5 pl-4
+                     text-base font-medium ${outfit.className}`}
+          >
+            <div className={`flex `}>
+              <WpcasIcon className='mr-2 w-5' />
+              3CP
+            </div>
+          </li>
+          <li className={`text-base font-medium ${outfit.className}`}>
+            <ul>
+              <Link href='/marketplace'>
+                <li
+                  className={`my-2 flex py-2 pl-7 text-sm font-normal
+                                  ${
+                                    pathname?.includes('/marketplace') &&
+                                    'bg-[#67696c]'
+                                  }`}
+                >
+                  <ListIcon className='mr-2 w-3' />
+                  Marketplace
+                </li>
+              </Link>
+              <Link href='/3cp/settlements'>
+                <li
+                  className={`my-2 flex py-2 pl-7 text-sm font-normal
+                                  ${
+                                    pathname?.includes('/3cp/settlements') &&
+                                    'bg-[#67696c]'
+                                  }`}
+                >
+                  <ListIcon className='mr-2 w-3' />
+                  Settlements
+                </li>
+              </Link>
+              <Link href='/account-verification'>
+                <li
+                  className={`my-2 flex py-2 pl-7 text-sm font-normal
+                                  ${
+                                    pathname?.includes(
+                                      '/account-verification'
+                                    ) && 'bg-[#67696c]'
+                                  }`}
+                >
+                  <ListIcon className='mr-2 w-3' />
+                  Account Verification
+                </li>
+              </Link>
+            </ul>
+          </li>
           <li
             className={`flex cursor-pointer items-center py-2.5 pl-4
                      text-base font-medium ${outfit.className} ${
@@ -75,12 +120,37 @@ const SideNavbar = () => {
               </Link>
             </ul>
           </li>
-          <NavbarLink currentRoute='/'>
+          <li
+            className={`flex items-center py-2.5 pl-4
+                     text-base font-medium ${outfit.className}`}
+          >
+            <div className={`flex `}>
+              <UserIcon className='mr-2 w-5' />
+              User Management
+            </div>
+          </li>
+          <li className={`text-base font-medium ${outfit.className}`}>
+            <ul>
+              <Link href='/user-management/user-wallet'>
+                <li
+                  className={`my-2 flex py-2 pl-7 text-sm font-normal
+                                  ${
+                                    pathname?.includes('/user-wallet') &&
+                                    'bg-[#67696c]'
+                                  }`}
+                >
+                  <ListIcon className='mr-2 w-3' />
+                  User Wallet
+                </li>
+              </Link>
+            </ul>
+          </li>
+          {/* <NavbarLink currentRoute='/'>
             <UserIcon className='mr-2 w-5' /> User Information
           </NavbarLink>
           <NavbarLink currentRoute='/'>
             <WalletIcon className='mr-2 w-5' /> Payment
-          </NavbarLink>
+          </NavbarLink> */}
         </ul>
       </nav>
     </div>
