@@ -12,13 +12,15 @@ const MarketPlaceNavbar = ({
   setActiveSection: (value: string) => void;
   filterCourse: (value: string) => void;
 }) => {
-  const handleClick = (type: string) => {
-    setActiveSection(type);
-    filterCourse(type);
-  };
   const pathname = usePathname();
   const isAccountVerificationPage = pathname?.includes('/account-verification');
 
+  const handleClick = (type: string) => {
+    setActiveSection(type);
+    if (isAccountVerificationPage && type === 'ACCEPTED') {
+      filterCourse('VERIFIED');
+    } else filterCourse(type);
+  };
   return (
     <div
       className={`border-[#ECECEC]' mx-5 mt-5 flex justify-between border-b-2 ${outfit.className}`}

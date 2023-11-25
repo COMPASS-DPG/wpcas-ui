@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import CourseSection from '@/components/3cp/CourseSection';
@@ -32,7 +32,7 @@ const MarketPlace = () => {
   const [currentCourseList, setCurrentCourseList] = useState<CourseType[]>([]);
   const [courseList, setCourseList] = useState<CourseType[]>([]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await getAllCourses();
       const filterResult = response.filter((course: CourseType) => {
@@ -43,7 +43,8 @@ const MarketPlace = () => {
     } catch (error) {
       toast.error('something went wrong');
     }
-  };
+  }, [activeSection]);
+
   const filterCourse = (courseType: string) => {
     const filteredResult = courseList.filter((course: CourseType) => {
       return course.verificationStatus === courseType;
@@ -51,9 +52,9 @@ const MarketPlace = () => {
     setCurrentCourseList(filteredResult);
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>

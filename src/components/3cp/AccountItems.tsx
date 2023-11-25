@@ -5,18 +5,21 @@ import { accountType } from '@/app/account-verification/page';
 const AccountItems = ({
   activeSection,
   accountList,
+  fetchData,
 }: {
   activeSection: string;
   accountList: accountType[];
+  fetchData: () => void;
 }) => {
   return (
     <div className='flex flex-col gap-2.5'>
       {accountList.map((account) => {
         return (
           <SingleAccount
-            key={account?.userId}
+            key={account?.id}
             activeSection={activeSection}
             account={account}
+            fetchData={fetchData}
           />
         );
       })}

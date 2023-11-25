@@ -11,9 +11,11 @@ import EmptyBox from '~/svg/emptyBox.svg';
 const AccountSection = ({
   activeSection,
   accountList,
+  fetchData,
 }: {
   activeSection: string;
   accountList: accountType[];
+  fetchData: () => void;
 }) => {
   const [input, setInput] = useState<string>('');
 
@@ -36,7 +38,7 @@ const AccountSection = ({
     <div className={`mx-7 ${outfit.className}`}>
       {filterAccounts.length !== 0 ? (
         <div className='mt-4'>
-          {activeSection !== 'pendingSection' && (
+          {activeSection !== 'PENDING' && (
             <SearchInput
               value={input}
               onChange={(value: string) => setInput(value)}
@@ -46,13 +48,14 @@ const AccountSection = ({
 
           <p className='my-4 text-[18px] font-medium leading-5 text-[#65758C]'>
             {accountList.length}{' '}
-            {activeSection === 'pendingSection'
+            {activeSection === 'PENDING'
               ? 'Onboard request'
               : 'Third Party Course Providers'}
           </p>
           <AccountItems
             activeSection={activeSection}
             accountList={filterAccounts}
+            fetchData={fetchData}
           />
         </div>
       ) : (

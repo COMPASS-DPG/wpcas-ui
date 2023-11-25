@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import RejectedReason from '@/components/3cp/RejectedReason';
 import RejectSummary from '@/components/3cp/RejectSummary';
@@ -9,20 +10,28 @@ import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import CommonModal from '@/components/uiComponents/CommonModal';
 
 import { accountType } from '@/app/account-verification/page';
+import { approvedAccount } from '@/services/accountVerficationServices';
 
 import CourseProviderImage from '~/images/courseProviderImage.png';
 
 const SingleAccount = ({
   activeSection,
   account,
+  fetchData,
 }: {
   activeSection: string;
   account: accountType;
+  fetchData: () => void;
 }) => {
   const [showReviewReasonPopUp, setShowReviewReasonPopUp] = useState(false);
 
-  const handleApprovedButton = () => {
-    //call api and handle approve accout here
+  const handleApprovedButton = async () => {
+    try {
+      await approvedAccount(account?.id);
+      await fetchData();
+    } catch (error) {
+      toast.error('something went wrong');
+    }
   };
   return (
     <div
@@ -35,6 +44,8 @@ const SingleAccount = ({
         <RejectedReason
           setShowReviewReasonPopUp={setShowReviewReasonPopUp}
           heading='Account Rejection Reason'
+          id={account?.id}
+          fetchData={fetchData}
         />
       </CommonModal>
       {/* head line */}
@@ -50,9 +61,11 @@ const SingleAccount = ({
             {account?.date}
           </p>
         </div>
-        {activeSection === 'pendingSection' ? (
+        {activeSection === 'PENDING' ? (
           <div className='flex items-center gap-5'>
-            <p className='text-[14px] text-[#272728]'>On {account?.date}</p>
+            <p className='text-[14px] text-[#272728]'>
+              On {account?.date || '--'}
+            </p>
             <ButtonOutline
               onClick={() => setShowReviewReasonPopUp(true)}
               classes='bg-[#FFE4E4] text-[#ED2B2B] w-[170px]'
@@ -70,13 +83,13 @@ const SingleAccount = ({
           <div className='flex items-center justify-between'>
             <p
               className={`text-[14px] ${
-                activeSection === 'rejectedSection'
+                activeSection === 'REJECTED'
                   ? 'text-[#FF5674]'
                   : 'text-[#385B8B]'
               } `}
             >
-              {activeSection === 'rejectedSection' ? 'Rejected' : 'Onboard'} On
-              22 Oct 2023
+              {activeSection === 'REJECTED' ? 'Rejected' : 'Onboard'} On{' '}
+              {account?.date || '--'}
             </p>
           </div>
         )}
@@ -88,29 +101,35 @@ const SingleAccount = ({
             {account?.name}
           </SingleDetail>
           <SingleDetail subHeading='Email Id'>{account?.email}</SingleDetail>
-          <SingleDetail subHeading='Phone'>{account?.Phone}</SingleDetail>
+          <SingleDetail subHeading='Phone'>
+            {account?.Phone || '--'}
+          </SingleDetail>
         </div>
         <div>
-          <SingleDetail subHeading='Bank'>{account?.bank}</SingleDetail>
-          <SingleDetail subHeading='Branch'>{account?.branch}</SingleDetail>
+          <SingleDetail subHeading='Bank'>
+            {account?.paymentInfo?.bankName || '--'}
+          </SingleDetail>
+          <SingleDetail subHeading='Branch'>
+            {account?.paymentInfo?.branchName || '--'}
+          </SingleDetail>
           <SingleDetail subHeading='Account Number'>
-            {account?.accountNumber}
+            {account?.paymentInfo?.accNo || '--'}
           </SingleDetail>
         </div>
         <div>
           <SingleDetail subHeading='IFSC Code'>
-            {account?.ifscCode}
+            {account?.paymentInfo?.IFSC || '--'}
           </SingleDetail>
           <SingleDetail subHeading='PAN Number'>
-            {account?.panNumber}
+            {account?.panNumber || '--'}
           </SingleDetail>
           <SingleDetail subHeading='GST Number'>
-            {account?.gstNumber}
+            {account?.gstNumber || '--'}
           </SingleDetail>
         </div>
       </div>
 
-      {activeSection === 'rejectedSection' && (
+      {activeSection === 'REJECTED' && (
         <div>
           <RejectSummary />
         </div>

@@ -5,6 +5,7 @@ import { outfit } from '@/components/FontFamily';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
+import { rejectAccount } from '@/services/accountVerficationServices';
 import { rejectCourse } from '@/services/marketPlaceServices';
 
 const RejectedReason = ({
@@ -15,7 +16,7 @@ const RejectedReason = ({
 }: {
   setShowReviewReasonPopUp: (value: boolean) => void;
   heading?: string;
-  id?: number;
+  id?: number | string;
   fetchData?: () => void;
 }) => {
   const [text, setText] = useState('');
@@ -28,7 +29,8 @@ const RejectedReason = ({
       return;
     }
     try {
-      await rejectCourse(id, text);
+      if (typeof id === 'number') await rejectCourse(id, text);
+      else await rejectAccount(id);
       await fetchData();
       setShowReviewReasonPopUp(false);
     } catch (error) {

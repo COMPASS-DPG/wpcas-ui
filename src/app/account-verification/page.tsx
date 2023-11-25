@@ -1,73 +1,31 @@
 'use client';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import AccountSection from '@/components/3cp/AccountSection';
 import MarketPlaceNavbar from '@/components/navbar/MarketPlaceNavbar';
 import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
 
-const getinitialValue = () => {
-  return [
-    {
-      userId: 1,
-      name: 'Lakshmi Narayana a',
-      organization: 'Unacademy',
-      Phone: '9876543210',
-      email: 'sampletest@gmail.com',
-      bank: 'SBI',
-      branch: 'Allahabad',
-      accountNumber: '56156156456421562165',
-      ifscCode: 'SBI0000456',
-      status: 'approved',
-      logo: '../../../public/images/courseProvider.png',
-      panNumber: 'SABCA456116P',
-      gstNumber: '62651616262162',
-      date: '22 Oct 2023',
-    },
-    {
-      userId: 2,
-      name: 'Lakshmi Narayana p',
-      organization: 'Unacademy',
-      Phone: '9876543210',
-      email: 'sampletest@gmail.com',
-      bank: 'SBI',
-      branch: 'Allahabad',
-      accountNumber: '56156156456421562165',
-      ifscCode: 'SBI0000456',
-      status: 'pending',
-      logo: '../../../public/images/courseProvider.png',
-      panNumber: 'SABCA456116P',
-      gstNumber: '62651616262162',
-      date: '22 Oct 2023',
-    },
-    {
-      userId: 3,
-      name: 'Lakshmi Narayana r',
-      organization: 'Unacademy',
-      Phone: '9876543210',
-      email: 'sampletest@gmail.com',
-      bank: 'SBI',
-      branch: 'Allahabad',
-      accountNumber: '56156156456421562165',
-      ifscCode: 'SBI0000456',
-      status: 'rejected',
-      logo: '../../../public/images/courseProvider.png',
-      panNumber: 'SABCA456116P',
-      gstNumber: '62651616262162',
-      date: '22 Oct 2023',
-    },
-  ];
-};
+import { getAllProviders } from '@/services/accountVerficationServices';
+// {
+//     "IFSC": "HDFC0000009",
+//     "accNo": "8483654687",
+//     "bankName": "HDFC",
+//     "branchName": "HSR Layout"
+// }
+
 export type accountType = {
-  userId: number;
+  id: string;
   name: string;
+  email: string;
   organization: string;
   Phone: string;
-  email: string;
-  bank: string;
-  branch: string;
-  accountNumber: string;
-  ifscCode: string;
+  paymentInfo: {
+    IFSC: string;
+    accNo: string;
+    bankName: string;
+    branchName: string;
+  };
   status: string;
   logo?: string;
   panNumber: string;
@@ -76,22 +34,24 @@ export type accountType = {
 };
 
 const AccountVefication = () => {
-  const [activeSection, setActiveSection] = useState<string>('pendingSection');
+  const [activeSection, setActiveSection] = useState<string>('PENDING');
   const [currentAccountList, setCurrentAccountList] = useState<accountType[]>(
-    getinitialValue()
+    []
   );
-  const [AccountList, setAccountList] = useState<accountType[]>(
-    getinitialValue()
-  );
-  const fetchData = async () => {
-    const response = await axios.get('http://127.0.0.1:3001/accounts');
+  const [AccountList, setAccountList] = useState<accountType[]>([]);
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await getAllProviders();
+      const pendingCourses = response?.filter(
+        (account: accountType) => account.status === activeSection
+      );
 
-    const pendingCourses = response.data.filter(
-      (course: accountType) => course.status === 'pending'
-    );
-    setCurrentAccountList(pendingCourses);
-    setAccountList(response.data);
-  };
+      setCurrentAccountList(pendingCourses);
+      setAccountList(response);
+    } catch (error) {
+      toast.error('something went wrong');
+    }
+  }, [activeSection]);
   const filterCourse = (courseType: string) => {
     const filteredResult = AccountList.filter((course: accountType) => {
       return course.status === courseType;
@@ -101,7 +61,7 @@ const AccountVefication = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <div className='w-full bg-[#f7f9fc]'>
@@ -114,6 +74,7 @@ const AccountVefication = () => {
       <AccountSection
         activeSection={activeSection}
         accountList={currentAccountList}
+        fetchData={fetchData}
       />
     </div>
   );
