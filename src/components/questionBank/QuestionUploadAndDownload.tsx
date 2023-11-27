@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import React, { MutableRefObject, useRef, useState } from 'react';
+import { wpcasBackendUrl } from 'root/config';
 
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
@@ -26,10 +27,7 @@ const QuestionUploadAndDownload = () => {
       formData.append('file', file);
 
       // Make a POST request to backend
-      await axios.post(
-        'http://localhost:3000/api/question-bank/upload',
-        formData
-      );
+      await axios.post(`${wpcasBackendUrl}/api/question-bank/upload`, formData);
 
       setShowSuccessPopUp(true);
     } catch (error) {

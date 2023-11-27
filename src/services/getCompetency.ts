@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { wpcasBackendUrl } from 'root/config';
 
 import { FinalObjType } from '@/app/propTypes';
 
@@ -18,7 +19,7 @@ type QuestionType = {
 export const getCompetency = async () => {
   try {
     const response = await axios.get(
-      'http://localhost:3000/api/admin-competency/names'
+      `${wpcasBackendUrl}/api/admin-competency/names`
     );
 
     const mappedData = response?.data?.data?.map(
@@ -38,10 +39,10 @@ export const getAllLevels = async (
 ) => {
   try {
     const questionsResponse = await axios.get(
-      `http://localhost:3000/api/question-bank?competencyId=${currentCompetencyId}`
+      `${wpcasBackendUrl}/api/question-bank?competencyId=${currentCompetencyId}`
     );
     const levelsResponse = await axios.get(
-      `http://localhost:3000/api/admin-competency/${currentCompetencyId}`
+      `${wpcasBackendUrl}/api/admin-competency/${currentCompetencyId}`
     );
 
     const questions = questionsResponse?.data?.data;
@@ -112,7 +113,7 @@ export const updateItemOnServer = async (
       // Only include deleteQuestions if it's not empty
       if (finalObj.deleteQuestions?.length === 0) {
         await axios.post(
-          'http://localhost:3000/api/question-bank/updateMultipleQuestions',
+          `${wpcasBackendUrl}/api/question-bank/updateMultipleQuestions`,
           {
             createQuestions: finalObj.createQuestions,
             updateQuestions: finalObj.updateQuestions,
@@ -120,7 +121,7 @@ export const updateItemOnServer = async (
         );
       } else {
         await axios.post(
-          'http://localhost:3000/api/question-bank/updateMultipleQuestions',
+          `${wpcasBackendUrl}/api/question-bank/updateMultipleQuestions`,
           finalObj
         );
       }
