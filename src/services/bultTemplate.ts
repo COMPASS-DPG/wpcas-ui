@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { wpcasBackendUrl } from 'root/config';
 
 type CompetencyItem = {
   competency: string;
@@ -9,7 +10,7 @@ type CompetencyItem = {
 export const downloadTemplate = async () => {
   try {
     const response = await axios.get(
-      'http://localhost:3000/api/question-bank/template'
+      `${wpcasBackendUrl}/api/question-bank/template`
     );
     const templateData = response?.data?.data;
 
@@ -49,15 +50,11 @@ export const uploadTemplate = async (
     formData.append('file', file);
 
     // Make a POST request to backend
-    await axios.post(
-      'http://localhost:3000/api/question-bank/upload',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
-        },
-      }
-    );
+    await axios.post(`${wpcasBackendUrl}/api/question-bank/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
+      },
+    });
 
     setShowSuccessPopUp(true);
   } catch (error) {

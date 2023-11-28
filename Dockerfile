@@ -16,6 +16,8 @@ COPY . .
 # Build the Next.js app
 RUN npm run build
 
+COPY  /.next/standalone ./
+
 # Expose the desired port
 EXPOSE 3000
 
