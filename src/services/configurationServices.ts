@@ -43,11 +43,54 @@ export const getUserList = async () => {
 };
 
 export const getSettlementsData = async () => {
-  const data = await axios.get('http://localhost:8080/settlement');
-  return data.data;
+  const data = await axios.get(
+    'http://localhost:4005/api/admin/providers/settlements'
+  );
+  return data.data.data;
+};
+export const handleSettlement = async (userId: string) => {
+  const data = await axios.post(
+    `http://localhost:4005/api/admin/providers/settlements/${userId}`
+  );
+  return data.data.data;
 };
 
-export const getUserWalletDetails = async () => {
-  const data = await axios.get('http://localhost:8080/wallet');
-  return data.data;
+export const getUserWalletDetails = async (adminId: string) => {
+  const data = await axios.get(
+    `http://localhost:4000/api/admin/${adminId}/consumers`
+  );
+  return data.data.data;
+};
+type addCreditpayloadType = {
+  credits: number;
+  consumerId: string;
+};
+export const addCreditToUser = async (
+  payload: addCreditpayloadType,
+  adminId: string
+) => {
+  const data = await axios.post(
+    `http://localhost:4000/api/admin/${adminId}/addCredits`,
+    payload
+  );
+  return data.data.data;
+};
+export const removeCreditFromUser = async (
+  payload: addCreditpayloadType,
+  adminId: string
+) => {
+  const data = await axios.post(
+    `http://localhost:4000/api/admin/${adminId}/reduceCredits`,
+    payload
+  );
+  return data.data.data;
+};
+export const getTransectionHistory = async (
+  adminId: string,
+  consumerId: string
+) => {
+  const data = await axios.get(
+    `http://localhost:4000/api/admin/${adminId}/userWallets/transactions/${consumerId}`
+  );
+  return data.data.data;
 };

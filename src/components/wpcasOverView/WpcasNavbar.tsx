@@ -9,7 +9,7 @@ import BellLogo from '~/svg/bellLogo.svg';
 
 const WpcasNavbar = ({ heading }: { heading?: string }) => {
   return (
-    <nav className='flex items-center justify-between bg-white px-[14px] '>
+    <nav className='flex items-center justify-between bg-white px-[30px] '>
       <div className={`text-2xl font-semibold ${outfit.className}`}>
         {heading ? heading : 'WPCAS'}
       </div>

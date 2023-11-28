@@ -1,11 +1,26 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { outfit } from '@/components/FontFamily';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
-const ConfirmSettlement = ({ onClose }: { onClose: () => void }) => {
-  const handleConfirmSettlement = () => {
+import { handleSettlement } from '@/services/configurationServices';
+
+const ConfirmSettlement = ({
+  onClose,
+  id,
+}: {
+  onClose: () => void;
+  id: string;
+}) => {
+  const handleConfirmSettlement = async () => {
+    try {
+      await handleSettlement(id);
+      toast.success('Settlement done successfully');
+    } catch (error) {
+      toast.error('something went wrong');
+    }
     onClose();
   };
 

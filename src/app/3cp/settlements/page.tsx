@@ -8,8 +8,9 @@ import { getSettlementsData } from '@/services/configurationServices';
 
 export type SettlementDataType = {
   id: string;
-  thirdPartyCourseProvide: string;
-  totalCourse: number;
+  imgLink: string;
+  name: string;
+  totalCourses: number;
   activeUsers: number;
   totalCredits: number;
 };
@@ -48,7 +49,7 @@ const Settlements = () => {
       )}
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
-        <div className='mb-[110px] px-[40px] py-[10px] '>
+        <div className='mb-[110px] px-[30px] py-[10px] '>
           <SettlementsTable
             userData={userData}
             filterUserData={filterUserData}

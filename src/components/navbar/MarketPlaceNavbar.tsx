@@ -23,7 +23,7 @@ const MarketPlaceNavbar = ({
   };
   return (
     <div
-      className={`border-[#ECECEC]' mx-5 mt-5 flex justify-between border-b-2 ${outfit.className}`}
+      className={`border-[#ECECEC]' mx-[30px] mt-5 flex justify-between border-b-2 ${outfit.className}`}
     >
       <div className='flex  gap-5'>
         <div

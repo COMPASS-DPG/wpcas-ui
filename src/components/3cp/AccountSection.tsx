@@ -35,7 +35,7 @@ const AccountSection = ({
     setfilterAccounts(accountList);
   }, [accountList]);
   return (
-    <div className={`mx-7 ${outfit.className}`}>
+    <div className={`mx-[30px] ${outfit.className}`}>
       {filterAccounts.length !== 0 ? (
         <div className='mt-4'>
           {activeSection !== 'PENDING' && (

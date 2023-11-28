@@ -1,43 +1,22 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Spinner from '@/components/Spinner';
 import UserWalletTable from '@/components/userManagement/UserWalletTable';
 
-import { getUserWalletDetails } from '@/services/configurationServices';
+import { useUserWalletContext } from '@/app/context/UserWalletContext';
 
 export type UserWalletDataType = {
-  userId: string;
+  consumerId: string;
   userName: string;
   role: string;
-  coursePurchased: number;
-  walletBalance: string;
+  numCoursesPurchased: number;
+  credits: string;
 };
 
 const Wallet = () => {
-  const [filterUserData, setFilterUserData] = useState<UserWalletDataType[]>(
-    []
-  );
-  const [userData, setUserData] = useState<UserWalletDataType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getUserWalletDetails();
-        setLoading(false);
-        setUserData(data);
-        setFilterUserData(data);
-      } catch (error) {
-        // Handle any errors that occur during the API call
-        // eslint-disable-next-line no-console
-        console.error('API call error:', error);
-        setLoading(false);
-        setError(true);
-      }
-    })();
-  }, []);
+  const { userData, filterUserData, setFilterUserData, loading, error } =
+    useUserWalletContext();
 
   return (
     <>
@@ -48,7 +27,7 @@ const Wallet = () => {
       )}
       {error && <div className='mt-[100px] text-center'>Error...</div>}
       {!loading && !error && (
-        <div className='mb-[110px] px-[40px] py-[10px] '>
+        <div className='mb-[110px] px-[30px] py-[10px] '>
           <UserWalletTable
             userData={userData}
             filterUserData={filterUserData}

@@ -83,7 +83,7 @@ const CourseSection = ({
     setFilterCourse(courseList);
   }, [courseList]);
   return (
-    <div className={`mx-7 ${outfit.className}`}>
+    <div className={`mx-[30px] ${outfit.className}`}>
       {courseList?.length !== 0 ? (
         <div>
           <SearchCourse

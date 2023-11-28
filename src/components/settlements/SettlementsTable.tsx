@@ -12,8 +12,6 @@ import SearchUser from '@/components/wpcasOverView/SearchUser';
 
 import { SettlementDataType } from '@/app/3cp/settlements/page';
 
-import groupProfileImage from '~/images/group-profile-users.png';
-
 type PropType = {
   userData: SettlementDataType[];
   filterUserData: SettlementDataType[];
@@ -26,6 +24,7 @@ const SettlementsTable = ({
   filterUserData,
 }: PropType) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [userId, setUserId] = useState<string>('');
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -38,9 +37,7 @@ const SettlementsTable = ({
 
   const handleSearch = (value: string) => {
     const newData = userData?.filter((item) => {
-      const nameMatch = item?.thirdPartyCourseProvide
-        ?.toLowerCase()
-        .includes(value.toLowerCase());
+      const nameMatch = item?.name?.toLowerCase().includes(value.toLowerCase());
       return nameMatch;
     });
     setSearchInput(value);
@@ -48,7 +45,8 @@ const SettlementsTable = ({
     if (currentPage != 1) setCurrentPage(1);
   };
 
-  const handleSettlement = () => {
+  const handleSettlement = (id: string) => {
+    setUserId(id);
     setIsOpen(true);
   };
 
@@ -59,7 +57,7 @@ const SettlementsTable = ({
         onClose={() => setIsOpen(false)}
         isCrossShow={false}
       >
-        <ConfirmSettlement onClose={() => setIsOpen(false)} />
+        <ConfirmSettlement onClose={() => setIsOpen(false)} id={userId} />
       </CommonModal>
       <SearchUser
         value={searchInput}
@@ -113,17 +111,17 @@ const SettlementsTable = ({
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
                       <div className='flex items-center gap-2'>
                         <Image
-                          src={groupProfileImage}
+                          src={user?.imgLink}
                           alt='img'
                           className='rounded-full'
                           width={20}
                           height={20}
                         />
-                        {user?.thirdPartyCourseProvide}
+                        {user?.name}
                       </div>
                     </td>
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.totalCourse}
+                      {user?.totalCourses}
                     </td>
 
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
@@ -134,7 +132,7 @@ const SettlementsTable = ({
                     </td>
                     <td className='flex justify-end px-6 py-[7px] text-sm font-normal text-[#272728]'>
                       <ButtonFill
-                        onClick={handleSettlement}
+                        onClick={() => handleSettlement(user?.id)}
                         classes='bg-[#26292D]'
                       >
                         Settle

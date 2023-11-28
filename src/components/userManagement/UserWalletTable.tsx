@@ -1,10 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { outfit } from '@/components/FontFamily';
-import ButtonFill from '@/components/uiComponents/ButtonFill';
 import Pagination from '@/components/wpcasOverView/Pagination';
 import SearchUser from '@/components/wpcasOverView/SearchUser';
 
@@ -24,8 +23,6 @@ const UserWalletTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [searchInput, setSearchInput] = useState<string>('');
-
-  const router = useRouter();
 
   const totalPages = Math.ceil(filterUserData?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -87,7 +84,7 @@ const UserWalletTable = ({
             </tr>
           </thead>
           <tbody>
-            {currentData.length == 0 && (
+            {currentData?.length == 0 && (
               <tr
                 className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
               >
@@ -100,38 +97,38 @@ const UserWalletTable = ({
                 </td>
               </tr>
             )}
-            {currentData.length > 0 &&
+            {currentData?.length > 0 &&
               currentData?.map((user: UserWalletDataType) => {
                 return (
                   <tr
-                    key={user?.userId}
+                    key={user?.consumerId}
                     className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
                   >
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {user?.userId}
+                      {user?.consumerId}
                     </td>
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {user.userName}
+                      {user?.userName ?? 'DUMMY NAME'}
                     </td>
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {user?.role}
+                      {user?.role ?? 'DUMMY ROLE'}
                     </td>
 
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.coursePurchased}
+                      {user?.numCoursesPurchased ?? '--'}
                     </td>
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>
-                      {user?.walletBalance}
+                      {user?.credits ?? '--'}
                     </td>
                     <td className='flex justify-center px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      <ButtonFill
-                        onClick={() =>
-                          router.push('/user-management/user-wallet/1')
-                        }
-                        classes='bg-[#385B8B]'
+                      <Link
+                        className='box-border block rounded-md border bg-[#385B8B] px-4 py-2 text-base font-semibold text-white hover:opacity-80'
+                        href={{
+                          pathname: `/user-management/user-wallet/${user?.consumerId}`,
+                        }}
                       >
                         Add/view wallet
-                      </ButtonFill>
+                      </Link>
                     </td>
                   </tr>
                 );

@@ -29,21 +29,20 @@ export type CourseType = {
 
 const MarketPlace = () => {
   const [activeSection, setActiveSection] = useState<string>('PENDING');
-  const [currentCourseList, setCurrentCourseList] = useState<CourseType[]>([]);
   const [courseList, setCourseList] = useState<CourseType[]>([]);
+
+  const [currentCourseList, setCurrentCourseList] = useState<CourseType[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
       const response = await getAllCourses();
-      const filterResult = response.filter((course: CourseType) => {
-        return course.verificationStatus === activeSection;
-      });
-      setCurrentCourseList(filterResult);
+
+      // setCurrentCourseList(filterResult);
       setCourseList(response);
     } catch (error) {
       toast.error('something went wrong');
     }
-  }, [activeSection]);
+  }, []);
 
   const filterCourse = (courseType: string) => {
     const filteredResult = courseList.filter((course: CourseType) => {
@@ -55,6 +54,12 @@ const MarketPlace = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+  useEffect(() => {
+    const filterResult = courseList.filter((course: CourseType) => {
+      return course.verificationStatus === activeSection;
+    });
+    setCurrentCourseList(filterResult);
+  }, [activeSection, courseList]);
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>
@@ -64,7 +69,7 @@ const MarketPlace = () => {
         setActiveSection={setActiveSection}
         filterCourse={filterCourse}
       />
-      <div className='h-full'>
+      <div className=''>
         <CourseSection
           activeSection={activeSection}
           courseList={currentCourseList}

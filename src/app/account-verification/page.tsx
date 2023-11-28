@@ -7,12 +7,6 @@ import MarketPlaceNavbar from '@/components/navbar/MarketPlaceNavbar';
 import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
 
 import { getAllProviders } from '@/services/accountVerficationServices';
-// {
-//     "IFSC": "HDFC0000009",
-//     "accNo": "8483654687",
-//     "bankName": "HDFC",
-//     "branchName": "HSR Layout"
-// }
 
 export type accountType = {
   id: string;
