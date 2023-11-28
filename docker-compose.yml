@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  admin-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - WPCAS_SERVICE_BACKEND_IP=http://localhost:4010
+      - MARKETPLACE_SERVICE_BACKEND_IP=http://localhost:4000
