@@ -36,7 +36,7 @@ const SideNavbar = () => {
           </li>
           <li className={`text-base font-medium ${outfit.className}`}>
             <ul>
-              <Link href='/marketplace'>
+              <Link href='/3cp/marketplace'>
                 <li
                   className={`my-2 flex py-2 pl-7 text-sm font-normal
                                   ${
@@ -60,7 +60,7 @@ const SideNavbar = () => {
                   Settlements
                 </li>
               </Link>
-              <Link href='/account-verification'>
+              <Link href='/3cp/account-verification'>
                 <li
                   className={`my-2 flex py-2 pl-7 text-sm font-normal
                                   ${

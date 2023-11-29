@@ -16,12 +16,16 @@ type PropType = {
   userData: SettlementDataType[];
   filterUserData: SettlementDataType[];
   setFilterUserData: (arg: SettlementDataType[]) => void;
+  adminId: string;
+  setFetchData: (arg: boolean) => void;
 };
 
 const SettlementsTable = ({
   userData,
   setFilterUserData,
   filterUserData,
+  adminId,
+  setFetchData,
 }: PropType) => {
   const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState<string>('');
@@ -57,7 +61,12 @@ const SettlementsTable = ({
         onClose={() => setIsOpen(false)}
         isCrossShow={false}
       >
-        <ConfirmSettlement onClose={() => setIsOpen(false)} id={userId} />
+        <ConfirmSettlement
+          onClose={() => setIsOpen(false)}
+          id={userId}
+          adminId={adminId}
+          setFetchData={setFetchData}
+        />
       </CommonModal>
       <SearchUser
         value={searchInput}

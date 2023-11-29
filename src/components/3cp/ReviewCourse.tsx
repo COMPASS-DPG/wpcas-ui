@@ -10,7 +10,7 @@ import { outfit } from '@/components/FontFamily';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
-import { CourseType } from '@/app/marketplace/page';
+import { CourseType } from '@/app/3cp/marketplace/page';
 import { approveCourse } from '@/services/marketPlaceServices';
 
 import CourseFullImage from '~/images/course.png';
@@ -35,6 +35,7 @@ const ReviewCourse = ({
     try {
       await approveCourse(courseDetails.id);
       fetchData();
+      toast.success('course approved successfully');
       setShowPreviewPopUp(false);
     } catch (error) {
       toast.error('something went wrong');

@@ -9,8 +9,9 @@ export const approvedAccount = async (providerId: string) => {
     `http://localhost:4005/api/admin/providers/${providerId}/verify`
   );
 };
-export const rejectAccount = async (providerId: string) => {
-  await axios.get(
-    `http://localhost:4005/api/admin/providers/${providerId}/reject`
+export const rejectAccount = async (providerId: string, reasone: string) => {
+  await axios.patch(
+    `http://localhost:4005/api/admin/providers/${providerId}/reject`,
+    { rejectionReason: reasone }
   );
 };

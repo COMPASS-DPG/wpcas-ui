@@ -16,29 +16,34 @@ export type SettlementDataType = {
 };
 
 const Settlements = () => {
+  const adminId = localStorage.getItem('adminId') ?? '';
   const [filterUserData, setFilterUserData] = useState<SettlementDataType[]>(
     []
   );
   const [userData, setUserData] = useState<SettlementDataType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [fetchData, setFetchData] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const data = await getSettlementsData();
-        setLoading(false);
-        setUserData(data);
-        setFilterUserData(data);
-      } catch (error) {
-        // Handle any errors that occur during the API call
-        // eslint-disable-next-line no-console
-        console.error('API call error:', error);
-        setLoading(false);
-        setError(true);
-      }
-    })();
-  }, []);
+    if (fetchData) {
+      (async () => {
+        try {
+          const data = await getSettlementsData(adminId);
+          setLoading(false);
+          setUserData(data);
+          setFetchData(false);
+          setFilterUserData(data);
+        } catch (error) {
+          // Handle any errors that occur during the API call
+          // eslint-disable-next-line no-console
+          console.error('API call error:', error);
+          setLoading(false);
+          setError(true);
+        }
+      })();
+    }
+  }, [fetchData, adminId, setFetchData]);
 
   return (
     <>
@@ -54,6 +59,8 @@ const Settlements = () => {
             userData={userData}
             filterUserData={filterUserData}
             setFilterUserData={(value) => setFilterUserData(value)}
+            adminId={adminId}
+            setFetchData={setFetchData}
           />
         </div>
       )}

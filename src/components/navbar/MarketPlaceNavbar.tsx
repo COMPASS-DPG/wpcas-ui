@@ -6,20 +6,19 @@ import { outfit } from '@/components/FontFamily';
 const MarketPlaceNavbar = ({
   activeSection,
   setActiveSection,
-  filterCourse,
 }: {
   activeSection: string;
   setActiveSection: (value: string) => void;
-  filterCourse: (value: string) => void;
 }) => {
   const pathname = usePathname();
   const isAccountVerificationPage = pathname?.includes('/account-verification');
 
   const handleClick = (type: string) => {
-    setActiveSection(type);
     if (isAccountVerificationPage && type === 'ACCEPTED') {
-      filterCourse('VERIFIED');
-    } else filterCourse(type);
+      setActiveSection('VERIFIED');
+    } else {
+      setActiveSection(type);
+    }
   };
   return (
     <div
@@ -42,13 +41,17 @@ const MarketPlaceNavbar = ({
         </div>
         <div
           className={`flex justify-center px-2.5 pb-4 pt-2.5 align-middle ${
-            activeSection == 'ACCEPTED' && 'border-b-[3px] border-black'
+            activeSection == 'ACCEPTED' || activeSection == 'VERIFIED'
+              ? 'border-b-[3px] border-black'
+              : ''
           } `}
         >
           {' '}
           <nav
             className={`cursor-pointer text-[20px] font-semibold  ${
-              activeSection == 'ACCEPTED' ? 'text-[#272728]' : 'text-[#65758C]'
+              activeSection == 'ACCEPTED' || activeSection == 'VERIFIED'
+                ? 'text-[#272728]'
+                : 'text-[#65758C]'
             }`}
             onClick={() => handleClick('ACCEPTED')}
           >

@@ -1,4 +1,4 @@
-import { CourseType } from '@/app/marketplace/page';
+import { CourseType } from '@/app/3cp/marketplace/page';
 
 import SingleCourse from './SingleCourse';
 

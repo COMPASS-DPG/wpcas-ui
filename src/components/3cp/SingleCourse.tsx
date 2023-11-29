@@ -9,7 +9,7 @@ import ReviewCourse from '@/components/3cp/ReviewCourse';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import CommonModal from '@/components/uiComponents/CommonModal';
 
-import { CourseType } from '@/app/marketplace/page';
+import { CourseType } from '@/app/3cp/marketplace/page';
 
 import CourseImage from '~/images/course.png';
 import CourseProvider from '~/images/courseProviderImage.png';
@@ -79,30 +79,37 @@ const SingleCourse = ({
             </div>
           </div>
           <div>
-            <div className='items- mt-2 flex gap-2 align-bottom'>
-              <Image
-                src={CourseProvider}
-                alt='course provide image'
-                width='24'
-                className='rounded-3xl border border-[#E3E7EF]'
-              />
-              <p className='text-[15px] font-bold text-[#272728]'>Unacademy</p>
-              <FaUserEdit />
-              <p className='text-[14px] font-medium uppercase text-[#272728]'>
-                {course?.author}
-              </p>
-
-              {course?.language?.map((item, index) => (
-                <ColoredText
-                  key={index}
-                  text={item.charAt(0).toUpperCase() + item.slice(1)}
-                  classes={`${
-                    index % 2 == 0
-                      ? 'bg-[#DAFFDA] text-[#4ACB5F]'
-                      : 'bg-[#C7DEFF] text-[#385B8B]'
-                  }`}
+            <div className='mt-2 flex items-center gap-3 align-bottom'>
+              <div className='flex gap-1'>
+                <Image
+                  src={CourseProvider}
+                  alt='course provide image'
+                  width='24'
+                  className='rounded-3xl border border-[#E3E7EF]'
                 />
-              ))}
+                <p className='text-[15px] font-bold text-[#272728]'>
+                  Unacademy
+                </p>
+              </div>
+              <div className='flex items-center gap-1'>
+                <FaUserEdit />
+                <p className='text-[14px] font-medium uppercase text-[#272728]'>
+                  {course?.author}
+                </p>
+              </div>
+              <div className='flex gap-1'>
+                {course?.language?.map((item, index) => (
+                  <ColoredText
+                    key={index}
+                    text={item.charAt(0).toUpperCase() + item.slice(1)}
+                    classes={`${
+                      index % 2 == 0
+                        ? 'bg-[#DAFFDA] text-[#4ACB5F]'
+                        : 'bg-[#C7DEFF] text-[#385B8B]'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

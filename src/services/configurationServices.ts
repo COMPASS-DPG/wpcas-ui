@@ -42,15 +42,17 @@ export const getUserList = async () => {
   return data.data.data;
 };
 
-export const getSettlementsData = async () => {
+export const getSettlementsData = async (adminId: string) => {
   const data = await axios.get(
-    'http://localhost:4005/api/admin/providers/settlements'
+    `http://localhost:4005/api/admin/${adminId}/providers/settlements`
   );
   return data.data.data;
 };
-export const handleSettlement = async (userId: string) => {
+export const handleSettlement = async (userId: string, adminId: string) => {
+  const payload = { id: userId };
   const data = await axios.post(
-    `http://localhost:4005/api/admin/providers/settlements/${userId}`
+    `http://localhost:4005/api/admin/${adminId}/providers/settlements`,
+    payload
   );
   return data.data.data;
 };

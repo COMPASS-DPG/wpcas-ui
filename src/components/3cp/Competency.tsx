@@ -1,6 +1,6 @@
 import SingleCompetency from '@/components/3cp/SingleCompetency';
 
-import { CourseType } from '@/app/marketplace/page';
+import { CourseType } from '@/app/3cp/marketplace/page';
 
 const Competencies = ({ courseDetails }: { courseDetails: CourseType }) => {
   return (

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import AccountSection from '@/components/3cp/AccountSection';
 import MarketPlaceNavbar from '@/components/navbar/MarketPlaceNavbar';
+import Spinner from '@/components/Spinner';
 import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
 
 import { getAllProviders } from '@/services/accountVerficationServices';
@@ -12,7 +13,7 @@ export type accountType = {
   id: string;
   name: string;
   email: string;
-  organization: string;
+  orgName: string;
   Phone: string;
   paymentInfo: {
     IFSC: string;
@@ -21,10 +22,11 @@ export type accountType = {
     branchName: string;
   };
   status: string;
-  logo?: string;
+  orgLogo?: string;
   panNumber: string;
   gstNumber: string;
   date: string;
+  rejectionReason: string;
 };
 
 const AccountVefication = () => {
@@ -33,43 +35,60 @@ const AccountVefication = () => {
     []
   );
   const [AccountList, setAccountList] = useState<accountType[]>([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const fetchData = useCallback(async () => {
     try {
       const response = await getAllProviders();
-      const pendingCourses = response?.filter(
-        (account: accountType) => account.status === activeSection
-      );
-
-      setCurrentAccountList(pendingCourses);
+      setLoading(false);
       setAccountList(response);
     } catch (error) {
+      setError(true);
+      setLoading(false);
       toast.error('something went wrong');
+      // Handle any errors that occur during the API call
+      // eslint-disable-next-line no-console
+      console.error('API call error:', error);
     }
-  }, [activeSection]);
-  const filterCourse = (courseType: string) => {
-    const filteredResult = AccountList.filter((course: accountType) => {
-      return course.status === courseType;
-    });
-    setCurrentAccountList(filteredResult);
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    const filterResult = AccountList.filter((account: accountType) => {
+      return account.status === activeSection;
+    });
+    setCurrentAccountList(filterResult);
+  }, [activeSection, AccountList]);
+
   return (
     <div className='w-full bg-[#f7f9fc]'>
       <WpcasNavbar heading='3CP-Account Verification' />
-      <MarketPlaceNavbar
-        activeSection={activeSection}
-        setActiveSection={setActiveSection}
-        filterCourse={filterCourse}
-      />
-      <AccountSection
-        activeSection={activeSection}
-        accountList={currentAccountList}
-        fetchData={fetchData}
-      />
+      {loading && (
+        <div>
+          <Spinner />
+        </div>
+      )}
+
+      {!loading && error && (
+        <div className='mt-10 text-center text-[16px]'>Error...</div>
+      )}
+      {!loading && !error && (
+        <>
+          <MarketPlaceNavbar
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          />
+          <AccountSection
+            activeSection={activeSection}
+            accountList={currentAccountList}
+            fetchData={fetchData}
+          />
+        </>
+      )}
     </div>
   );
 };

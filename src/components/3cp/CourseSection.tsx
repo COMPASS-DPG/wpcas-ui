@@ -4,7 +4,7 @@ import CourseItems from '@/components/3cp/CourseItems';
 import SearchCourse from '@/components/3cp/SearchCourse';
 import { outfit } from '@/components/FontFamily';
 
-import { CourseType } from '@/app/marketplace/page';
+import { CourseType } from '@/app/3cp/marketplace/page';
 import { OptionType } from '@/app/propTypes';
 
 import EmptyBox from '~/svg/emptyBox.svg';

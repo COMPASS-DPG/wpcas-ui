@@ -9,7 +9,7 @@ import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import CommonModal from '@/components/uiComponents/CommonModal';
 
-import { accountType } from '@/app/account-verification/page';
+import { accountType } from '@/app/3cp/account-verification/page';
 import { approvedAccount } from '@/services/accountVerficationServices';
 
 import CourseProviderImage from '~/images/courseProviderImage.png';
@@ -29,6 +29,7 @@ const SingleAccount = ({
     try {
       await approvedAccount(account?.id);
       await fetchData();
+      toast.success('Provider account approved successfully');
     } catch (error) {
       toast.error('something went wrong');
     }
@@ -58,7 +59,7 @@ const SingleAccount = ({
             className='rounded-full border border-[#E3E7EF]'
           />
           <p className='text-[18px] font-bold text-[#272728]'>
-            {account?.date}
+            {account?.orgName}
           </p>
         </div>
         {activeSection === 'PENDING' ? (
@@ -131,7 +132,7 @@ const SingleAccount = ({
 
       {activeSection === 'REJECTED' && (
         <div>
-          <RejectSummary />
+          <RejectSummary summary={account?.rejectionReason} />
         </div>
       )}
     </div>

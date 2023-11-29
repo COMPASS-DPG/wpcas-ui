@@ -10,14 +10,19 @@ import { handleSettlement } from '@/services/configurationServices';
 const ConfirmSettlement = ({
   onClose,
   id,
+  adminId,
+  setFetchData,
 }: {
   onClose: () => void;
   id: string;
+  adminId: string;
+  setFetchData: (arg: boolean) => void;
 }) => {
   const handleConfirmSettlement = async () => {
     try {
-      await handleSettlement(id);
+      await handleSettlement(id, adminId);
       toast.success('Settlement done successfully');
+      setFetchData(true);
     } catch (error) {
       toast.error('something went wrong');
     }

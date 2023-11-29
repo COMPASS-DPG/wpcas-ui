@@ -1,6 +1,6 @@
 import SingleAccount from '@/components/3cp/SingleAccount';
 
-import { accountType } from '@/app/account-verification/page';
+import { accountType } from '@/app/3cp/account-verification/page';
 
 const AccountItems = ({
   activeSection,

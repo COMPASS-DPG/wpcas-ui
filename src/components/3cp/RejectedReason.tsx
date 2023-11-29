@@ -17,20 +17,25 @@ const RejectedReason = ({
   setShowReviewReasonPopUp: (value: boolean) => void;
   heading?: string;
   id?: number | string;
-  fetchData?: () => void;
+  fetchData: () => void;
 }) => {
   const [text, setText] = useState('');
   const [error, setError] = useState<boolean>(false);
 
   const handleProceedButton = async () => {
     //call api to handle the proceed button
-    if (text === '' || !id || !fetchData) {
+    if (text === '' || !id) {
       setError(true);
       return;
     }
     try {
-      if (typeof id === 'number') await rejectCourse(id, text);
-      else await rejectAccount(id);
+      if (typeof id === 'number') {
+        await rejectCourse(id, text);
+        toast.success('course reject successfully');
+      } else {
+        await rejectAccount(id, text);
+        toast.success('Provider account rejected successfully');
+      }
       await fetchData();
       setShowReviewReasonPopUp(false);
     } catch (error) {
