@@ -88,7 +88,7 @@ const SingleCourse = ({
                   className='rounded-3xl border border-[#E3E7EF]'
                 />
                 <p className='text-[15px] font-bold text-[#272728]'>
-                  Unacademy
+                  {course?.providerName}
                 </p>
               </div>
               <div className='flex items-center gap-1'>

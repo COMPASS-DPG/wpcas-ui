@@ -34,6 +34,15 @@ const SingleAccount = ({
       toast.error('something went wrong');
     }
   };
+  const originalDate = new Date(account?.updatedAt);
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+
+  const formattedDate = originalDate?.toLocaleDateString('en-US', options);
+
   return (
     <div
       className={`flex flex-col gap-[18px] rounded-2xl border border-[#EFEFEF] bg-[#fff] p-2.5 ${outfit.className}`}
@@ -65,7 +74,7 @@ const SingleAccount = ({
         {activeSection === 'PENDING' ? (
           <div className='flex items-center gap-5'>
             <p className='text-[14px] text-[#272728]'>
-              On {account?.date || '--'}
+              On {formattedDate || '--'}
             </p>
             <ButtonOutline
               onClick={() => setShowReviewReasonPopUp(true)}
@@ -90,7 +99,7 @@ const SingleAccount = ({
               } `}
             >
               {activeSection === 'REJECTED' ? 'Rejected' : 'Onboard'} On{' '}
-              {account?.date || '--'}
+              {formattedDate || '--'}
             </p>
           </div>
         )}
@@ -122,10 +131,10 @@ const SingleAccount = ({
             {account?.paymentInfo?.IFSC || '--'}
           </SingleDetail>
           <SingleDetail subHeading='PAN Number'>
-            {account?.panNumber || '--'}
+            {account?.paymentInfo?.PANnumber || '--'}
           </SingleDetail>
           <SingleDetail subHeading='GST Number'>
-            {account?.gstNumber || '--'}
+            {account?.paymentInfo?.GSTnumber || '--'}
           </SingleDetail>
         </div>
       </div>

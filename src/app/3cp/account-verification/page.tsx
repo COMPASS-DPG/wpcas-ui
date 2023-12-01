@@ -20,12 +20,12 @@ export type accountType = {
     accNo: string;
     bankName: string;
     branchName: string;
+    PANnumber: string;
+    GSTnumber: string;
   };
   status: string;
   orgLogo?: string;
-  panNumber: string;
-  gstNumber: string;
-  date: string;
+  updatedAt: string;
   rejectionReason: string;
 };
 

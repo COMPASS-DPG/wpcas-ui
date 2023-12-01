@@ -17,7 +17,7 @@ export type CourseType = {
   id: number;
   title: string;
   competency: competencyType;
-  CourseProvider: string;
+  providerName: string;
   author: string;
   language: string[];
   avgRating: number;

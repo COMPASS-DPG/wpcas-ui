@@ -6,8 +6,7 @@ export const getAllCourses = async () => {
 };
 export const approveCourse = async (courseId: number) => {
   const data = await axios.patch(
-    `http://localhost:4005/api/admin/courses/${courseId}/accept`,
-    { cqf_score: 20 }
+    `http://localhost:4005/api/admin/courses/${courseId}/accept`
   );
   return data.data.data;
 };

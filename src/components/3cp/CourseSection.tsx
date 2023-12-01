@@ -14,7 +14,7 @@ export type SearchInputType = {
   competency: string;
   language: string;
 };
-const getEmptyValue = () => {
+export const getEmptyValue = () => {
   return { course: '', competency: '', language: '' };
 };
 
@@ -31,6 +31,8 @@ const CourseSection = ({
   const [competencyOption, setCompetencyOption] = useState<OptionType[]>([]);
   const [languageOption, setLanguageOption] = useState<OptionType[]>([]);
   const [filterCourse, setFilterCourse] = useState<CourseType[]>([]);
+  const [showReset, setShowReset] = useState(false);
+
   const handleSearch = () => {
     const filteredCourses = courseList.filter((course) => {
       const courseTitleLower = course.title.toLowerCase();
@@ -50,8 +52,16 @@ const CourseSection = ({
     });
 
     setFilterCourse(filteredCourses);
+    setShowReset(true);
   };
 
+  const handleReset = () => {
+    setInput(getEmptyValue());
+    setShowReset(false);
+  };
+  useEffect(() => {
+    handleReset();
+  }, [activeSection]);
   useEffect(() => {
     const allCompetencies: string[] = courseList.reduce<string[]>(
       (competencies, course) =>
@@ -92,6 +102,9 @@ const CourseSection = ({
             competencyOption={competencyOption}
             handleSearch={handleSearch}
             languageOption={languageOption}
+            showReset={showReset}
+            setShowReset={setShowReset}
+            handleReset={handleReset}
           />
 
           <p className='my-2 text-[18px] font-medium leading-5 text-[#65758C]'>

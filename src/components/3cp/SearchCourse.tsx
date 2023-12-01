@@ -13,29 +13,38 @@ type PropType = {
   value: SearchInputType;
   onChange: (arg: SearchInputType) => void;
   handleSearch: () => void;
+  handleReset: () => void;
   competencyOption: OptionType[];
   languageOption: OptionType[];
+  showReset: boolean;
+  setShowReset: (arg: boolean) => void;
 };
+
 const SearchCourse = ({
   value,
   onChange,
   handleSearch,
+  handleReset,
   competencyOption,
   languageOption,
+  showReset,
+  setShowReset,
 }: PropType) => {
   return (
     <div className='my-7 flex flex-wrap justify-between gap-3'>
       <SearchInput
         value={value.course}
-        onChange={(updatedValue) =>
-          onChange({ ...value, course: updatedValue })
-        }
+        onChange={(updatedValue) => {
+          setShowReset(false);
+          onChange({ ...value, course: updatedValue });
+        }}
         placeholder='Search Course by title'
       />
       <SelectTag
         options={competencyOption}
         value={value?.competency}
         onChange={(updatedValue) => {
+          setShowReset(false);
           if (typeof updatedValue == 'string') {
             onChange({ ...value, competency: updatedValue });
           }
@@ -48,6 +57,7 @@ const SearchCourse = ({
         options={languageOption}
         value={value?.language}
         onChange={(updatedValue) => {
+          setShowReset(false);
           if (typeof updatedValue == 'string') {
             onChange({ ...value, language: updatedValue });
           }
@@ -56,10 +66,14 @@ const SearchCourse = ({
         placeholder='Language'
         paddingY='2px'
       />
-      <ButtonFill onClick={handleSearch} classes='bg-[#26292D] w-[120px]'>
+
+      <ButtonFill
+        onClick={showReset ? () => handleReset() : () => handleSearch()}
+        classes='bg-[#26292D] w-[120px]'
+      >
         <div className='flex justify-between'>
           <SearchIcon className='w-[18px]' />
-          <span>Search</span>
+          <span>{showReset ? 'Reset' : 'Search'}</span>
         </div>
       </ButtonFill>
     </div>
