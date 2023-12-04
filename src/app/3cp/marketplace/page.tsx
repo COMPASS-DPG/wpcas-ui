@@ -26,6 +26,8 @@ export type CourseType = {
   imgLink: string;
   description: string;
   rejectionReason?: string;
+  providerName: string;
+  courseLink: string;
 };
 
 const MarketPlace = () => {
@@ -66,13 +68,13 @@ const MarketPlace = () => {
       <WpcasNavbar heading='Marketplace' />
 
       {loading && (
-        <div>
+        <div className='mt-[100px] text-center'>
           <Spinner />
         </div>
       )}
 
       {!loading && error && (
-        <div className='mt-10 text-center text-[16px]'>Error...</div>
+        <div className='mt-100 text-center text-[16px]'>Error...</div>
       )}
 
       {!loading && !error && (

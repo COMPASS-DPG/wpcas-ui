@@ -13,8 +13,8 @@ import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import { CourseType } from '@/app/3cp/marketplace/page';
 import { approveCourse } from '@/services/marketPlaceServices';
 
-import CourseFullImage from '~/images/course.png';
-import CourseProvider from '~/images/courseProviderImage.png';
+// import CourseFullImage from '~/images/course.png';
+// import CourseProvider from '~/images/courseProviderImage.png';
 
 // import { EditIcon, Star } from '~/svg';
 
@@ -52,19 +52,26 @@ const ReviewCourse = ({
     >
       <div className='mb-4 flex items-center gap-2'>
         <Image
-          src={CourseProvider}
+          src={courseDetails?.imgLink}
           alt='course provide image'
-          width='24'
+          width={40}
+          height={40}
           className='rounded-3xl border border-[#E3E7EF]'
         />
         <p className='text-[15px] font-bold text-[#272728]'>
-          {courseDetails?.CourseProvider || '===='}
+          {courseDetails?.providerName || '===='}
         </p>
       </div>
       <div className='flex gap-4'>
         {/* image */}
         <div className='flex flex-shrink-0 align-bottom '>
-          <Image src={CourseFullImage} alt='course-image' />
+          <Image
+            src={courseDetails?.courseLink}
+            alt='course-image'
+            width={170}
+            height={170}
+            className='rounded-xl'
+          />
         </div>
         {/* centeritem */}
         <div className='flex flex-grow flex-col justify-between'>
