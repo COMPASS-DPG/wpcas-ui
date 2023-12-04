@@ -67,15 +67,24 @@ const SearchCourse = ({
         paddingY='2px'
       />
 
-      <ButtonFill
-        onClick={showReset ? () => handleReset() : () => handleSearch()}
-        classes='bg-[#26292D] w-[120px]'
-      >
-        <div className='flex justify-between'>
-          <SearchIcon className='w-[18px]' />
-          <span>{showReset ? 'Reset' : 'Search'}</span>
-        </div>
-      </ButtonFill>
+      {showReset ? (
+        <ButtonFill
+          onClick={showReset ? () => handleReset() : () => handleSearch()}
+          classes='bg-[#26292D]'
+        >
+          Reset
+        </ButtonFill>
+      ) : (
+        <ButtonFill
+          onClick={showReset ? () => handleReset() : () => handleSearch()}
+          classes='bg-[#26292D] w-[120px]'
+        >
+          <div className='flex justify-between'>
+            <SearchIcon className='w-[18px]' />
+            <span>Search</span>
+          </div>
+        </ButtonFill>
+      )}
     </div>
   );
 };

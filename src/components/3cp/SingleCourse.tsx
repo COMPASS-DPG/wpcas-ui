@@ -11,8 +11,8 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 
 import { CourseType } from '@/app/3cp/marketplace/page';
 
-import CourseImage from '~/images/course.png';
-import CourseProvider from '~/images/courseProviderImage.png';
+// import CourseImage from '~/images/course.png';
+// import CourseProvider from '~/images/courseProviderImage.png';
 
 const SingleCourse = ({
   activeSection,
@@ -58,7 +58,13 @@ const SingleCourse = ({
       <div className='flex gap-4'>
         {/* image */}
         <div className='flex flex-shrink-0 align-bottom '>
-          <Image src={CourseImage} alt='course-image' />
+          <Image
+            src={course?.courseLink}
+            alt='course-image'
+            width={170}
+            height={170}
+            className='rounded-xl'
+          />
         </div>
         {/* centeritem */}
         <div className='flex flex-grow flex-col justify-between'>
@@ -79,12 +85,13 @@ const SingleCourse = ({
             </div>
           </div>
           <div>
-            <div className='mt-2 flex items-center gap-3 align-bottom'>
-              <div className='flex gap-1'>
+            <div className='mt-2 flex items-end gap-3 align-bottom'>
+              <div className='flex items-end gap-1'>
                 <Image
-                  src={CourseProvider}
+                  src={course?.imgLink}
                   alt='course provide image'
-                  width='24'
+                  width={40}
+                  height={40}
                   className='rounded-3xl border border-[#E3E7EF]'
                 />
                 <p className='text-[15px] font-bold text-[#272728]'>
@@ -118,8 +125,12 @@ const SingleCourse = ({
           <div className='flex w-full justify-end gap-4'>
             {activeSection === 'ACCEPTED' && (
               <p className='flex items-center gap-1 text-[14px] font-bold leading-4 text-[#787878]'>
-                {course?.avgRating ? course?.avgRating : '--'}{' '}
-                <AiFillStar fill='#FFD029' width='12px' />
+                {course?.avgRating && (
+                  <>
+                    {course?.avgRating}{' '}
+                    <AiFillStar fill='#FFD029' width='12px' />
+                  </>
+                )}
               </p>
             )}
             <div className='rounded-lg bg-[#FFECAA] px-3 py-0.5'>

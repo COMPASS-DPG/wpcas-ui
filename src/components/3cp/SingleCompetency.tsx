@@ -17,7 +17,7 @@ const SingleCompetency = ({ competency }: { competency: CompetencyType }) => {
           <p className='text-[16px] font-medium leading-[18px]'>
             {competency?.name}
           </p>
-          <div onClick={() => setOpen(!open)}>
+          <div onClick={() => setOpen(!open)} className='cursor-pointer'>
             {open ? (
               <MdKeyboardArrowUp size='20px' />
             ) : (

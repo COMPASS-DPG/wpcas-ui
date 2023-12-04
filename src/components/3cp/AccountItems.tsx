@@ -13,7 +13,7 @@ const AccountItems = ({
 }) => {
   return (
     <div className='flex flex-col gap-2.5'>
-      {accountList.map((account) => {
+      {accountList?.map((account) => {
         return (
           <SingleAccount
             key={account?.id}

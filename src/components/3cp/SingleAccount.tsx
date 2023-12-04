@@ -12,7 +12,17 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import { accountType } from '@/app/3cp/account-verification/page';
 import { approvedAccount } from '@/services/accountVerficationServices';
 
-import CourseProviderImage from '~/images/courseProviderImage.png';
+// import CourseProviderImage from '~/images/courseProviderImage.png';
+
+// will format date
+export const formatDate = (inputDate: string | Date) => {
+  const date = typeof inputDate == 'string' ? new Date(inputDate) : inputDate;
+  return date.toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+};
 
 const SingleAccount = ({
   activeSection,
@@ -34,14 +44,6 @@ const SingleAccount = ({
       toast.error('something went wrong');
     }
   };
-  const originalDate = new Date(account?.updatedAt);
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  };
-
-  const formattedDate = originalDate?.toLocaleDateString('en-US', options);
 
   return (
     <div
@@ -62,9 +64,10 @@ const SingleAccount = ({
       <div className='flex justify-between'>
         <div className='flex items-center gap-3'>
           <Image
-            src={CourseProviderImage}
+            src={account?.orgLogo ?? ''}
             alt='course-provider-image'
-            width='44'
+            width={44}
+            height={44}
             className='rounded-full border border-[#E3E7EF]'
           />
           <p className='text-[18px] font-bold text-[#272728]'>
@@ -74,7 +77,7 @@ const SingleAccount = ({
         {activeSection === 'PENDING' ? (
           <div className='flex items-center gap-5'>
             <p className='text-[14px] text-[#272728]'>
-              On {formattedDate || '--'}
+              On {account?.updatedAt ? formatDate(account?.updatedAt) : '--'}
             </p>
             <ButtonOutline
               onClick={() => setShowReviewReasonPopUp(true)}
@@ -99,7 +102,7 @@ const SingleAccount = ({
               } `}
             >
               {activeSection === 'REJECTED' ? 'Rejected' : 'Onboard'} On{' '}
-              {formattedDate || '--'}
+              {account?.updatedAt ? formatDate(account?.updatedAt) : '--'}
             </p>
           </div>
         )}
@@ -112,7 +115,7 @@ const SingleAccount = ({
           </SingleDetail>
           <SingleDetail subHeading='Email Id'>{account?.email}</SingleDetail>
           <SingleDetail subHeading='Phone'>
-            {account?.Phone || '--'}
+            {account?.phone || '--'}
           </SingleDetail>
         </div>
         <div>

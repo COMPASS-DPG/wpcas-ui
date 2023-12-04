@@ -42,16 +42,19 @@ export const getUserList = async () => {
   return data.data.data;
 };
 
+// course manager
 export const getSettlementsData = async (adminId: string) => {
   const data = await axios.get(
-    `http://localhost:4005/api/admin/${adminId}/providers/settlements`
+    `http://localhost:3000/api/admin/${adminId}/providers/settlements`
   );
   return data.data.data;
 };
+
+// course manager
 export const handleSettlement = async (userId: string, adminId: string) => {
   const payload = { id: userId };
   const data = await axios.post(
-    `http://localhost:4005/api/admin/${adminId}/providers/settlements`,
+    `http://localhost:3000/api/admin/${adminId}/providers/settlements`,
     payload
   );
   return data.data.data;

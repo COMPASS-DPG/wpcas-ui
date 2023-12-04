@@ -14,7 +14,7 @@ export type accountType = {
   name: string;
   email: string;
   orgName: string;
-  Phone: string;
+  phone: string;
   paymentInfo: {
     IFSC: string;
     accNo: string;
@@ -25,8 +25,8 @@ export type accountType = {
   };
   status: string;
   orgLogo?: string;
-  updatedAt: string;
   rejectionReason: string;
+  updatedAt: Date | undefined | string;
 };
 
 const AccountVefication = () => {
@@ -68,13 +68,13 @@ const AccountVefication = () => {
     <div className='w-full bg-[#f7f9fc]'>
       <WpcasNavbar heading='3CP-Account Verification' />
       {loading && (
-        <div>
+        <div className='mt-[100px] text-center'>
           <Spinner />
         </div>
       )}
 
       {!loading && error && (
-        <div className='mt-10 text-center text-[16px]'>Error...</div>
+        <div className='mt-100 text-center text-[16px]'>Error...</div>
       )}
       {!loading && !error && (
         <>
