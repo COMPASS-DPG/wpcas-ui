@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import SettlementsTable from '@/components/settlements/SettlementsTable';
 import Spinner from '@/components/Spinner';
 
+import { useAuthContext } from '@/app/context/AuthContext';
 import { getSettlementsData } from '@/services/configurationServices';
 
 export type SettlementDataType = {
@@ -16,7 +17,7 @@ export type SettlementDataType = {
 };
 
 const Settlements = () => {
-  const adminId = localStorage.getItem('adminId') ?? '';
+  const { adminData } = useAuthContext();
   const [filterUserData, setFilterUserData] = useState<SettlementDataType[]>(
     []
   );
@@ -29,7 +30,7 @@ const Settlements = () => {
     if (fetchData) {
       (async () => {
         try {
-          const data = await getSettlementsData(adminId);
+          const data = await getSettlementsData(adminData?.admin ?? '');
           setLoading(false);
           setUserData(data);
           setFetchData(false);
@@ -43,7 +44,7 @@ const Settlements = () => {
         }
       })();
     }
-  }, [fetchData, adminId, setFetchData]);
+  }, [fetchData, adminData?.admin, setFetchData]);
 
   return (
     <>
@@ -59,7 +60,7 @@ const Settlements = () => {
             userData={userData}
             filterUserData={filterUserData}
             setFilterUserData={(value) => setFilterUserData(value)}
-            adminId={adminId}
+            adminId={adminData?.admin ?? ''}
             setFetchData={setFetchData}
           />
         </div>

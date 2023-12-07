@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import AccountSection from '@/components/3cp/AccountSection';
 import MarketPlaceNavbar from '@/components/navbar/MarketPlaceNavbar';
 import Spinner from '@/components/Spinner';
-import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
+import ProfileNavbar from '@/components/wpcasOverView/ProfileNavbar';
 
 import { getAllProviders } from '@/services/accountVerficationServices';
 
@@ -66,7 +66,7 @@ const AccountVefication = () => {
 
   return (
     <div className='w-full bg-[#f7f9fc]'>
-      <WpcasNavbar heading='3CP-Account Verification' />
+      <ProfileNavbar heading='3CP-Account Verification' />
       {loading && (
         <div className='mt-[100px] text-center'>
           <Spinner />

@@ -22,7 +22,7 @@ const SideNavbar = () => {
       </div>
       <nav className='mt-[80px]'>
         <ul className='flex-col gap-y-4 '>
-          <NavbarLink currentRoute='/'>
+          <NavbarLink currentRoute='/dashboard'>
             <DashboardIcon className='mr-2 w-5' /> Dashboard{' '}
           </NavbarLink>
           <li

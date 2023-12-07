@@ -11,8 +11,12 @@ import InputTag from '@/components/uiComponents/InputTag';
 import Label from '@/components/uiComponents/Label';
 import ConfirmTransaction from '@/components/userManagement/ConfirmTransaction';
 
+import { useAuthContext } from '@/app/context/AuthContext';
 import { useUserWalletContext } from '@/app/context/UserWalletContext';
 import { getTransectionHistory } from '@/services/configurationServices';
+
+import profile from '~/images/profile.jpg';
+
 type transectionType = {
   toId: string;
   createdAt: string;
@@ -20,8 +24,6 @@ type transectionType = {
   type: string;
   credits: string;
 };
-
-import profile from '~/images/profile.jpg';
 
 const isValid = (value: string, setError: (arg: string) => void) => {
   if (!value) {
@@ -33,7 +35,8 @@ const isValid = (value: string, setError: (arg: string) => void) => {
 };
 
 const AddToWallet = ({ params }: { params: { id: string } }) => {
-  const { userData, setFetchData, adminId } = useUserWalletContext();
+  const { userData, setFetchData } = useUserWalletContext();
+  const { adminData } = useAuthContext();
 
   const [credit, setCredit] = useState('');
   const [error, setError] = useState<string>('');
@@ -65,6 +68,7 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     if (fetchTransectionData) {
       (async () => {
+        const adminId = adminData?.admin ?? '';
         try {
           const data = await getTransectionHistory(adminId, params?.id);
           setTransections(data);
@@ -74,7 +78,7 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
         }
       })();
     }
-  }, [adminId, fetchTransectionData, params?.id]);
+  }, [adminData?.admin, fetchTransectionData, params?.id]);
 
   return (
     <div
@@ -90,7 +94,7 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
           onClose={() => setIsOpen(false)}
           isAddWallet={isAddWallet}
           setFetchData={setFetchData}
-          adminId={adminId}
+          adminId={adminData?.admin ?? ''}
           consumerId={params?.id}
           setFetchTransectionData={setFetchTransectionData}
         />

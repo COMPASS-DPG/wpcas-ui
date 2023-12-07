@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import CourseSection from '@/components/3cp/CourseSection';
 import MarketPlaceNavbar from '@/components/navbar/MarketPlaceNavbar';
 import Spinner from '@/components/Spinner';
-import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
+import ProfileNavbar from '@/components/wpcasOverView/ProfileNavbar';
 
 import { getAllCourses } from '@/services/marketPlaceServices';
 
@@ -64,7 +64,7 @@ const MarketPlace = () => {
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>
-      <WpcasNavbar heading='Marketplace' />
+      <ProfileNavbar heading='Marketplace' />
 
       {loading && (
         <div className='mt-[100px] text-center'>

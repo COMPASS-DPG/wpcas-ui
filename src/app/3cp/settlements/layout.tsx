@@ -1,13 +1,13 @@
 'use client';
 import * as React from 'react';
 
-import WpcasNavbar from '@/components/wpcasOverView/WpcasNavbar';
+import ProfileNavbar from '@/components/wpcasOverView/ProfileNavbar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const heading = '3CP-Settlements';
   return (
     <div className='w-screen bg-[#F7F9FC]'>
-      <WpcasNavbar heading={heading} />
+      <ProfileNavbar heading={heading} />
       {children}
     </div>
   );

@@ -4,6 +4,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { UserWalletDataType } from '@/app/user-management/user-wallet/page';
 import { getUserWalletDetails } from '@/services/configurationServices';
 
+import { useAuthContext } from './AuthContext';
+
 interface UserWalletContextValue {
   setFilterUserData: (value: UserWalletDataType[]) => void;
   filterUserData: UserWalletDataType[];
@@ -11,7 +13,6 @@ interface UserWalletContextValue {
   loading: boolean;
   error: boolean;
   setFetchData: (value: boolean) => void;
-  adminId: string;
 }
 
 const UserWalletProvider = createContext<UserWalletContextValue>({
@@ -21,11 +22,10 @@ const UserWalletProvider = createContext<UserWalletContextValue>({
   loading: true,
   error: false,
   setFetchData: () => null,
-  adminId: '',
 });
 
 const UserWalletContext = ({ children }: { children: React.ReactElement }) => {
-  const adminId = localStorage.getItem('adminId') ?? '';
+  const { adminData } = useAuthContext();
   const [filterUserData, setFilterUserData] = useState<UserWalletDataType[]>(
     []
   );
@@ -38,7 +38,7 @@ const UserWalletContext = ({ children }: { children: React.ReactElement }) => {
     if (fetchData) {
       (async () => {
         try {
-          const data = await getUserWalletDetails(adminId);
+          const data = await getUserWalletDetails(adminData?.admin ?? '');
           setLoading(false);
           setFetchData(false);
           setUserData(data?.consumers);
@@ -52,7 +52,7 @@ const UserWalletContext = ({ children }: { children: React.ReactElement }) => {
         }
       })();
     }
-  }, [fetchData, adminId]);
+  }, [fetchData, adminData?.admin]);
   return (
     <UserWalletProvider.Provider
       value={{
@@ -62,7 +62,6 @@ const UserWalletContext = ({ children }: { children: React.ReactElement }) => {
         loading,
         error,
         setFetchData,
-        adminId,
       }}
     >
       {children}
