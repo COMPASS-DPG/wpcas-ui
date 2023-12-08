@@ -14,9 +14,9 @@ export const approvedAccount = async (providerId: string) => {
 };
 
 // course manager
-export const rejectAccount = async (providerId: string, reasone: string) => {
+export const rejectAccount = async (providerId: string, reason: string) => {
   await axios.patch(
     `http://localhost:4005/api/admin/providers/${providerId}/reject`,
-    { rejectionReason: reasone }
+    { rejectionReason: reason }
   );
 };

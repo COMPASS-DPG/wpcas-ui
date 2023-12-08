@@ -6,13 +6,8 @@ import SearchInput from '@/components/uiComponents/SearchInput';
 type PropType = {
   value: string;
   onChange: (arg: string) => void;
-  // handleSearch: () => void;
   placeholder: string;
 };
-
-// import ButtonFill from '@/components/uiComponents/ButtonFill';
-
-// import SearchIcon from '~/svg/searchIcon.svg';
 
 const SearchUser = ({ value, onChange, placeholder }: PropType) => {
   return (
@@ -22,12 +17,6 @@ const SearchUser = ({ value, onChange, placeholder }: PropType) => {
         onChange={(updatedValue) => onChange(updatedValue)}
         placeholder={placeholder}
       />
-      {/* <ButtonFill onClick={handleSearch} classes='bg-[#385B8B] w-[120px]'>
-        <div className='flex justify-between'>
-          <SearchIcon className='w-[18px]' />
-          <span>Search</span>
-        </div>
-      </ButtonFill> */}
     </div>
   );
 };

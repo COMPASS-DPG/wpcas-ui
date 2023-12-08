@@ -11,9 +11,6 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 
 import { CourseType } from '@/app/3cp/marketplace/page';
 
-// import CourseImage from '~/images/course.png';
-// import CourseProvider from '~/images/courseProviderImage.png';
-
 const SingleCourse = ({
   activeSection,
   course,
@@ -50,8 +47,9 @@ const SingleCourse = ({
       >
         <RejectedReason
           setShowReviewReasonPopUp={setShowReviewReasonPopUp}
-          id={course?.id}
+          id={course?.courseId}
           fetchData={fetchData}
+          isCourse={true}
         />
       </CommonModal>
 
@@ -59,7 +57,7 @@ const SingleCourse = ({
         {/* image */}
         <div className='flex flex-shrink-0 align-bottom '>
           <Image
-            src={course?.courseLink}
+            src={course?.imgLink}
             alt='course-image'
             width={170}
             height={170}
@@ -74,10 +72,10 @@ const SingleCourse = ({
             </p>
             <div className='pl-6 '>
               <ol className='grid  list-decimal grid-cols-2 text-[14px] text-[#787878] '>
-                {Object.keys(course?.competency)?.map((key) => {
+                {Object.keys(course?.competency ?? {})?.map((key) => {
                   return (
                     <li key={key}>
-                      {key} ( {course.competency[key].join(', ')} )
+                      {key} ( {course?.competency[key]?.join(', ')} )
                     </li>
                   );
                 })}
@@ -88,10 +86,10 @@ const SingleCourse = ({
             <div className='mt-2 flex items-end gap-3 align-bottom'>
               <div className='flex items-end gap-1'>
                 <Image
-                  src={course?.imgLink}
+                  src={course?.providerLogo}
                   alt='course provide image'
-                  width={40}
-                  height={40}
+                  width={35}
+                  height={30}
                   className='rounded-3xl border border-[#E3E7EF]'
                 />
                 <p className='text-[15px] font-bold text-[#272728]'>

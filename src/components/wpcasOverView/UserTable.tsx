@@ -57,7 +57,6 @@ const UserTable = ({
         value={searchInput}
         placeholder='Search User'
         onChange={(value) => handleSearch(value)}
-        // handleSearch={() => null}
       />
       <div className='relative overflow-x-auto shadow-md sm:rounded-md'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>

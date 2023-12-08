@@ -27,7 +27,7 @@ export default function HomePage() {
           <div className='flex items-center justify-center'>
             <div className='relative'>
               <div className='h-20 w-20 rounded-full border-b-8 border-t-8 border-gray-200'></div>
-              <div className='absolute left-0 top-0 h-20 w-20 animate-spin rounded-full border-b-8 border-t-8 border-blue-500'></div>
+              <div className='absolute left-0 top-0 h-20 w-20 animate-spin rounded-full border-b-8 border-t-8 border-[#26292D]'></div>
             </div>
           </div>
           <p className='mt-4 text-lg font-semibold text-gray-600'>

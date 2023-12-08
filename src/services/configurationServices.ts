@@ -62,7 +62,7 @@ export const handleSettlement = async (userId: string, adminId: string) => {
 
 export const getUserWalletDetails = async (adminId: string) => {
   const data = await axios.get(
-    `http://localhost:4005/api/admin/${adminId}/consumers`
+    `http://localhost:4000/api/admin/${adminId}/consumers`
   );
   return data.data.data;
 };
@@ -75,7 +75,7 @@ export const addCreditToUser = async (
   adminId: string
 ) => {
   const data = await axios.post(
-    `http://localhost:4005/api/admin/${adminId}/addCredits`,
+    `http://localhost:4000/api/admin/${adminId}/addCredits`,
     payload
   );
   return data.data.data;
@@ -85,7 +85,7 @@ export const removeCreditFromUser = async (
   adminId: string
 ) => {
   const data = await axios.post(
-    `http://localhost:4005/api/admin/${adminId}/reduceCredits`,
+    `http://localhost:4000/api/admin/${adminId}/reduceCredits`,
     payload
   );
   return data.data.data;
@@ -95,7 +95,7 @@ export const getTransectionHistory = async (
   consumerId: string
 ) => {
   const data = await axios.get(
-    `http://localhost:4005/api/admin/${adminId}/userWallets/transactions/${consumerId}`
+    `http://localhost:4000/api/admin/${adminId}/userWallets/transactions/${consumerId}`
   );
   return data.data.data;
 };

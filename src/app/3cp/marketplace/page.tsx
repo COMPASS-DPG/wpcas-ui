@@ -14,8 +14,9 @@ type competencyType = {
 };
 
 export type CourseType = {
-  id: number;
+  courseId: string;
   title: string;
+  providerLogo: string;
   competency: competencyType;
   providerName: string;
   author: string;

@@ -12,8 +12,6 @@ import CommonModal from '@/components/uiComponents/CommonModal';
 import { accountType } from '@/app/3cp/account-verification/page';
 import { approvedAccount } from '@/services/accountVerficationServices';
 
-// import CourseProviderImage from '~/images/courseProviderImage.png';
-
 // will format date
 export const formatDate = (inputDate: string | Date) => {
   const date = typeof inputDate == 'string' ? new Date(inputDate) : inputDate;

@@ -13,10 +13,10 @@ const CourseItems = ({
 }) => {
   return (
     <div className='flex flex-col gap-2.5'>
-      {courseList.map((course) => {
+      {courseList?.map((course) => {
         return (
           <SingleCourse
-            key={course?.id}
+            key={course?.courseId}
             activeSection={activeSection}
             course={course}
             fetchData={fetchData}

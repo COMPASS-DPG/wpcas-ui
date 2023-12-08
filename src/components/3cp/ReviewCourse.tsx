@@ -13,11 +13,6 @@ import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import { CourseType } from '@/app/3cp/marketplace/page';
 import { approveCourse } from '@/services/marketPlaceServices';
 
-// import CourseFullImage from '~/images/course.png';
-// import CourseProvider from '~/images/courseProviderImage.png';
-
-// import { EditIcon, Star } from '~/svg';
-
 const ReviewCourse = ({
   activeSection,
   courseDetails,
@@ -33,7 +28,7 @@ const ReviewCourse = ({
 }) => {
   const handleApprovedButton = async () => {
     try {
-      await approveCourse(courseDetails.id);
+      await approveCourse(courseDetails?.courseId);
       fetchData();
       toast.success('course approved successfully');
       setShowPreviewPopUp(false);

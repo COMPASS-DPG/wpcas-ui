@@ -7,7 +7,7 @@ export const getAllCourses = async () => {
 };
 
 // course manager api
-export const approveCourse = async (courseId: number) => {
+export const approveCourse = async (courseId: string) => {
   const data = await axios.patch(
     `http://localhost:4005/api/admin/courses/${courseId}/accept`
   );
@@ -15,7 +15,7 @@ export const approveCourse = async (courseId: number) => {
 };
 
 // course manager api
-export const rejectCourse = async (courseId: number, reason: string) => {
+export const rejectCourse = async (courseId: string, reason: string) => {
   const data = await axios.patch(
     `http://localhost:4005/api/admin/courses/${courseId}/reject`,
     { rejectionReason: reason }
