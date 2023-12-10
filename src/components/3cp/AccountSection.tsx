@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 
 import AccountItems from '@/components/3cp/AccountItems';
 import { outfit } from '@/components/FontFamily';
+import NoCoursesAdded from '@/components/uiComponents/NoCoursesAdded';
 import SearchInput from '@/components/uiComponents/SearchInput';
 
 import { accountType } from '@/app/3cp/account-verification/page';
-
-import EmptyBox from '~/svg/emptyBox.svg';
 
 const AccountSection = ({
   activeSection,
@@ -58,12 +57,7 @@ const AccountSection = ({
           />
         </div>
       ) : (
-        <div className='mx-7  flex h-[400px] flex-col items-center justify-center gap-2'>
-          <EmptyBox width='160px' />
-          <p className='font-outfit text-center text-base font-normal text-[#272728]'>
-            No Account Present yet!
-          </p>
-        </div>
+        <NoCoursesAdded text='No Account Present yet!' />
       )}
     </div>
   );

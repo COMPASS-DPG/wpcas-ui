@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import CourseItems from '@/components/3cp/CourseItems';
 import SearchCourse from '@/components/3cp/SearchCourse';
@@ -7,7 +7,7 @@ import { outfit } from '@/components/FontFamily';
 import { CourseType } from '@/app/3cp/marketplace/page';
 import { OptionType } from '@/app/propTypes';
 
-import EmptyBox from '~/svg/emptyBox.svg';
+import NoCoursesAdded from '../uiComponents/NoCoursesAdded';
 
 export type SearchInputType = {
   course: string;
@@ -34,15 +34,15 @@ const CourseSection = ({
   const [showReset, setShowReset] = useState(false);
 
   const handleSearch = () => {
-    const filteredCourses = courseList.filter((course) => {
-      const courseTitleLower = course.title.toLowerCase();
-      const inputCourseLower = input.course.toLowerCase();
+    const filteredCourses = courseList?.filter((course) => {
+      const courseTitleLower = course?.title?.toLowerCase();
+      const inputCourseLower = input?.course?.toLowerCase();
       const competencyMatch =
-        input.competency === '' ||
-        course.competency[input.competency]?.length > 0;
+        input?.competency === '' ||
+        course?.competency[input.competency]?.length > 0;
 
       const languageMatch =
-        input.language === '' || course.language.includes(input.language);
+        input?.language === '' || course?.language?.includes(input.language);
 
       return (
         courseTitleLower.includes(inputCourseLower) &&
@@ -55,13 +55,16 @@ const CourseSection = ({
     setShowReset(true);
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setInput(getEmptyValue());
     setShowReset(false);
-  };
+    setFilterCourse(courseList);
+  }, [courseList]);
+
   useEffect(() => {
     handleReset();
-  }, [activeSection]);
+  }, [activeSection, handleReset]);
+
   useEffect(() => {
     const allCompetencies: string[] = courseList.reduce<string[]>(
       (competencies, course) =>
@@ -77,13 +80,13 @@ const CourseSection = ({
       })
     );
     const allLanguages: string[] = courseList.reduce<string[]>(
-      (languages, course) => languages.concat(course.language),
+      (languages, course) => languages?.concat(course?.language),
       []
     );
 
     const uniqueLanguages: string[] = Array.from(new Set(allLanguages));
 
-    const languageOptions: OptionType[] = uniqueLanguages.map((language) => ({
+    const languageOptions: OptionType[] = uniqueLanguages?.map((language) => ({
       label: language,
       value: language,
     }));
@@ -110,19 +113,21 @@ const CourseSection = ({
           <p className='my-2 text-[18px] font-medium leading-5 text-[#65758C]'>
             {filterCourse?.length} Courses
           </p>
-          <CourseItems
-            activeSection={activeSection}
-            courseList={filterCourse}
-            fetchData={fetchData}
-          />
+          {filterCourse.length !== 0 ? (
+            <CourseItems
+              activeSection={activeSection}
+              courseList={filterCourse}
+              fetchData={fetchData}
+            />
+          ) : (
+            showReset &&
+            courseList?.length !== 0 && (
+              <NoCoursesAdded text='No Result found' />
+            )
+          )}
         </div>
       ) : (
-        <div className='mx-7  flex h-[400px] flex-col items-center justify-center gap-2'>
-          <EmptyBox width='160px' />
-          <p className='font-outfit text-center text-base font-normal text-[#272728]'>
-            No courses added yet!
-          </p>
-        </div>
+        <NoCoursesAdded />
       )}
 
       {/* in case of no item show below item */}

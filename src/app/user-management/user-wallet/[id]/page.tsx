@@ -13,11 +13,13 @@ import ConfirmTransaction from '@/components/userManagement/ConfirmTransaction';
 
 import { useAuthContext } from '@/app/context/AuthContext';
 import { useUserWalletContext } from '@/app/context/UserWalletContext';
-import { getTransectionHistory } from '@/services/configurationServices';
+import { getTransactionHistory } from '@/services/userWalletSevices';
 
 import profile from '~/images/profile.jpg';
 
-type transectionType = {
+type transactionType = {
+  transactionId: string;
+  fromId: string;
   toId: string;
   createdAt: string;
   description: string;
@@ -42,8 +44,8 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
   const [error, setError] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
   const [isAddWallet, setIsAddWallet] = useState(false);
-  const [transections, setTransections] = useState<transectionType[]>([]);
-  const [fetchTransectionData, setFetchTransectionData] = useState(true);
+  const [transactions, setTransactions] = useState<transactionType[]>([]);
+  const [fetchTransactionData, setFetchTransactionData] = useState(true);
 
   const handleAddWallet = () => {
     if (isValid(credit, setError)) {
@@ -66,19 +68,19 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
   };
 
   useEffect(() => {
-    if (fetchTransectionData) {
+    if (fetchTransactionData) {
       (async () => {
         const adminId = adminData?.admin ?? '';
         try {
-          const data = await getTransectionHistory(adminId, params?.id);
-          setTransections(data);
-          setFetchTransectionData(false);
+          const data = await getTransactionHistory(adminId, params?.id);
+          setTransactions(data);
+          setFetchTransactionData(false);
         } catch (error) {
           toast.error('something went wrong');
         }
       })();
     }
-  }, [adminData?.admin, fetchTransectionData, params?.id]);
+  }, [adminData?.admin, fetchTransactionData, params?.id]);
 
   return (
     <div
@@ -92,11 +94,12 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
         <ConfirmTransaction
           credit={credit}
           onClose={() => setIsOpen(false)}
+          setCreditsToEmpty={() => setCredit('')}
           isAddWallet={isAddWallet}
           setFetchData={setFetchData}
           adminId={adminData?.admin ?? ''}
           consumerId={params?.id}
-          setFetchTransectionData={setFetchTransectionData}
+          setFetchTransactionData={setFetchTransactionData}
         />
       </CommonModal>
       <div className='mr-[30px] w-[38vw]'>
@@ -156,8 +159,8 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
         <div className='mb-[30px] text-xl font-medium text-[#272728]'>
           Transaction History
         </div>
-        {transections.map((transection: transectionType) => {
-          const createdAtDate = new Date(transection?.createdAt);
+        {transactions?.map((transaction: transactionType) => {
+          const createdAtDate = new Date(transaction?.createdAt);
 
           const formattedDate = new Intl.DateTimeFormat('en-US', {
             day: 'numeric',
@@ -166,20 +169,20 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
           }).format(createdAtDate);
           return (
             <div
-              key={transection?.toId}
+              key={transaction?.transactionId}
               className='mb-[20px] flex flex-wrap justify-between'
             >
               <div className='text-base text-[#272728]'>
-                {transection?.description}
+                {transaction?.description}
               </div>
               <div className='flex flex-wrap gap-4'>
-                {transection?.type !== 'ADD_CREDITS' ? (
+                {transaction?.type !== 'ADD_CREDITS' ? (
                   <div className='text-base font-semibold text-[#ED2B2B]'>
-                    -Cr {transection?.credits}
+                    -Cr {transaction?.credits}
                   </div>
                 ) : (
                   <div className='text-base font-semibold text-[#7DCC8A]'>
-                    +Cr {transection?.credits}
+                    +Cr {transaction?.credits}
                   </div>
                 )}
 

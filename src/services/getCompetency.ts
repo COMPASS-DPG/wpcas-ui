@@ -128,7 +128,6 @@ export const updateItemOnServer = async (
     } else {
       toast.error('No change found in Competency level and Question');
     }
-
     // Handle the response or perform additional tasks as needed
   } catch (error) {
     toast.error('something went wrong');

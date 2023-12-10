@@ -5,7 +5,7 @@ import { outfit } from '@/components/FontFamily';
 import ButtonFill from '@/components/uiComponents/ButtonFill';
 import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 
-import { handleSettlement } from '@/services/configurationServices';
+import { handleSettlement } from '@/services/settlementsSevices';
 
 const ConfirmSettlement = ({
   onClose,

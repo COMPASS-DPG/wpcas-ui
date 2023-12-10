@@ -5,7 +5,7 @@ import SettlementsTable from '@/components/settlements/SettlementsTable';
 import Spinner from '@/components/Spinner';
 
 import { useAuthContext } from '@/app/context/AuthContext';
-import { getSettlementsData } from '@/services/configurationServices';
+import { getSettlementsData } from '@/services/settlementsSevices';
 
 export type SettlementDataType = {
   id: string;

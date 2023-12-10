@@ -8,7 +8,7 @@ import ButtonOutline from '@/components/uiComponents/ButtonOutline';
 import {
   addCreditToUser,
   removeCreditFromUser,
-} from '@/services/configurationServices';
+} from '@/services/userWalletSevices';
 
 const ConfirmTransaction = ({
   onClose,
@@ -17,7 +17,8 @@ const ConfirmTransaction = ({
   setFetchData,
   adminId,
   consumerId,
-  setFetchTransectionData,
+  setFetchTransactionData,
+  setCreditsToEmpty,
 }: {
   onClose: () => void;
   credit: string;
@@ -25,18 +26,22 @@ const ConfirmTransaction = ({
   setFetchData: (value: boolean) => void;
   adminId: string;
   consumerId: string;
-  setFetchTransectionData: (value: boolean) => void;
+  setFetchTransactionData: (value: boolean) => void;
+  setCreditsToEmpty: () => void;
 }) => {
   const handleConfirmSettlement = async () => {
     try {
       const payload = { credits: parseInt(credit), consumerId: consumerId };
       if (isAddWallet) {
         await addCreditToUser(payload, adminId);
+        toast.success('credits added successfully');
       } else {
         await removeCreditFromUser(payload, adminId);
+        toast.success('credits removed successfully');
       }
-      setFetchTransectionData(true);
+      setFetchTransactionData(true);
       setFetchData(true);
+      setCreditsToEmpty();
       onClose();
     } catch (error) {
       toast.error('something went wrong');

@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { UserWalletDataType } from '@/app/user-management/user-wallet/page';
-import { getUserWalletDetails } from '@/services/configurationServices';
+import { getUserWalletDetails } from '@/services/userWalletSevices';
 
 import { useAuthContext } from './AuthContext';
 
