@@ -113,7 +113,7 @@ const CourseSection = ({
           <p className='my-2 text-[18px] font-medium leading-5 text-[#65758C]'>
             {filterCourse?.length} Courses
           </p>
-          {filterCourse.length !== 0 ? (
+          {filterCourse?.length !== 0 ? (
             <CourseItems
               activeSection={activeSection}
               courseList={filterCourse}

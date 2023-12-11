@@ -59,12 +59,12 @@ const SingleCourse = ({
           <Image
             src={course?.imgLink}
             alt='course-image'
-            width={170}
-            height={170}
+            width={100}
+            height={150}
             className='rounded-xl'
           />
         </div>
-        {/* centeritem */}
+        {/* centerItem */}
         <div className='flex flex-grow flex-col justify-between'>
           <div>
             <p className='pb-2 text-[16px] font-bold text-[#272728]'>

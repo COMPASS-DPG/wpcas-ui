@@ -47,7 +47,7 @@ const ReviewCourse = ({
     >
       <div className='mb-4 flex items-center gap-2'>
         <Image
-          src={courseDetails?.imgLink}
+          src={courseDetails?.providerLogo}
           alt='course provide image'
           width={40}
           height={40}
@@ -61,14 +61,14 @@ const ReviewCourse = ({
         {/* image */}
         <div className='flex flex-shrink-0 align-bottom '>
           <Image
-            src={courseDetails?.courseLink}
+            src={courseDetails?.imgLink}
             alt='course-image'
             width={170}
             height={170}
             className='rounded-xl'
           />
         </div>
-        {/* centeritem */}
+        {/* centerItem */}
         <div className='flex flex-grow flex-col justify-between'>
           <p className='text-[16px] font-bold text-[#272728]'>
             {courseDetails?.title}
@@ -111,7 +111,7 @@ const ReviewCourse = ({
           {courseDetails?.description}
         </p>
       </div>
-      {/* compitency */}
+      {/* competency */}
       <div>
         <p className='pt-5 text-[16px] font-semibold leading-6 text-[#272728]'>
           Competencies
