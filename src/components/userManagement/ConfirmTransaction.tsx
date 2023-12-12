@@ -57,7 +57,7 @@ const ConfirmTransaction = ({
         Confirm the Transaction
       </div>
       <div className='mt-[20px] text-center text-base text-[#272728]'>
-        Are you sure want to {isAddWallet ? 'add' : 'remove'} {credit} Cr to
+        Are you sure want to {isAddWallet ? 'add' : 'remove'} {credit} Cr from
         this wallet
       </div>
       <div className='my-[40px] flex justify-center gap-6'>

@@ -64,7 +64,6 @@ const SingleCourse = ({
             className='rounded-xl'
           />
         </div>
-        {/* centerItem */}
         <div className='flex flex-grow flex-col justify-between'>
           <div>
             <p className='pb-2 text-[16px] font-bold text-[#272728]'>

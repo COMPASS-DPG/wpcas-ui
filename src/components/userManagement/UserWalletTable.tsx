@@ -44,7 +44,7 @@ const UserWalletTable = ({
       <SearchUser
         value={searchInput}
         onChange={(value) => handleSearch(value)}
-        placeholder='Search User'
+        placeholder='Search User Name'
       />
       <div className='relative overflow-x-auto shadow-md sm:rounded-md'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>

@@ -31,9 +31,9 @@ const SearchCourse = ({
   setShowReset,
 }: PropType) => {
   return (
-    <div className='my-7 flex flex-wrap justify-between gap-3'>
+    <div className='my-7 flex flex-wrap gap-3'>
       <SearchInput
-        value={value.course}
+        value={value?.course}
         onChange={(updatedValue) => {
           setShowReset(false);
           onChange({ ...value, course: updatedValue });

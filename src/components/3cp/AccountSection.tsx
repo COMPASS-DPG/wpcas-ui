@@ -57,7 +57,7 @@ const AccountSection = ({
           />
         </div>
       ) : (
-        <NoCoursesAdded text='No Account Present yet!' />
+        <NoCoursesAdded text='No Accounts' />
       )}
     </div>
   );

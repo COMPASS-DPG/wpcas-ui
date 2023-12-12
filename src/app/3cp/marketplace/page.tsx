@@ -65,7 +65,7 @@ const MarketPlace = () => {
 
   return (
     <div className='w-screen bg-[#f7f9fc]'>
-      <ProfileNavbar heading='Marketplace' />
+      <ProfileNavbar heading='Marketplace/Courses' />
 
       {loading && (
         <div className='mt-[100px] text-center'>

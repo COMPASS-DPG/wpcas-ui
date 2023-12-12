@@ -8,7 +8,7 @@ import ProfileNavbar from '@/components/wpcasOverView/ProfileNavbar';
 import UserWalletContext from '@/app/context/UserWalletContext';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const heading = 'Payments';
+  const heading = 'User Wallet';
   const pathname = usePathname();
   return (
     <div className='flex'>

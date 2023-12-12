@@ -29,7 +29,7 @@ export type accountType = {
   updatedAt: Date | undefined | string;
 };
 
-const AccountVefication = () => {
+const AccountVerification = () => {
   const [activeSection, setActiveSection] = useState<string>('PENDING');
   const [currentAccountList, setCurrentAccountList] = useState<accountType[]>(
     []
@@ -92,4 +92,4 @@ const AccountVefication = () => {
     </div>
   );
 };
-export default AccountVefication;
+export default AccountVerification;

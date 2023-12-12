@@ -124,7 +124,7 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
           <div className='rounded bg-[#FFF7DA] py-[9px] pl-[18px] pr-[76px]'>
             <p className='text-base text-[#65758C]'>Wallet Balance</p>
             <p className='text-2xl font-semibold text-[#385B8B]'>
-              Cr {data?.credits ?? '--'}
+              Cr. {data?.credits ?? '--'}
             </p>
           </div>
           <div className='w-[350px]'>

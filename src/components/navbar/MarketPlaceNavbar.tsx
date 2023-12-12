@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 
 import { outfit } from '@/components/FontFamily';
+
 const MarketPlaceNavbar = ({
   activeSection,
   setActiveSection,

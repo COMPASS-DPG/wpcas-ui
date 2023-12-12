@@ -34,6 +34,9 @@ const CourseSection = ({
   const [showReset, setShowReset] = useState(false);
 
   const handleSearch = () => {
+    if (!input.language && !input.competency && !input.course && !showReset) {
+      return;
+    }
     const filteredCourses = courseList?.filter((course) => {
       const courseTitleLower = course?.title?.toLowerCase();
       const inputCourseLower = input?.course?.toLowerCase();

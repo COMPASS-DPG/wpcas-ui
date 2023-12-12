@@ -12,7 +12,7 @@ const AccountItems = ({
   fetchData: () => void;
 }) => {
   return (
-    <div className='flex flex-col gap-2.5'>
+    <div className='mb-2 flex flex-col gap-2.5'>
       {accountList?.map((account) => {
         return (
           <SingleAccount

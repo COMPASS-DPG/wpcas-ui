@@ -99,7 +99,7 @@ const SingleAccount = ({
                   : 'text-[#385B8B]'
               } `}
             >
-              {activeSection === 'REJECTED' ? 'Rejected' : 'Onboard'} On{' '}
+              {activeSection === 'REJECTED' ? 'Rejected' : 'Approved'} On{' '}
               {account?.updatedAt ? formatDate(account?.updatedAt) : '--'}
             </p>
           </div>
