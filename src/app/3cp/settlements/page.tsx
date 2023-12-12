@@ -9,7 +9,7 @@ import { getSettlementsData } from '@/services/settlementsSevices';
 
 export type SettlementDataType = {
   id: string;
-  imgLink: string;
+  imageLink: string;
   name: string;
   totalCourses: number;
   activeUsers: number;

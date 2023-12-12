@@ -61,7 +61,7 @@ const ReviewCourse = ({
         {/* image */}
         <div className='flex flex-shrink-0 align-bottom '>
           <Image
-            src={courseDetails?.imgLink}
+            src={courseDetails?.imageLink}
             alt='course-image'
             width={170}
             height={170}

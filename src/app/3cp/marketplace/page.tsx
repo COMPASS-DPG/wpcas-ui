@@ -24,7 +24,7 @@ export type CourseType = {
   avgRating: number;
   credits: number;
   verificationStatus: string;
-  imgLink: string;
+  imageLink: string;
   description: string;
   rejectionReason?: string;
   courseLink: string;

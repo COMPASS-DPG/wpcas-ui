@@ -128,7 +128,7 @@ const SettlementsTable = ({
                           <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
                             <div className='flex items-center gap-2'>
                               <Image
-                                src={user?.imgLink}
+                                src={user?.imageLink}
                                 alt='img'
                                 className='rounded-full'
                                 width={25}

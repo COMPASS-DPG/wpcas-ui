@@ -57,7 +57,7 @@ const SingleCourse = ({
         {/* image */}
         <div className='flex flex-shrink-0 align-bottom '>
           <Image
-            src={course?.imgLink}
+            src={course?.imageLink}
             alt='course-image'
             width={100}
             height={150}
