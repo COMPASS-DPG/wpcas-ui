@@ -8,10 +8,11 @@ import { useUserWalletContext } from '@/app/context/UserWalletContext';
 
 export type UserWalletDataType = {
   consumerId: string;
-  userName: string;
+  name: string;
   role: string;
   numCoursesPurchased: number;
   credits: string;
+  profilePicture: string;
 };
 
 const Wallet = () => {

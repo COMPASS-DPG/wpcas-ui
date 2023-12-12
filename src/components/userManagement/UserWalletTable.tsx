@@ -31,9 +31,7 @@ const UserWalletTable = ({
 
   const handleSearch = (value: string) => {
     const newData = userData?.filter((item) => {
-      const nameMatch = item?.userName
-        ?.toLowerCase()
-        .includes(value.toLowerCase());
+      const nameMatch = item?.name?.toLowerCase().includes(value.toLowerCase());
       return nameMatch;
     });
     setSearchInput(value);
@@ -105,13 +103,13 @@ const UserWalletTable = ({
                     className={`border-b bg-white hover:bg-gray-50 ${outfit.className}`}
                   >
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {user?.consumerId}
+                      {user?.consumerId ?? '--'}
                     </td>
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {user?.userName ?? 'DUMMY NAME'}
+                      {user?.name ?? '--'}
                     </td>
                     <td className='px-6 py-[7px] text-sm font-normal text-[#272728]'>
-                      {user?.role ?? 'DUMMY ROLE'}
+                      {user?.role ?? '--'}
                     </td>
 
                     <td className='px-6 py-[7px] text-center text-sm font-normal text-[#272728]'>

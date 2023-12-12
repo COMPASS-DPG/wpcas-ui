@@ -104,22 +104,20 @@ const AddToWallet = ({ params }: { params: { id: string } }) => {
       </CommonModal>
       <div className='mr-[30px] w-[38vw]'>
         <div className='flex flex-wrap items-center gap-2'>
-          <div>
+          <div className='h-[100px] w-[100px] overflow-hidden rounded-full'>
             <Image
-              src={profile}
+              src={data?.profilePicture ?? profile}
               width={100}
               height={100}
-              alt='img'
-              className='rounded-full'
+              alt='profile-img'
+              className='h-[100%] w-[100%] rounded-full object-cover'
             />
           </div>
           <div>
             <p className='text-xl font-medium text-[#272728] '>
-              {data?.userName ?? 'DUMMY NAME'}
+              {data?.name ?? '--'}
             </p>
-            <p className='text-base text-[#65758C]'>
-              {data?.role ?? 'DUMMY ROLE'}
-            </p>
+            <p className='text-base text-[#65758C]'>{data?.role ?? '--'}</p>
           </div>
         </div>
         <div className='mt-[50px] flex flex-wrap justify-between gap-3'>
