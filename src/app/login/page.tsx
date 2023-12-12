@@ -70,7 +70,7 @@ const Login = () => {
         const data = await loginAdmin(loginData);
         localStorage.setItem('adminData', JSON.stringify(data));
         setAdminData(data);
-        router.push('/dashboard');
+        router.push('/3cp/marketplace');
         toast.success('login successful');
       } catch (error) {
         // Handle any errors that occur during the API call

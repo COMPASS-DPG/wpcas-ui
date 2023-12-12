@@ -91,7 +91,7 @@ const SignUp = () => {
         localStorage.setItem('adminData', JSON.stringify(data));
         setAdminData(data);
         toast.success('sign up successful');
-        router.push('/dashboard');
+        router.push('/3cp/marketplace');
       } catch (error) {
         // Handle any errors that occur during the API call
         // eslint-disable-next-line no-console
