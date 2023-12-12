@@ -31,7 +31,7 @@ const ProfileNavbar = ({ heading }: { heading?: string }) => {
         <AdminSelect
           options={ADMIN_OPTIONS}
           onChange={handleLogout}
-          placeholder={adminData?.name ?? 'user name'}
+          placeholder={adminData?.name ? adminData?.name + '(admin)' : 'admin'}
           logo={adminData?.image ?? ''}
           value=''
         />

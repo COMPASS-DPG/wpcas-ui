@@ -34,7 +34,7 @@ const AuthContextContext = ({ children }: { children: React.ReactElement }) => {
     if (!adminData?.admin) {
       router.push('/login');
     } else {
-      router.push('/dashboard');
+      router.push('/3cp/marketplace');
     }
   }, [adminData?.admin, router]);
 

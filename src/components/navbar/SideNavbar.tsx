@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
-import NavbarLink from './NavbarLink';
 import { outfit, oxanium } from '../../components/FontFamily';
 
+import ThreeCPIcon from '~/svg/3cpIcon.svg';
 import ListIcon from '~/svg/admin.svg';
-import DashboardIcon from '~/svg/dashboardIcon.svg';
 import UserIcon from '~/svg/userIcon.svg';
 import WpcasIcon from '~/svg/wpcasIcon.svg';
 
@@ -22,15 +21,12 @@ const SideNavbar = () => {
       </div>
       <nav className='mt-[80px]'>
         <ul className='flex-col gap-y-4 '>
-          <NavbarLink currentRoute='/dashboard'>
-            <DashboardIcon className='mr-2 w-5' /> Dashboard{' '}
-          </NavbarLink>
           <li
             className={`flex items-center py-2.5 pl-4
                      text-base font-medium ${outfit.className}`}
           >
             <div className={`flex `}>
-              <WpcasIcon className='mr-2 w-5' />
+              <ThreeCPIcon className='mr-2 w-5' />
               3CP
             </div>
           </li>
