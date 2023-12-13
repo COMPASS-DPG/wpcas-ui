@@ -2,6 +2,7 @@
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
 
+import SideNavbar from '@/components/navbar/SideNavbar';
 import TopNavbar from '@/components/navbar/TopNavbar';
 
 import QuestionBankContextWrapper from '@/app/context/QuestionBankContextWrapper';
@@ -16,17 +17,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <QuestionBankContextWrapper>
-      <div className='w-screen bg-[#F7F9FC]'>
-        <TopNavbar
-          menu={`${
-            createUrl
-              ? editUrl
-                ? 'Edit Question Bank'
-                : 'Create Question Bank'
-              : 'WPCAS'
-          }`}
-        />
-        {children}
+      <div className='flex'>
+        <SideNavbar />
+        <div className='w-screen bg-[#F7F9FC]'>
+          <TopNavbar
+            menu={`${
+              createUrl
+                ? editUrl
+                  ? 'Edit Question Bank'
+                  : 'Create Question Bank'
+                : 'WPCAS'
+            }`}
+          />
+          {children}
+        </div>
       </div>
     </QuestionBankContextWrapper>
   );

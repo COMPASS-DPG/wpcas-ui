@@ -1,5 +1,6 @@
 import { courseManagerBackendUrl } from '@root/config';
 import axios from 'axios';
+
 // course manager
 export const getAllProviders = async () => {
   const data = await axios.get(

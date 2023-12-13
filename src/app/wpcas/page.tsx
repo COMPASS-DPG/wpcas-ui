@@ -61,7 +61,7 @@ const Wpcas = () => {
   }, []);
 
   return (
-    <div className='w-screen bg-[#f7f9fc]'>
+    <div className='w-full bg-[#f7f9fc]'>
       <ProfileNavbar heading='WPCAS' />
       {loading && (
         <div className='mt-[100px] text-center'>

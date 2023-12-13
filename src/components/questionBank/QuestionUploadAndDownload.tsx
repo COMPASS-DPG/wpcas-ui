@@ -1,5 +1,6 @@
 'use client';
 
+import { wpcasBackendUrl } from '@root/config';
 import axios from 'axios';
 import React, { MutableRefObject, useRef, useState } from 'react';
 
@@ -26,10 +27,7 @@ const QuestionUploadAndDownload = () => {
       formData.append('file', file);
 
       // Make a POST request to backend
-      await axios.post(
-        'http://localhost:3000/api/question-bank/upload',
-        formData
-      );
+      await axios.post(`${wpcasBackendUrl}/api/question-bank/upload`, formData);
 
       setShowSuccessPopUp(true);
     } catch (error) {

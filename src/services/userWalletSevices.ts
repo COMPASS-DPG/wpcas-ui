@@ -1,9 +1,9 @@
-import { marketplaceBackendUrl } from '@root/config';
+import { marketBackendUrl } from '@root/config';
 import axios from 'axios';
 
 export const getUserWalletDetails = async (adminId: string) => {
   const data = await axios.get(
-    `${marketplaceBackendUrl}/api/admin/${adminId}/consumers`
+    `${marketBackendUrl}/api/admin/${adminId}/consumers`
   );
   return data.data.data;
 };
@@ -19,7 +19,7 @@ export const addCreditToUser = async (
   adminId: string
 ) => {
   const data = await axios.post(
-    `${marketplaceBackendUrl}/api/admin/${adminId}/addCredits`,
+    `${marketBackendUrl}/api/admin/${adminId}/addCredits`,
     payload
   );
   return data.data.data;
@@ -31,7 +31,7 @@ export const removeCreditFromUser = async (
   adminId: string
 ) => {
   const data = await axios.post(
-    `${marketplaceBackendUrl}/api/admin/${adminId}/reduceCredits`,
+    `${marketBackendUrl}/api/admin/${adminId}/reduceCredits`,
     payload
   );
   return data.data.data;
@@ -42,7 +42,7 @@ export const getTransactionHistory = async (
   consumerId: string
 ) => {
   const data = await axios.get(
-    `${marketplaceBackendUrl}/api/admin/${adminId}/userWallets/transactions/${consumerId}`
+    `${marketBackendUrl}/api/admin/${adminId}/userWallets/transactions/${consumerId}`
   );
   return data.data.data;
 };
