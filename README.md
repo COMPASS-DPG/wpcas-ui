@@ -58,9 +58,9 @@ Install dependencies:
 npm install
 ```
 
-.env
+Configuration
 
-Configure the connection to the backend service by updating the .env file with the appropriate API endpoint.
+Configure the connection to the backend service by updating the config.js file with the appropriate API endpoint.
 
 ### Development
 
