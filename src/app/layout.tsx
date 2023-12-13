@@ -7,8 +7,7 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import SideNavbar from '@/components/navbar/SideNavbar';
-
+import AuthContextWrapper from '@/app/context/AuthContextWrapper';
 import { siteConfig } from '@/constant/config';
 
 // !STARTERCONF Change these default meta
@@ -60,22 +59,23 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <div className='flex '>
-          <SideNavbar />
-          {children}
-          <ToastContainer
-            position='top-right'
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme='colored'
-          />
-        </div>
+        <AuthContextWrapper>
+          <>
+            {children}
+            <ToastContainer
+              position='top-right'
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme='colored'
+            />
+          </>
+        </AuthContextWrapper>
       </body>
     </html>
   );

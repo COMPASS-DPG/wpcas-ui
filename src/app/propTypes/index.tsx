@@ -12,7 +12,7 @@ export type FinalObjType = {
 };
 
 export type OptionType = {
-  label: string;
+  label: string | number;
   value: string | number;
 };
 
