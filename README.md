@@ -15,11 +15,13 @@ Welcome to the Admin-UI project! This is an admin interface with the following f
 
    - Admins can settle credits for third-party course providers.
 
-4. **WPCAS (User Management):**
+4. **WPCAS :**
 
    - View user details and profiles.
    - Set up new surveys for users.
+   - download userList.
    - Add competency and level-based questions.
+   - upload and download question bank file.
 
 5. **User Wallet Management:**
 
