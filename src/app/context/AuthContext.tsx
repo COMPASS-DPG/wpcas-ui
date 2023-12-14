@@ -19,24 +19,22 @@ const AuthProvider = createContext<AuthContextValue>({
 });
 
 const AuthContextContext = ({ children }: { children: React.ReactElement }) => {
-  const data = localStorage.getItem('adminData') || '';
-  let parseData = null;
-  if (data !== '') {
-    parseData = JSON.parse(data);
-  }
-  // const parseData=JSON.parse(data)
-  const [adminData, setAdminData] = useState<AdminDataType | null>(
-    parseData ?? null
-  );
+  const [adminData, setAdminData] = useState<AdminDataType | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    if (!adminData?.admin) {
+    const data = localStorage.getItem('adminData') || '';
+    let parseData = null;
+    if (data !== '') {
+      parseData = JSON.parse(data);
+    }
+    if (!parseData?.admin) {
       router.push('/login');
     } else {
       router.push('/3cp/marketplace');
+      setAdminData(parseData);
     }
-  }, [adminData?.admin, router]);
+  }, [router]);
 
   return (
     <AuthProvider.Provider

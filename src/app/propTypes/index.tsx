@@ -18,7 +18,7 @@ export type OptionType = {
 
 export type levelsWithQuestionType = {
   competencyLevelNumber: number;
-  competencyLevelName: string;
+  competencyLevelName: string | number;
   question: string;
   questionId: number;
   questionPresent: boolean;
