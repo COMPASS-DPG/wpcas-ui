@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3200:3000"
+      - 3200:3000
     networks:
       - samagra_compass
 
