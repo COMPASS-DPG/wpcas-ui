@@ -4,12 +4,15 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 
 import { outfit, poppins } from '@/components/FontFamily';
 
+import { LevelsType } from '@/app/3cp/marketplace/page';
+
 type CompetencyType = {
   name: string;
-  levels: string[];
+  levels: LevelsType[];
 };
 const SingleCompetency = ({ competency }: { competency: CompetencyType }) => {
   const [open, setOpen] = useState(false);
+
   return (
     <div className={`${outfit.className} mb-3 text-[#272728]`}>
       <div className=' rounded-lg border p-2'>
@@ -34,13 +37,14 @@ const SingleCompetency = ({ competency }: { competency: CompetencyType }) => {
               </p>
             </div>
             <ul className='flex flex-col gap-2 pl-2'>
-              {competency?.levels?.map((level, index) => {
-                return (
-                  <li key={index} className='flex items-start'>
-                    &bull; {level}
-                  </li>
-                );
-              })}
+              {competency?.levels?.length > 0 &&
+                competency?.levels?.map((level) => {
+                  return (
+                    <li key={level?.id} className='flex items-start'>
+                      &bull; {level?.name}
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         )}

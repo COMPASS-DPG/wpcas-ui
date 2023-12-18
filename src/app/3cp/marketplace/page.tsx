@@ -9,15 +9,23 @@ import ProfileNavbar from '@/components/wpcasOverView/ProfileNavbar';
 
 import { getAllCourses } from '@/services/marketPlaceServices';
 
-type competencyType = {
-  [key: string]: string[];
+export type LevelsType = {
+  id: string;
+  levelNumber: number;
+  name: string;
+};
+
+type CompetencyType = {
+  id: string;
+  name: string;
+  levels: LevelsType[];
 };
 
 export type CourseType = {
   courseId: string;
   title: string;
   providerLogo: string;
-  competency: competencyType;
+  competency: CompetencyType[];
   providerName: string;
   author: string;
   language: string[];
