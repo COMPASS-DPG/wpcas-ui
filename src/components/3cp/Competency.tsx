@@ -5,17 +5,18 @@ import { CourseType } from '@/app/3cp/marketplace/page';
 const Competencies = ({ courseDetails }: { courseDetails: CourseType }) => {
   return (
     <div className='py-4 '>
-      {Object.keys(courseDetails?.competency).map((key, index) => {
-        return (
-          <SingleCompetency
-            key={index}
-            competency={{
-              name: key,
-              levels: courseDetails?.competency[key],
-            }}
-          />
-        );
-      })}
+      {courseDetails?.competency?.length > 0 &&
+        courseDetails?.competency?.map((competency) => {
+          return (
+            <SingleCompetency
+              key={competency?.id}
+              competency={{
+                name: competency?.name,
+                levels: competency?.levels,
+              }}
+            />
+          );
+        })}
     </div>
   );
 };

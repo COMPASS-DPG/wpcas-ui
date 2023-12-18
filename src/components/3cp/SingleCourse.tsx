@@ -71,13 +71,17 @@ const SingleCourse = ({
             </p>
             <div className='pl-6 '>
               <ol className='grid  list-decimal grid-cols-2 text-[14px] text-[#787878] '>
-                {Object.keys(course?.competency ?? {})?.map((key) => {
-                  return (
-                    <li key={key}>
-                      {key} ( {course?.competency[key]?.join(', ')} )
-                    </li>
-                  );
-                })}
+                {course?.competency?.length > 0 &&
+                  course?.competency?.map((competency) => {
+                    return (
+                      <li key={competency?.id}>
+                        {competency?.name}{' '}
+                        {competency?.levels?.map((level) => {
+                          return `L${level?.levelNumber},`;
+                        })}
+                      </li>
+                    );
+                  })}
               </ol>
             </div>
           </div>
