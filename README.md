@@ -32,6 +32,7 @@ Welcome to the Admin-UI project! This is an admin interface with the following f
    - Connects to the following backend services:
    - `marketplace-service`: Fetches user (course consumer) data and updates accordingly.
    - `course-manager-service`: Fetches third-party course provider courses and profiles, updating them accordingly.
+   - `wpcas-service`: Fetches surveys download userList, and assessesList, and creates a survey for users, adding questions based on competencies and levels.
 
 ## Getting Started
 
