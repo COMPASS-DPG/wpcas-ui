@@ -115,9 +115,9 @@ const Login = () => {
               width='450px'
               errorMessage={error?.password}
             />
-          </div>
-          <div className='mb-[30px] pr-3 text-right text-base text-[#26292D]'>
-            <Link href='/sign-up'>Don't have Account?</Link>
+            <div className='mb-[30px] pr-[px] text-right text-base text-[#26292D]'>
+              <Link href='/sign-up'>Don't have Account?</Link>
+            </div>
           </div>
           <ButtonFill type='submit' classes='bg-[#26292D] w-[450px]'>
             Login
