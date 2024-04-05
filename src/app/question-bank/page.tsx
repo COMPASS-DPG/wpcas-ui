@@ -73,7 +73,12 @@ const QuestionBank = () => {
               <div className='flex justify-between gap-2'>
                 <SelectTag
                   options={competencyArray}
-                  value={currentCompetency}
+                  // value={currentCompetency}
+                  value={
+                    competencyArray.find(
+                      (comp) => comp.value === currentCompetency
+                    )?.label ?? ''
+                  }
                   onChange={(option) => {
                     if (typeof option == 'number') setCurrentCompetency(option);
                   }}
