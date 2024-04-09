@@ -42,7 +42,9 @@ const CourseSection = ({
       const inputCourseLower = input?.course?.toLowerCase();
       const competencyMatch =
         input?.competency === '' ||
-        course?.competency[input.competency]?.length > 0;
+        course?.competency.filter((item) => {
+          item.name === input.competency;
+        }).length > 0;
 
       const languageMatch =
         input?.language === '' || course?.language?.includes(input.language);
