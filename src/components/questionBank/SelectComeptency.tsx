@@ -23,7 +23,11 @@ const SelectComeptency = () => {
         </p>
         <SelectTag
           options={competencyArray}
-          value={currentCompetency}
+          // value={currentCompetency}
+          value={
+            competencyArray.find((comp) => comp.value === currentCompetency)
+              ?.label ?? ''
+          }
           onChange={(option) => {
             if (typeof option == 'number') {
               setCurrentCompetency(option);
