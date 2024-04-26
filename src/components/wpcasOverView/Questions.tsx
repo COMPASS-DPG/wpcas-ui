@@ -42,7 +42,7 @@ const Questions = ({
           return (
             <div className='my-3' key={index + 1}>
               <p className='font-Outfit  text-base font-medium leading-[130%] text-black'>
-                Level {index + 1} : {data.competencyLevelName}
+                Level: {data.competencyLevelNumber}
               </p>
 
               <p className='font-Outfit mt-2 text-base font-normal leading-[130%] text-[#272728]'>
